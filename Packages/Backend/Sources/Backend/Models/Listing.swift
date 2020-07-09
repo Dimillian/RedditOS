@@ -38,7 +38,8 @@ public struct Listing: Decodable, Identifiable {
     public let thumbnail: String
     public let created: Date
     public var thumbnailURL: URL? {
-        guard let url = URL(string: thumbnail) else {
+        guard thumbnail.hasPrefix("http"),
+              let url = URL(string: thumbnail) else {
             return nil
         }
         return url
