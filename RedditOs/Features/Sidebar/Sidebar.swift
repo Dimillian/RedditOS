@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct Sidebar: View {
-    @State private var selection: Set<Int> = [0]
+    @StateObject private var viewModel = SidebarViewModel()
+    
     var body: some View {
-        List(selection: $selection) {
-            NavigationLink(destination: Listing()) {
-                Label("Best", systemImage: "airplane")
-            }.tag(0)
-            Label("Hot", systemImage: "flame.fill").tag(1)
-            Label("New", systemImage: "calendar.circle")
-            Label("Top", systemImage: "chart.bar.fill")
+        List(selection: $viewModel.selection) {
+            ForEach(SidebarViewModel.MainSubreddits.allCases, id: \.self) { item in
+                NavigationLink(destination: SubredditView(name: item.rawValue)) {
+                    Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
+                }.tag(item.rawValue)
+            }
  
             Section(header: Text("Account")) {
                 Label("Profile", systemImage: "person.crop.square")

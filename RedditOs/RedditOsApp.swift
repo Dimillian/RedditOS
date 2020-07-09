@@ -11,7 +11,13 @@ import SwiftUI
 struct RedditOsApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                Sidebar()
+                Text("Select a post")
+                    .frame(minWidth: 250,
+                           maxWidth: .infinity,
+                           maxHeight: .infinity)
+            }.frame(minHeight: 400)
         }
     }
 }
