@@ -18,7 +18,10 @@ struct Sidebar: View {
                 }.tag(item.rawValue)
             }
  
-            Section(header: Text("Account")) {
+            Divider()
+            
+            Group {
+                Text("Account").foregroundColor(.white)
                 Label("Profile", systemImage: "person.crop.square")
                 Label("Inbox", systemImage: "envelope")
                 Label("Posts", systemImage: "square.and.pencil")
@@ -26,7 +29,10 @@ struct Sidebar: View {
                 Label("Saved", systemImage: "archivebox")
             }.listItemTint(Color("RedditGold"))
             
-            Section(header: subredditsHeader) {
+            Divider()
+            
+            Group {
+                subredditsHeader.foregroundColor(.white)
                 Label("r/games", systemImage: "globe")
                 Label("r/gaming", systemImage: "globe")
                 Label("r/fun", systemImage: "globe")
@@ -34,13 +40,13 @@ struct Sidebar: View {
             }.listItemTint(Color("RedditBlue"))
         }
         .listStyle(SidebarListStyle())
-        .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, maxHeight: .infinity)
+        .frame(minWidth: 150, idealWidth: 150, maxWidth: 200, maxHeight: .infinity)
         .padding(.top, 16)
     }
     
     private var subredditsHeader: some View {
         HStack {
-            Text("Subreddits").font(.headline)
+            Text("Subreddits")
             Button {
                 
             } label: {

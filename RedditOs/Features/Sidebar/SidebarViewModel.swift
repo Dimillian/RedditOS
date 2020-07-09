@@ -10,7 +10,7 @@ import SwiftUI
 
 class SidebarViewModel: ObservableObject {
     enum MainSubreddits: String, CaseIterable {
-        case best, hot, new, top
+        case best, hot, new, top, rising
         
         func icon() -> String {
             switch self {
@@ -18,6 +18,7 @@ class SidebarViewModel: ObservableObject {
             case .hot: return "flame.fill"
             case .new: return "calendar.circle"
             case .top: return "chart.bar.fill"
+            case .rising: return "waveform.path.ecg"
             }
         }
     }
