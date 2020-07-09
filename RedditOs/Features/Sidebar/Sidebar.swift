@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Sidebar: View {
     @StateObject private var viewModel = SidebarViewModel()
+    @State private var isSearchPopoverPresented = false
     
     var body: some View {
         List(selection: $viewModel.selection) {
@@ -48,12 +49,16 @@ struct Sidebar: View {
         HStack {
             Text("Subreddits")
             Button {
-                
+                isSearchPopoverPresented = true
             } label: {
                 Image(systemName: "plus.circle")
                     .imageScale(.large)
                     .foregroundColor(.blue)
-            }.buttonStyle(BorderlessButtonStyle())
+            }
+            .buttonStyle(BorderlessButtonStyle())
+            .popover(isPresented: $isSearchPopoverPresented) {
+                SearchSubredditsPopover()
+            }
 
         }
     }

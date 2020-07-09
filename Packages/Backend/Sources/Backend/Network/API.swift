@@ -30,8 +30,14 @@ public class API {
         return component.url!
     }
     
-    public func fetch<T: Decodable>(endpoint: Endpoint) -> AnyPublisher<T ,APIError> {
-        let request = URLRequest(url: Self.makeURL(endpoint: endpoint))
+    public func fetch<T: Decodable>(endpoint: Endpoint, params: [String: String]? = nil) -> AnyPublisher<T ,APIError> {
+        var url = Self.makeURL(endpoint: endpoint)
+        if let params = params {
+            for (_, value) in params.enumerated() {
+                url = url.appending(value.key, value: value.value)
+            }
+        }
+        let request = URLRequest(url: url)
         return session.dataTaskPublisher(for: request)
             .tryMap{ data, response in
                 return try APIError.processResponse(data: data, response: response)

@@ -23,7 +23,12 @@ class SubredditViewModel: ObservableObject {
     }
     
     func fetchListings() {
-        listingPublisher = API.shared.fetch(endpoint: .subreddit(name: name))
+        var after: String?
+        if let last = listings?.last {
+            after = "t3_\(last.id)"
+        }
+        listingPublisher = API.shared.fetch(endpoint: .subreddit(name: name),
+                                            params: after != nil ? ["after": after!] : nil)
             .subscribe(on: DispatchQueue.global())
             .replaceError(with: ListingResponse(error: "error"))
             .eraseToAnyPublisher()
@@ -31,7 +36,11 @@ class SubredditViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .map{ $0.data?.children.map{ $0.data }}
             .sink{ [weak self] listings in
-                self?.listings = listings
+                if after != nil, let listings = listings {
+                    self?.listings?.append(contentsOf: listings)
+                } else {
+                    self?.listings = listings
+                }
             }
          
     }

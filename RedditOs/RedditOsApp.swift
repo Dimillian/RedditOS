@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct RedditOsApp: App {
+    
+    @SceneBuilder
     var body: some Scene {
         WindowGroup {
             NavigationView {
@@ -18,6 +20,10 @@ struct RedditOsApp: App {
                            maxWidth: .infinity,
                            maxHeight: .infinity)
             }.frame(minHeight: 400)
+        }
+        
+        Settings {
+            Text("Hello world")
         }
     }
 }

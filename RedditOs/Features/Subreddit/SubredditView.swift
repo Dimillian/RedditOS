@@ -12,6 +12,7 @@ struct SubredditView: View {
     let posts = Array(repeating: 0, count: 20)
     
     @StateObject private var viewModel: SubredditViewModel
+    @State private var isSearchSheetOpen = false
     
     init(name: String) {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
@@ -26,6 +27,12 @@ struct SubredditView: View {
                     ForEach(listings) { listing in
                         SubredditPostRow(listing: listing)
                     }
+                    HStack {
+                        Spacer()
+                        ProgressView("Loading next page")
+                        Spacer()
+                    }.onAppear(perform: viewModel.fetchListings)
+              
                 } else {
                     HStack {
                         Spacer()
@@ -51,8 +58,12 @@ struct SubredditView: View {
             }
             
             ToolbarItem(placement: .primaryAction) {
-                Button(action: {}) {
+                Button(action: {
+                    isSearchSheetOpen = true
+                }) {
                     Image(systemName: "magnifyingglass")
+                }.popover(isPresented: $isSearchSheetOpen) {
+                    SearchSubredditsPopover()
                 }
             }
         }
