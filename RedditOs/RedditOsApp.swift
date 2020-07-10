@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Backend
 
 @main
 struct RedditOsApp: App {
@@ -19,7 +20,9 @@ struct RedditOsApp: App {
                     .frame(minWidth: 250,
                            maxWidth: .infinity,
                            maxHeight: .infinity)
-            }.frame(minHeight: 400)
+            }
+            .frame(minHeight: 400)
+            .environmentObject(PersistedContent())
         }
         
         Settings {

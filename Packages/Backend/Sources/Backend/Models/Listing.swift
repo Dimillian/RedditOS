@@ -50,7 +50,7 @@ public struct Listing: Decodable, Identifiable {
     public let ups: Int
     public let downs: Int
     public let secureMedia: SecureMedia?
-    public let url: URL?
+    public let url: String?
 }
 
 public struct SecureMedia: Decodable {
@@ -105,4 +105,4 @@ public let static_listing = Listing(id: "0",
                                     ups: 1000,
                                     downs: 30,
                                     secureMedia: nil,
-                                    url: URL(string: "https://test.com"))
+                                    url: "https://test.com")

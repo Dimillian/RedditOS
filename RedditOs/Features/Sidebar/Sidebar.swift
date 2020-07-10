@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import Backend
+import SDWebImageSwiftUI
 
 struct Sidebar: View {
+    @EnvironmentObject private var userData: PersistedContent
     @StateObject private var viewModel = SidebarViewModel()
     @State private var isSearchPopoverPresented = false
     
@@ -34,10 +37,11 @@ struct Sidebar: View {
             
             Group {
                 subredditsHeader.foregroundColor(.white)
-                Label("r/games", systemImage: "globe")
-                Label("r/gaming", systemImage: "globe")
-                Label("r/fun", systemImage: "globe")
-                Label("r/Diablo", systemImage: "globe")
+                ForEach(userData.subreddits) { reddit in
+                    NavigationLink(destination: SubredditView(name: reddit.name)) {
+                        Label(LocalizedStringKey(reddit.name), systemImage: "globe")
+                    }.tag(reddit.name)
+                }
             }.listItemTint(Color("RedditBlue"))
         }
         .listStyle(SidebarListStyle())
@@ -57,7 +61,7 @@ struct Sidebar: View {
             }
             .buttonStyle(BorderlessButtonStyle())
             .popover(isPresented: $isSearchPopoverPresented) {
-                SearchSubredditsPopover()
+                SearchSubredditsPopover().environmentObject(userData)
             }
 
         }

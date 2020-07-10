@@ -11,6 +11,7 @@ import Backend
 struct SubredditView: View {
     let posts = Array(repeating: 0, count: 20)
     
+    @EnvironmentObject private var userData: PersistedContent
     @StateObject private var viewModel: SubredditViewModel
     @State private var isSearchSheetOpen = false
     
@@ -18,7 +19,9 @@ struct SubredditView: View {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
     }
     
-    @State private var search = ""
+    var isDefaultChannel: Bool {
+        SidebarViewModel.MainSubreddits.allCases.map{ $0.rawValue }.contains(viewModel.name)
+    }
     
     var body: some View {
         NavigationView {
@@ -27,18 +30,11 @@ struct SubredditView: View {
                     ForEach(listings) { listing in
                         SubredditPostRow(listing: listing)
                     }
-                    HStack {
-                        Spacer()
-                        ProgressView("Loading next page")
-                        Spacer()
-                    }.onAppear(perform: viewModel.fetchListings)
+                    LoadingRow(text: "Loading next page")
+                        .onAppear(perform: viewModel.fetchListings)
               
                 } else {
-                    HStack {
-                        Spacer()
-                        ProgressView()
-                        Spacer()
-                    }
+                    LoadingRow(text: nil)
                 }
             }
             .listStyle(InsetListStyle())
@@ -49,11 +45,19 @@ struct SubredditView: View {
                        maxWidth: .infinity,
                        maxHeight: .infinity)
         }
-        .navigationTitle("r/\(viewModel.name)")
+        .navigationTitle(isDefaultChannel ? "\(viewModel.name.capitalized)" : "r/\(viewModel.name)")
         .toolbar {
-            ToolbarItem(placement: .navigation) {
-                Button(action: {}) {
-                    Image(systemName: "square.and.pencil")
+            ToolbarItem(placement: .primaryAction) {
+                if !isDefaultChannel {
+                    Picker(selection: $viewModel.sortOrder,
+                           label: Text("Sorting"),
+                           content: {
+                            ForEach(SubredditViewModel.SortOrder.allCases, id: \.self) { sort in
+                                Text(sort.rawValue.capitalized).tag(sort)
+                            }
+                           })
+                } else {
+                    EmptyView()
                 }
             }
             
@@ -63,7 +67,7 @@ struct SubredditView: View {
                 }) {
                     Image(systemName: "magnifyingglass")
                 }.popover(isPresented: $isSearchSheetOpen) {
-                    SearchSubredditsPopover()
+                    SearchSubredditsPopover().environmentObject(userData)
                 }
             }
         }

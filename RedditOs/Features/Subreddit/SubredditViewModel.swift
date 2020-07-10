@@ -11,24 +11,34 @@ import Combine
 import Backend
 
 class SubredditViewModel: ObservableObject {
+    enum SortOrder: String, CaseIterable {
+        case hot, new, top, rising
+    }
+    
     let name: String
         
     private var listingPublisher: AnyPublisher<ListingResponse, Never>?
     private var listingCancellable: AnyCancellable?
     
     @Published var listings: [Listing]?
+    @Published var sortOrder = SortOrder.hot {
+        didSet {
+            listings = nil
+            fetchListings()
+        }
+    }
     
     init(name: String) {
         self.name = name
     }
     
     func fetchListings() {
-        var after: String?
+        var params: [String: String] = [:]
         if let last = listings?.last {
-            after = "t3_\(last.id)"
+            params["after"] = "t3_\(last.id)"
         }
-        listingPublisher = API.shared.fetch(endpoint: .subreddit(name: name),
-                                            params: after != nil ? ["after": after!] : nil)
+        listingPublisher = API.shared.fetch(endpoint: .subreddit(name: name, sort: sortOrder.rawValue),
+                                            params: params)
             .subscribe(on: DispatchQueue.global())
             .replaceError(with: ListingResponse(error: "error"))
             .eraseToAnyPublisher()
@@ -36,9 +46,9 @@ class SubredditViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .map{ $0.data?.children.map{ $0.data }}
             .sink{ [weak self] listings in
-                if after != nil, let listings = listings {
+                if params["after"] != nil, let listings = listings {
                     self?.listings?.append(contentsOf: listings)
-                } else {
+                } else if params["after"] == nil {
                     self?.listings = listings
                 }
             }

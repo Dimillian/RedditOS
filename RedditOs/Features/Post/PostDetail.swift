@@ -42,8 +42,8 @@ struct PostDetail: View {
                             .frame(width: CGFloat(video.width), height: CGFloat(video.height))
                         Spacer()
                     }
-                } else if let url = listing.url {
-                    LinkPresentationView(url: url, redraw: $redrawLink)
+                } else if let url = listing.url, let realURL = URL(string: url) {
+                    LinkPresentationView(url: realURL, redraw: $redrawLink)
                 }
                 
                 HStack(spacing: 16) {

@@ -6,14 +6,26 @@
 //
 
 import SwiftUI
+import Backend
 
 struct SearchSubredditsPopover: View {
+    @EnvironmentObject private var userData: PersistedContent
     @StateObject private var viewModel = SearchSubredditsViewModel()
     
     var body: some View {
         List {
             TextField("Search", text: $viewModel.searchText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.vertical, 8)
+            if viewModel.isLoading {
+                LoadingRow(text: nil)
+            } else if let results = viewModel.results {
+                ForEach(results) { result in
+                    SubredditRow(subreddit: result).onTapGesture {
+                        userData.subreddits.append(result)
+                    }
+                }
+            }
         }
         .navigationTitle("Search")
         .toolbar {

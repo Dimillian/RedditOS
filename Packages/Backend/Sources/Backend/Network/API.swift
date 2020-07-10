@@ -3,7 +3,7 @@ import Combine
 
 public class API {
     static public let shared = API()
-    static public let BASE_URL = URL(string: "https://reddit.com")!
+    static public let BASE_URL = URL(string: "https://www.reddit.com")!
     
     private let session: URLSession
     private let decoder: JSONDecoder
@@ -30,14 +30,17 @@ public class API {
         return component.url!
     }
     
-    public func fetch<T: Decodable>(endpoint: Endpoint, params: [String: String]? = nil) -> AnyPublisher<T ,APIError> {
+    public func fetch<T: Decodable>(endpoint: Endpoint,
+                                    httpMethod: String = "GET",
+                                    params: [String: String]? = nil) -> AnyPublisher<T ,APIError> {
         var url = Self.makeURL(endpoint: endpoint)
         if let params = params {
             for (_, value) in params.enumerated() {
                 url = url.appending(value.key, value: value.value)
             }
         }
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod
         return session.dataTaskPublisher(for: request)
             .tryMap{ data, response in
                 return try APIError.processResponse(data: data, response: response)
