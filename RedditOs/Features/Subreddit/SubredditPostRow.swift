@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 
 struct SubredditPostRow: View {
     let listing: Listing
+    @Environment(\.openURL) private var openURL
         
     var body: some View {
         NavigationLink(destination: PostDetail(listing: listing)) {
@@ -54,6 +55,20 @@ struct SubredditPostRow: View {
         }
         .frame(width: 390)
         .padding(.vertical, 8)
+        .contextMenu {
+            Button {
+                if let url = listing.redditURL {
+                    openURL(url)
+                }
+            } label: { Text("Open in browser") }
+            Button {
+                if let url = listing.redditURL {
+                    NSPasteboard.general.clearContents()
+                    NSPasteboard.general.setString(url.absoluteString, forType: .string)
+                }
+                
+            } label: { Text("Copy URL") }
+        }
     }
 }
 

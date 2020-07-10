@@ -39,11 +39,7 @@ struct SubredditView: View {
             }
             .listStyle(InsetListStyle())
             .frame(width: 400)
-            
-            Text("Select a post")
-                .frame(minWidth: 250,
-                       maxWidth: .infinity,
-                       maxHeight: .infinity)
+
         }
         .navigationTitle(isDefaultChannel ? "\(viewModel.name.capitalized)" : "r/\(viewModel.name)")
         .toolbar {

@@ -52,6 +52,13 @@ public struct Listing: Decodable, Identifiable {
     public let downs: Int
     public let secureMedia: SecureMedia?
     public let url: String?
+    public let permalink: String?
+    public var redditURL: URL? {
+        if let permalink = permalink, let url = URL(string: "https://reddit.com\(permalink)") {
+            return url
+        }
+        return nil
+    }
 }
 
 public struct SecureMedia: Decodable {
@@ -107,4 +114,5 @@ public let static_listing = Listing(id: "0",
                                     ups: 1000,
                                     downs: 30,
                                     secureMedia: nil,
-                                    url: "https://test.com")
+                                    url: "https://test.com",
+                                    permalink: nil)
