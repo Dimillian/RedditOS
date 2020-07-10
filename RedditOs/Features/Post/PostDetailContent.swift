@@ -28,10 +28,16 @@ struct PostDetailContent: View {
             }
         } else if let url = listing.url, let realURL = URL(string: url) {
             if realURL.pathExtension == "jpg" || realURL.pathExtension == "png" {
-                WebImage(url: realURL)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .cornerRadius(8)
+                HStack {
+                    Spacer()
+                    WebImage(url: realURL)
+                        .resizable()
+                        .indicator(.activity)
+                        .aspectRatio(contentMode: .fit)
+                        .background(Color.gray)
+                        .frame(minWidth: 300, minHeight: 200)
+                    Spacer()
+                }
             } else {
                 LinkPresentationView(url: realURL, redraw: $redrawLink)
             }
