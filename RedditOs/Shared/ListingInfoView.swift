@@ -21,7 +21,7 @@ struct ListingInfoView: View {
                     .foregroundColor(.gray)
             }
             Group {
-                Text(listing.created,
+                Text(listing.createdUtc,
                      style: .relative) +
                     Text(" ") +
                     Text("ago")

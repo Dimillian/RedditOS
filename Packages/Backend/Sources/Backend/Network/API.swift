@@ -46,7 +46,9 @@ public class API {
                 return try APIError.processResponse(data: data, response: response)
             }
             .decode(type: T.self, decoder: decoder)
-            .mapError{ APIError.parseError(reason: $0.localizedDescription) }
+            .mapError{ error in
+                APIError.parseError(reason: error.localizedDescription)
+            }
             .eraseToAnyPublisher()
     }
 }

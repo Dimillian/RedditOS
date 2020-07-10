@@ -37,6 +37,7 @@ public struct Listing: Decodable, Identifiable {
     public let subreddit: String
     public let thumbnail: String
     public let created: Date
+    public let createdUtc: Date
     public var thumbnailURL: URL? {
         guard thumbnail.hasPrefix("http"),
               let url = URL(string: thumbnail) else {
@@ -99,6 +100,7 @@ public let static_listing = Listing(id: "0",
                                     subreddit: "preview",
                                     thumbnail: "self",
                                     created: Date(),
+                                    createdUtc: Date(),
                                     author: "test",
                                     selftext: "A text",
                                     description: "A description",

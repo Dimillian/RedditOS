@@ -3,6 +3,7 @@ import Foundation
 public enum Endpoint {
     case subreddit(name: String, sort: String?)
     case searchSubreddit
+    case comments(name: String, id: String)
     
     func path() -> String {
         switch self {
@@ -16,6 +17,8 @@ public enum Endpoint {
             }
         case .searchSubreddit:
             return "api/search_subreddits"
+        case let .comments(name, id):
+            return "r/\(name)/comments/\(id)"
         }
     }
 }
