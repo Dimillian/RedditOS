@@ -6,7 +6,14 @@ import KeychainAccess
 
 public class OauthClient: ObservableObject {
     public enum State {
-        case unknown, signedOut, signinInProgress, authenthicated(authToken: String)
+        case unknown, signedOut, signinInProgress
+        case authenthicated(authToken: String)
+    }
+    
+    struct AuthTokenResponse: Decodable {
+        let accessToken: String
+        let tokenType: String
+        let refreshToken: String?
     }
     
     static public let shared = OauthClient()
@@ -25,6 +32,11 @@ public class OauthClient: ObservableObject {
     // Keychain
     private let keychainService = "com.thomasricouard.RedditOs-reddit-token"
     private let keychainAuthTokenKey = "auth_token"
+    private let keychainAuthTokenRefreshToken = "refresh_auth_token"
+    
+    // Request
+    private var requestCancellable: AnyCancellable?
+    private var refreshCancellanle: AnyCancellable?
     
     init() {
         if let path = Bundle.module.path(forResource: "secrets", ofType: "plist"),
@@ -36,8 +48,12 @@ public class OauthClient: ObservableObject {
         }
         
         let keychain = Keychain(service: keychainService)
-        if let token = keychain[keychainAuthTokenKey] {
+        if let token = keychain[keychainAuthTokenKey],
+           let refresh = keychain[keychainAuthTokenRefreshToken] {
             authState = .authenthicated(authToken: token)
+            DispatchQueue.main.async {
+                self.refreshToken(refreshToken: refresh)
+            }
         } else {
             authState = .signedOut
         }
@@ -60,6 +76,60 @@ public class OauthClient: ObservableObject {
     }
     
     public func handleNextURL(url: URL) {
-        authState = .signinInProgress
+        if url.absoluteString.hasPrefix(redirectURI),
+           url.queryParameters?.first(where: { $0.value == state }) != nil,
+           let code = url.queryParameters?.first(where: { $0.key == type }){
+            authState = .signinInProgress
+            requestCancellable = makeOauthPublisher(code: code.value)?
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { _ in },
+                receiveValue: { response in
+                    self.authState = .authenthicated(authToken: response.accessToken)
+                    let keychain = Keychain(service: self.keychainService)
+                    keychain[self.keychainAuthTokenKey] = response.accessToken
+                    keychain[self.keychainAuthTokenRefreshToken] = response.refreshToken
+                })
+        }
+    }
+    
+    public func logout() {
+        authState = .signedOut
+        let keychain = Keychain(service: keychainService)
+        keychain[keychainAuthTokenKey] = nil
+        keychain[keychainAuthTokenRefreshToken] = nil
+    }
+    
+    private func refreshToken(refreshToken: String) {
+        refreshCancellanle = makeRefreshOauthPublisher(refreshToken: refreshToken)?
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in },
+            receiveValue: { response in
+                self.authState = .authenthicated(authToken: response.accessToken)
+                let keychain = Keychain(service: self.keychainService)
+                keychain[self.keychainAuthTokenKey] = response.accessToken
+            })
+    }
+    
+    private func makeOauthPublisher(code: String) -> AnyPublisher<AuthTokenResponse, APIError>? {
+        let params: [String: String] = ["code": code,
+                                        "grant_type": "authorization_code",
+                                        "redirect_uri": redirectURI]
+        return API.shared.request(endpoint: .accessToken,
+                                  basicAuthUser: secrets?["client_id"] as? String,
+                                  httpMethod: "POST",
+                                  isJSONEndpoint: false,
+                                  queryParamsAsBody: true,
+                                  params: params).eraseToAnyPublisher()
+    }
+    
+    private func makeRefreshOauthPublisher(refreshToken: String) -> AnyPublisher<AuthTokenResponse, APIError>? {
+        let params: [String: String] = ["grant_type": "refresh_token",
+                                         "refresh_token": refreshToken]
+        return API.shared.request(endpoint: .accessToken,
+                                  basicAuthUser: secrets?["client_id"] as? String,
+                                  httpMethod: "POST",
+                                  isJSONEndpoint: false,
+                                  queryParamsAsBody: true,
+                                  params: params).eraseToAnyPublisher()
     }
 }

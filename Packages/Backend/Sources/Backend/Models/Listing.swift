@@ -20,7 +20,7 @@ public struct ListingResponse: Decodable {
 }
 
 public struct ListingData: Decodable {
-    public let modhash: String
+    public let modhash: String?
     public let dist: Int
     public let children: [ListingHolder]
 }

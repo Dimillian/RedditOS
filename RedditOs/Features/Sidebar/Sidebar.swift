@@ -10,9 +10,11 @@ import Backend
 import SDWebImageSwiftUI
 
 struct Sidebar: View {
-    @EnvironmentObject private var userData: PersistedContent
+    @EnvironmentObject private var localData: PersistedContent
+    @EnvironmentObject private var currentUser: CurrentUser
     @StateObject private var viewModel = SidebarViewModel()
     @State private var isSearchPopoverPresented = false
+    @State private var isFavoritesSectionHovered = false
     @State private var isInEditMode = false
     
     var body: some View {
@@ -22,9 +24,7 @@ struct Sidebar: View {
                     Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
                 }.tag(item.rawValue)
             }
- 
-            Divider()
-            
+             
             Group {
                 Text("Account").foregroundColor(.gray)
                 NavigationLink(destination: ProfileView()) {
@@ -34,21 +34,19 @@ struct Sidebar: View {
                 Label("Posts", systemImage: "square.and.pencil")
                 Label("Comments", systemImage: "bubble.middle.bottom.fill")
                 Label("Saved", systemImage: "archivebox")
-            }.listItemTint(Color("RedditGold"))
-            
-            Divider()
+            }.listItemTint(Color("RedditBlue"))
             
             Group {
                 subredditsHeader.foregroundColor(.gray)
-                ForEach(userData.subreddits) { reddit in
+                ForEach(localData.subreddits) { reddit in
                     HStack {
                         NavigationLink(destination: SubredditView(name: reddit.name)) {
-                            Label(reddit.name.capitalized, systemImage: "globe")
-                        }.tag(reddit.name)
+                            Label(reddit.name.capitalized, systemImage: "star.fill")
+                        }.tag("local\(reddit.name)")
                         if isInEditMode {
                             Spacer()
                             Button {
-                                userData.subreddits.removeAll(where: { $0 == reddit })
+                                localData.subreddits.removeAll(where: { $0 == reddit })
                             } label: {
                                 Image(systemName: "minus.circle.fill")
                                     .imageScale(.large)
@@ -59,44 +57,55 @@ struct Sidebar: View {
                     }
                 }
             }
-            .listItemTint(Color("RedditBlue"))
+            .listItemTint(Color("RedditGold"))
             .animation(.easeInOut)
-            
-            Divider()
-            
-            Group {
-                Text("All subscriptions").foregroundColor(.gray)
-                Text("Please sign in...").foregroundColor(.white)
+                        
+            if let subs = currentUser.subscriptions {
+                Group {
+                    Text("Subscriptions").foregroundColor(.gray)
+                    ForEach(subs) { reddit in
+                        HStack {
+                            NavigationLink(destination: SubredditView(name: reddit.name)) {
+                                Label(reddit.name.capitalized, systemImage: "globe")
+                            }.tag(reddit.name)
+                        }
+                    }
+                }.listItemTint(Color("RedditBlue"))
             }
         }
         .listStyle(SidebarListStyle())
         .frame(minWidth: 150, idealWidth: 150, maxWidth: 200, maxHeight: .infinity)
+        .onHover { hovered in
+            isFavoritesSectionHovered = hovered
+        }
         .padding(.top, 16)
     }
     
     private var subredditsHeader: some View {
         HStack(spacing: 8) {
             Text("Favorites")
-            Button {
-                isSearchPopoverPresented = true
-            } label: {
-                Image(systemName: "plus.circle")
-                    .imageScale(.large)
-                    .foregroundColor(.blue)
+            if isFavoritesSectionHovered {
+                Button {
+                    isSearchPopoverPresented = true
+                } label: {
+                    Image(systemName: "plus.circle")
+                        .imageScale(.large)
+                        .foregroundColor(.blue)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .popover(isPresented: $isSearchPopoverPresented) {
+                    SearchSubredditsPopover().environmentObject(localData)
+                }
+                
+                Button {
+                    isInEditMode.toggle()
+                } label: {
+                    Image(systemName: isInEditMode ? "trash.circle.fill" : "trash.circle")
+                        .imageScale(.large)
+                        .foregroundColor(.blue)
+                }
+                .buttonStyle(BorderlessButtonStyle())
             }
-            .buttonStyle(BorderlessButtonStyle())
-            .popover(isPresented: $isSearchPopoverPresented) {
-                SearchSubredditsPopover().environmentObject(userData)
-            }
-                        
-            Button {
-                isInEditMode.toggle()
-            } label: {
-                Image(systemName: isInEditMode ? "trash.circle.fill" : "trash.circle")
-                    .imageScale(.large)
-                    .foregroundColor(.blue)
-            }
-            .buttonStyle(BorderlessButtonStyle())
 
         }
     }

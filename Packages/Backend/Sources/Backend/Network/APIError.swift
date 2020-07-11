@@ -9,7 +9,7 @@ import Foundation
 
 public enum APIError: Error {
     case unknown
-    case message(reason: String), parseError(reason: String), networkError(reason: String)
+    case message(reason: String), parseError(reason: Error), networkError(reason: String)
     
     static func processResponse(data: Data, response: URLResponse) throws -> Data {
         guard let httpResponse = response as? HTTPURLResponse else {

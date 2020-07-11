@@ -35,6 +35,7 @@ struct RedditOsApp: App {
             .frame(minHeight: 400)
             .environmentObject(PersistedContent())
             .environmentObject(OauthClient.shared)
+            .environmentObject(CurrentUser())
         }
         
         Settings {

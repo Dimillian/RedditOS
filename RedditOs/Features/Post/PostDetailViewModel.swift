@@ -22,7 +22,7 @@ class PostDetailViewModel: ObservableObject {
     }
     
     func fechComments() {
-        commentsPublisher = API.shared.fetch(endpoint: .comments(name: listing.subreddit, id: listing.id))
+        commentsPublisher = API.shared.request(endpoint: .comments(name: listing.subreddit, id: listing.id))
             .subscribe(on: DispatchQueue.global())
             .replaceError(with: [])
             .eraseToAnyPublisher()

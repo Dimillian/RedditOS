@@ -3,43 +3,98 @@ import Combine
 
 public class API {
     static public let shared = API()
-    static public let BASE_URL = URL(string: "https://www.reddit.com")!
+    static private let URL_PREFIX = "https://"
+    static private let HOST = "reddit.com"
+    static private let HOST_AUTH_DOMAIN = "oauth"
     
-    private let session: URLSession
+    private var session: URLSession
     private let decoder: JSONDecoder
     
+    private var oauthStateCancellable: AnyCancellable?
+    
     init() {
+        session = URLSession(configuration: Self.makeSessionConfiguration())
+        decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .secondsSince1970
+        
+        oauthStateCancellable = OauthClient.shared.$authState.sink { state in
+            switch state {
+            case .authenthicated(let token):
+                let configuration = Self.makeSessionConfiguration()
+                var header = configuration.httpAdditionalHeaders ?? [:]
+                header["Authorization"] = "bearer \(token)"
+                configuration.httpAdditionalHeaders = header
+                self.session = URLSession(configuration: configuration)
+            default:
+                self.session = URLSession(configuration: Self.makeSessionConfiguration())
+                break
+            }
+        }
+    }
+    
+    static private func makeSessionConfiguration() -> URLSessionConfiguration {
         let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = ["User-Agent": "macOS:RedditOS:v1.0 (by /u/Dimillian)"]
+        let headers: [String: String] = ["User-Agent": "macOS:RedditOS:v1.0 (by /u/Dimillian)"]
+        configuration.httpAdditionalHeaders = headers
         configuration.urlCache = .shared
         configuration.requestCachePolicy = .reloadRevalidatingCacheData
         configuration.timeoutIntervalForRequest = 60
         configuration.timeoutIntervalForResource = 120
-        
-        session = URLSession(configuration: configuration)
-        decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .secondsSince1970
+        return configuration
     }
     
-    public static func makeURL(endpoint: Endpoint) -> URL {
-        let component = URLComponents(url: Self.BASE_URL
-                                        .appendingPathComponent(endpoint.path())
-                                        .appendingPathExtension("json"),
-                                      resolvingAgainstBaseURL: false)!
+    public static func makeURL(endpoint: Endpoint,
+                               basicAuthUser: String?,
+                               isJSONAPI: Bool) -> URL {
+        var url: URL!
+        if let user = basicAuthUser {
+            url = URL(string: "\(Self.URL_PREFIX)\(user):@www.\(Self.HOST)")!
+                .appendingPathComponent(endpoint.path())
+        } else {
+            switch OauthClient.shared.authState {
+            case .authenthicated, .signinInProgress:
+                url = URL(string: "\(Self.URL_PREFIX)\(Self.HOST_AUTH_DOMAIN).\(Self.HOST)")!
+                    .appendingPathComponent(endpoint.path())
+            default:
+                url = URL(string: "\(Self.URL_PREFIX)www.\(Self.HOST)")!
+                    .appendingPathComponent(endpoint.path())
+            }
+        }
+        if isJSONAPI {
+            url = url.appendingPathExtension("json")
+        }
+        let component = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         return component.url!
     }
     
-    public func fetch<T: Decodable>(endpoint: Endpoint,
-                                    httpMethod: String = "GET",
-                                    params: [String: String]? = nil) -> AnyPublisher<T ,APIError> {
-        var url = Self.makeURL(endpoint: endpoint)
+    public func request<T: Decodable>(endpoint: Endpoint,
+                                      basicAuthUser: String? = nil,
+                                      httpMethod: String = "GET",
+                                      isJSONEndpoint: Bool = true,
+                                      queryParamsAsBody: Bool = false,
+                                      params: [String: String]? = nil) -> AnyPublisher<T ,APIError> {
+        var url = Self.makeURL(endpoint: endpoint, basicAuthUser: basicAuthUser, isJSONAPI: isJSONEndpoint)
+        var request: URLRequest!
         if let params = params {
-            for (_, value) in params.enumerated() {
-                url = url.appending(value.key, value: value.value)
+            if queryParamsAsBody {
+                var urlComponents = URLComponents()
+                urlComponents.queryItems = []
+                for (_, param) in params.enumerated() {
+                    urlComponents.queryItems?.append(URLQueryItem(name: param.key, value: param.value))
+                }
+                request = URLRequest(url: url)
+                request.httpBody = urlComponents.percentEncodedQuery?.data(using: .utf8)
+                request.setValue("application/x-www-form-urlencoded",forHTTPHeaderField: "Content-Type")
+            } else {
+                for (_, value) in params.enumerated() {
+                    url = url.appending(value.key, value: value.value)
+                }
+                request = URLRequest(url: url)
             }
+        } else {
+            request = URLRequest(url: url)
         }
-        var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         return session.dataTaskPublisher(for: request)
             .tryMap{ data, response in
@@ -47,7 +102,7 @@ public class API {
             }
             .decode(type: T.self, decoder: decoder)
             .mapError{ error in
-                APIError.parseError(reason: error.localizedDescription)
+                APIError.parseError(reason: error)
             }
             .eraseToAnyPublisher()
     }

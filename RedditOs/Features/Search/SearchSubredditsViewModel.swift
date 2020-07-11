@@ -35,7 +35,7 @@ class SearchSubredditsViewModel: ObservableObject {
     private func search(with text: String) {
         apiCancellable?.cancel()
         let param = ["query": text]
-        apiPublisher = API.shared.fetch(endpoint: .searchSubreddit, httpMethod: "POST", params: param)
+        apiPublisher = API.shared.request(endpoint: .searchSubreddit, httpMethod: "POST", params: param)
             .subscribe(on: DispatchQueue.global())
             .replaceError(with: SubredditResponse())
             .eraseToAnyPublisher()

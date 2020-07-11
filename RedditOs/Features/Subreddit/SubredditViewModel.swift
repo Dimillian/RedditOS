@@ -37,7 +37,7 @@ class SubredditViewModel: ObservableObject {
         if let last = listings?.last {
             params["after"] = "t3_\(last.id)"
         }
-        listingPublisher = API.shared.fetch(endpoint: .subreddit(name: name, sort: sortOrder.rawValue),
+        listingPublisher = API.shared.request(endpoint: .subreddit(name: name, sort: sortOrder.rawValue),
                                             params: params)
             .subscribe(on: DispatchQueue.global())
             .replaceError(with: ListingResponse(error: "error"))

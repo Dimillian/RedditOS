@@ -36,7 +36,7 @@ struct ListingVoteView: View {
                     .frame(width: 16, height: 16)
                     .foregroundColor(.white)
             }).buttonStyle(BorderlessButtonStyle())
-        }
+        }.frame(width: 40)
     }
 }
 
