@@ -36,7 +36,8 @@ struct PostDetailContent: View {
                         .indicator(.activity)
                         .aspectRatio(contentMode: .fit)
                         .background(Color.gray)
-                        .frame(minWidth: 300, minHeight: 200)
+                        .frame(maxHeight: 400)
+                        .padding()
                     Spacer()
                 }
             } else {
