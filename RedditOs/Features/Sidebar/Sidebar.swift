@@ -26,7 +26,9 @@ struct Sidebar: View {
             
             Group {
                 Text("Account").foregroundColor(.white)
-                Label("Profile", systemImage: "person.crop.square")
+                NavigationLink(destination: ProfileView()) {
+                    Label("Profile", systemImage: "person.crop.square")
+                }.tag("profile")
                 Label("Inbox", systemImage: "envelope")
                 Label("Posts", systemImage: "square.and.pencil")
                 Label("Comments", systemImage: "bubble.middle.bottom.fill")

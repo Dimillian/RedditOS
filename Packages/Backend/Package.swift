@@ -13,10 +13,14 @@ let package = Package(
             name: "Backend",
             targets: ["Backend"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/kishikawakatsumi/KeychainAccess", from: "4.2.0"),
+    ],
     targets: [
         .target(
             name: "Backend",
-            dependencies: []),
+            dependencies: ["KeychainAccess"],
+            resources: [.process("Resources")]),
         .testTarget(
             name: "BackendTests",
             dependencies: ["Backend"]),
