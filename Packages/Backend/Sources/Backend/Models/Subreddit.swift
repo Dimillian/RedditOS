@@ -15,7 +15,7 @@ public struct SubredditResponse: Decodable {
     }
 }
 
-public struct Subreddit: Codable, Identifiable, Equatable {
+public struct Subreddit: Codable, Identifiable, Equatable, Hashable {
     public var id: String { name }
     public let name: String
     public let subscriberCount: Int

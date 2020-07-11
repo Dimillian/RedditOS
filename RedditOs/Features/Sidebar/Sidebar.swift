@@ -13,6 +13,7 @@ struct Sidebar: View {
     @EnvironmentObject private var userData: PersistedContent
     @StateObject private var viewModel = SidebarViewModel()
     @State private var isSearchPopoverPresented = false
+    @State private var isInEditMode = false
     
     var body: some View {
         List(selection: $viewModel.selection) {
@@ -25,7 +26,7 @@ struct Sidebar: View {
             Divider()
             
             Group {
-                Text("Account").foregroundColor(.white)
+                Text("Account").foregroundColor(.gray)
                 NavigationLink(destination: ProfileView()) {
                     Label("Profile", systemImage: "person.crop.square")
                 }.tag("profile")
@@ -38,22 +39,44 @@ struct Sidebar: View {
             Divider()
             
             Group {
-                subredditsHeader.foregroundColor(.white)
+                subredditsHeader.foregroundColor(.gray)
                 ForEach(userData.subreddits) { reddit in
-                    NavigationLink(destination: SubredditView(name: reddit.name)) {
-                        Label(LocalizedStringKey(reddit.name), systemImage: "globe")
-                    }.tag(reddit.name)
+                    HStack {
+                        NavigationLink(destination: SubredditView(name: reddit.name)) {
+                            Label(reddit.name.capitalized, systemImage: "globe")
+                        }.tag(reddit.name)
+                        if isInEditMode {
+                            Spacer()
+                            Button {
+                                userData.subreddits.removeAll(where: { $0 == reddit })
+                            } label: {
+                                Image(systemName: "minus.circle.fill")
+                                    .imageScale(.large)
+                                    .foregroundColor(.red)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                        }
+                    }
                 }
-            }.listItemTint(Color("RedditBlue"))
+            }
+            .listItemTint(Color("RedditBlue"))
+            
+            Divider()
+            
+            Group {
+                Text("All subscriptions").foregroundColor(.gray)
+                Text("Please sign in...").foregroundColor(.white)
+            }
         }
         .listStyle(SidebarListStyle())
+        .animation(.easeInOut)
         .frame(minWidth: 150, idealWidth: 150, maxWidth: 200, maxHeight: .infinity)
         .padding(.top, 16)
     }
     
     private var subredditsHeader: some View {
-        HStack {
-            Text("Subreddits")
+        HStack(spacing: 8) {
+            Text("Favorites")
             Button {
                 isSearchPopoverPresented = true
             } label: {
@@ -65,6 +88,15 @@ struct Sidebar: View {
             .popover(isPresented: $isSearchPopoverPresented) {
                 SearchSubredditsPopover().environmentObject(userData)
             }
+                        
+            Button {
+                isInEditMode.toggle()
+            } label: {
+                Image(systemName: isInEditMode ? "trash.circle.fill" : "trash.circle")
+                    .imageScale(.large)
+                    .foregroundColor(.blue)
+            }
+            .buttonStyle(BorderlessButtonStyle())
 
         }
     }
