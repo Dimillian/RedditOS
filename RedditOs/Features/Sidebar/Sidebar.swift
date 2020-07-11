@@ -60,6 +60,7 @@ struct Sidebar: View {
                 }
             }
             .listItemTint(Color("RedditBlue"))
+            .animation(.easeInOut)
             
             Divider()
             
@@ -69,7 +70,6 @@ struct Sidebar: View {
             }
         }
         .listStyle(SidebarListStyle())
-        .animation(.easeInOut)
         .frame(minWidth: 150, idealWidth: 150, maxWidth: 200, maxHeight: .infinity)
         .padding(.top, 16)
     }

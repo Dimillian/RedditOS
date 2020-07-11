@@ -11,7 +11,9 @@ import Backend
 
 class AppDelegateAdaptor: NSObject, NSApplicationDelegate {
     func application(_ application: NSApplication, open urls: [URL]) {
-        
+        if let url = urls.first {
+            OauthClient.shared.handleNextURL(url: url)
+        }
     }
 }
 
@@ -32,7 +34,7 @@ struct RedditOsApp: App {
             }
             .frame(minHeight: 400)
             .environmentObject(PersistedContent())
-            .environmentObject(OauthClient())
+            .environmentObject(OauthClient.shared)
         }
         
         Settings {

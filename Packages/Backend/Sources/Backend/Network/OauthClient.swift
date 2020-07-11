@@ -9,6 +9,8 @@ public class OauthClient: ObservableObject {
         case unknown, signedOut, signinInProgress, authenthicated(authToken: String)
     }
     
+    static public let shared = OauthClient()
+    
     @Published public var authState = State.unknown
     
     // Oauth URL
@@ -24,7 +26,7 @@ public class OauthClient: ObservableObject {
     private let keychainService = "com.thomasricouard.RedditOs-reddit-token"
     private let keychainAuthTokenKey = "auth_token"
     
-    public init() {
+    init() {
         if let path = Bundle.module.path(forResource: "secrets", ofType: "plist"),
            let secrets = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
             self.secrets = secrets
