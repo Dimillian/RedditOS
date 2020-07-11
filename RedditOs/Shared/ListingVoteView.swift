@@ -20,11 +20,9 @@ struct ListingVoteView: View {
                 Image(systemName: "arrowtriangle.up.circle")
                     .resizable()
                     .frame(width: 16, height: 16)
-                    .foregroundColor(.white)
             }).buttonStyle(BorderlessButtonStyle())
             
             Text(listing.ups.toRoundedSuffixAsString())
-                .foregroundColor(.white)
                 .fontWeight(.bold)
             
             Button(action: {
@@ -34,7 +32,6 @@ struct ListingVoteView: View {
                 Image(systemName: "arrowtriangle.down.circle")
                     .resizable()
                     .frame(width: 16, height: 16)
-                    .foregroundColor(.white)
             }).buttonStyle(BorderlessButtonStyle())
         }.frame(width: 40)
     }

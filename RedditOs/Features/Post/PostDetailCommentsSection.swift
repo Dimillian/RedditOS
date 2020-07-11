@@ -26,7 +26,6 @@ struct PostDetailCommentsSection: View {
         VStack(alignment: .leading) {
             HStack(spacing: 0) {
                 Text(comment.author ?? "Unknown")
-                    .foregroundColor(.white)
                     .font(.footnote)
                 if let score = comment.score {
                     Text(" · \(score.toRoundedSuffixAsString()) points  · ")
@@ -40,7 +39,6 @@ struct PostDetailCommentsSection: View {
                 }
             }
             Text(comment.body ?? "No comment content")
-                .foregroundColor(.white)
                 .font(.body)
             Divider()
         }.padding(.vertical, 4)

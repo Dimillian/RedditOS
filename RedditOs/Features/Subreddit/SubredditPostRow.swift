@@ -44,7 +44,6 @@ struct SubredditPostRow: View {
                             HStack(spacing: 6) {
                                 Image(systemName: "bubble.middle.bottom.fill")
                                     .imageScale(.small)
-                                    .foregroundColor(.white)
                                 Text("\(listing.numComments) comments")
                             }
                         }

@@ -15,28 +15,24 @@ struct PostDetailActions: View {
             HStack(spacing: 6) {
                 Image(systemName: "bubble.middle.bottom.fill")
                     .imageScale(.small)
-                    .foregroundColor(.white)
                 Text("\(listing.numComments) comments")
             }
             
             HStack(spacing: 6) {
                 Image(systemName: "square.and.arrow.up")
                     .imageScale(.small)
-                    .foregroundColor(.white)
                 Text("Share")
             }
             
             HStack(spacing: 6) {
                 Image(systemName: "bookmark")
                     .imageScale(.small)
-                    .foregroundColor(.white)
                 Text("Save")
             }
             
             HStack(spacing: 6) {
                 Image(systemName: "flag")
                     .imageScale(.small)
-                    .foregroundColor(.white)
                 Text("Report")
             }
             
