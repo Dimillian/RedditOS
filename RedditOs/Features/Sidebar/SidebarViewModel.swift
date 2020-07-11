@@ -14,10 +14,10 @@ class SidebarViewModel: ObservableObject {
         
         func icon() -> String {
             switch self {
-            case .best: return "airplane"
-            case .hot: return "flame.fill"
+            case .best: return "sun.max"
+            case .hot: return "flame"
             case .new: return "calendar.circle"
-            case .top: return "chart.bar.fill"
+            case .top: return "chart.bar"
             case .rising: return "waveform.path.ecg"
             }
         }

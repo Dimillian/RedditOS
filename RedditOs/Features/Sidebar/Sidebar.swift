@@ -32,7 +32,7 @@ struct Sidebar: View {
                 }.tag("profile")
                 Label("Inbox", systemImage: "envelope")
                 Label("Posts", systemImage: "square.and.pencil")
-                Label("Comments", systemImage: "bubble.middle.bottom.fill")
+                Label("Comments", systemImage: "text.bubble")
                 Label("Saved", systemImage: "archivebox")
             }.listItemTint(Color("RedditBlue"))
             
@@ -41,7 +41,7 @@ struct Sidebar: View {
                 ForEach(localData.subreddits) { reddit in
                     HStack {
                         NavigationLink(destination: SubredditView(name: reddit.name)) {
-                            Label(reddit.name.capitalized, systemImage: "star.fill")
+                            Label(reddit.name.capitalized, systemImage: "star")
                         }.tag("local\(reddit.name)")
                         if isInEditMode {
                             Spacer()
