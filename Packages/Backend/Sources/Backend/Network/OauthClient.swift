@@ -38,6 +38,8 @@ public class OauthClient: ObservableObject {
     private var requestCancellable: AnyCancellable?
     private var refreshCancellanle: AnyCancellable?
     
+    private var refreshTimer: Timer?
+    
     init() {
         if let path = Bundle.module.path(forResource: "secrets", ofType: "plist"),
            let secrets = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
@@ -56,6 +58,19 @@ public class OauthClient: ObservableObject {
             }
         } else {
             authState = .signedOut
+        }
+        
+        
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: 60.0 * 30, repeats: true) { _ in
+            switch self.authState {
+            case .authenthicated(_):
+                let keychain = Keychain(service: self.keychainService)
+                if let refresh = keychain[self.keychainAuthTokenRefreshToken] {
+                    self.refreshToken(refreshToken: refresh)
+                }
+            default:
+                break
+            }
         }
     }
     
