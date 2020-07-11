@@ -59,6 +59,7 @@ public struct Listing: Decodable, Identifiable {
         }
         return nil
     }
+    public let likes: Bool?
 }
 
 public struct SecureMedia: Decodable {
@@ -115,4 +116,5 @@ public let static_listing = Listing(id: "0",
                                     downs: 30,
                                     secureMedia: nil,
                                     url: "https://test.com",
-                                    permalink: nil)
+                                    permalink: nil,
+                                    likes: false)

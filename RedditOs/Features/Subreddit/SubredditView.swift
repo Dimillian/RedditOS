@@ -13,6 +13,7 @@ struct SubredditView: View {
     
     @EnvironmentObject private var userData: PersistedContent
     @StateObject private var viewModel: SubredditViewModel
+    @AppStorage("postDisplayMode") private var displayMode = SubredditPostRow.DisplayMode.large
     @State private var isSearchSheetOpen = false
     
     init(name: String) {
@@ -28,7 +29,7 @@ struct SubredditView: View {
             List {
                 if let listings = viewModel.listings {
                     ForEach(listings) { listing in
-                        SubredditPostRow(listing: listing)
+                        SubredditPostRow(listing: listing, displayMode: displayMode)
                     }
                     LoadingRow(text: "Loading next page")
                         .onAppear(perform: viewModel.fetchListings)
@@ -38,11 +39,25 @@ struct SubredditView: View {
                 }
             }
             .listStyle(InsetListStyle())
-            .frame(width: 400)
+            .frame(width: 430)
 
         }
         .navigationTitle(isDefaultChannel ? "\(viewModel.name.capitalized)" : "r/\(viewModel.name)")
         .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Picker(selection: $displayMode,
+                       label: Text("Display"),
+                       content: {
+                        ForEach(SubredditPostRow.DisplayMode.allCases, id: \.self) { mode in
+                            HStack {
+                                Text(mode.rawValue.capitalized)
+                                Image(systemName: mode.iconName())
+                                    .tag(mode)
+                            }
+                        }
+                }).pickerStyle(DefaultPickerStyle())
+            }
+            
             ToolbarItem(placement: .primaryAction) {
                 if !isDefaultChannel {
                     Picker(selection: $viewModel.sortOrder,

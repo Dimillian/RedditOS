@@ -50,7 +50,6 @@ struct ProfileView: View {
             Text(number)
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
             Text(name)
                 .font(.subheadline)
                 .fontWeight(.bold)

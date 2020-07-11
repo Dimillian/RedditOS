@@ -36,7 +36,7 @@ public class OauthClient: ObservableObject {
     
     // Request
     private var requestCancellable: AnyCancellable?
-    private var refreshCancellanle: AnyCancellable?
+    private var refreshCancellable: AnyCancellable?
     
     private var refreshTimer: Timer?
     
@@ -115,7 +115,7 @@ public class OauthClient: ObservableObject {
     }
     
     private func refreshToken(refreshToken: String) {
-        refreshCancellanle = makeRefreshOauthPublisher(refreshToken: refreshToken)?
+        refreshCancellable = makeRefreshOauthPublisher(refreshToken: refreshToken)?
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in },
             receiveValue: { response in
