@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
 
 struct Sidebar: View {
     @EnvironmentObject private var localData: PersistedContent

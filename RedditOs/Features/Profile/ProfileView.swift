@@ -32,7 +32,8 @@ struct ProfileView: View {
             .listStyle(PlainListStyle())
             .frame(width: 400)
         }
-        .navigationTitle(currentUser.user?.name ?? "Login")
+        .navigationTitle("Profile")
+        .navigationSubtitle(currentUser.user?.name ?? "Login")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {

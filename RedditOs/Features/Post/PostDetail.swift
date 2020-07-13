@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
 import AVKit
 
 struct PostDetail: View {
