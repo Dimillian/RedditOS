@@ -32,7 +32,7 @@ struct RedditOsApp: App {
                            maxWidth: .infinity,
                            maxHeight: .infinity)
             }
-            .frame(minHeight: 400)
+            .frame(minHeight: 400, idealHeight: 800)
             .environmentObject(PersistedContent())
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUser())
