@@ -16,8 +16,7 @@ class SubredditViewModel: ObservableObject {
     }
     
     let name: String
-        
-    private var listingPublisher: AnyPublisher<ListingResponse, Never>?
+    
     private var listingCancellable: AnyCancellable?
     
     @Published var listings: [Listing]?
@@ -33,22 +32,15 @@ class SubredditViewModel: ObservableObject {
     }
     
     func fetchListings() {
-        var params: [String: String] = [:]
-        if let last = listings?.last {
-            params["after"] = "t3_\(last.id)"
-        }
-        listingPublisher = API.shared.request(endpoint: .subreddit(name: name, sort: sortOrder.rawValue),
-                                            params: params)
-            .subscribe(on: DispatchQueue.global())
-            .replaceError(with: ListingResponse(error: "error"))
-            .eraseToAnyPublisher()
-        listingCancellable = listingPublisher?
+        listingCancellable = Listing.fetch(subreddit: name,
+                                           sort: sortOrder.rawValue,
+                                           after: listings?.last)
             .receive(on: DispatchQueue.main)
             .map{ $0.data?.children.map{ $0.data }}
             .sink{ [weak self] listings in
-                if params["after"] != nil, let listings = listings {
+                if self?.listings?.last != nil, let listings = listings {
                     self?.listings?.append(contentsOf: listings)
-                } else if params["after"] == nil {
+                } else if self?.listings == nil {
                     self?.listings = listings
                 }
             }
