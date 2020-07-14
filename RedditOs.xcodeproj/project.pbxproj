@@ -113,12 +113,12 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		69D076C624B9E861001619AC /* Extensionns */ = {
+		69D076C624B9E861001619AC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				69D076C724B9E871001619AC /* Color.swift */,
 			);
-			path = Extensionns;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		69EACEF624B63D5800303A16 = {
@@ -143,7 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				69EACF0224B63D5800303A16 /* RedditOsApp.swift */,
-				69D076C624B9E861001619AC /* Extensionns */,
+				69D076C624B9E861001619AC /* Extensions */,
 				6970A0B424B783F200B11031 /* Representables */,
 				6970A0AC24B7494C00B11031 /* Shared */,
 				69EACF2024B7298C00303A16 /* Features */,
