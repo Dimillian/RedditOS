@@ -10,7 +10,7 @@ import SwiftUI
 
 class SidebarViewModel: ObservableObject {
     enum MainSubreddits: String, CaseIterable {
-        case best, hot, new, top, rising
+        case hot, best, new, top, rising
         
         func icon() -> String {
             switch self {
@@ -23,5 +23,5 @@ class SidebarViewModel: ObservableObject {
         }
     }
     
-    @Published var selection: Set<String> = [MainSubreddits.best.rawValue]
+    @Published var selection: Set<String> = [MainSubreddits.hot.rawValue]
 }

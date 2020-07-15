@@ -8,10 +8,10 @@
 import Foundation
 import Combine
 
-extension Listing {
+extension SubredditPost {
     static public func fetch(subreddit: String,
                              sort: String,
-                             after: Listing?) -> AnyPublisher<ListingResponse, Never> {
+                             after: SubredditPost?) -> AnyPublisher<ListingResponse<SubredditPost>, Never> {
         var params: [String: String] = [:]
         if let listing = after {
             params["after"] = "t3_\(listing.id)"

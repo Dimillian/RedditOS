@@ -1,5 +1,5 @@
 //
-//  SubredditView.swift
+//  SubredditPostsListView.swift
 //  RedditOs
 //
 //  Created by Thomas Ricouard on 09/07/2020.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Backend
 
-struct SubredditView: View {
+struct SubredditPostsListView: View {
     let posts = Array(repeating: 0, count: 20)
     
     @EnvironmentObject private var userData: PersistedContent
@@ -88,6 +88,6 @@ struct SubredditView: View {
 
 struct Listing_Previews: PreviewProvider {
     static var previews: some View {
-        SubredditView(name: "Best")
+        SubredditPostsListView(name: "Best")
     }
 }

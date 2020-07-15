@@ -9,7 +9,7 @@ import SwiftUI
 import Backend
 
 struct PostDetailActions: View {
-    let listing: Listing
+    let listing: SubredditPost
     var body: some View {
         HStack(spacing: 16) {
             HStack(spacing: 6) {

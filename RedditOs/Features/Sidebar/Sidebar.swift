@@ -19,7 +19,7 @@ struct Sidebar: View {
     var body: some View {
         List(selection: $viewModel.selection) {
             ForEach(SidebarViewModel.MainSubreddits.allCases, id: \.self) { item in
-                NavigationLink(destination: SubredditView(name: item.rawValue)) {
+                NavigationLink(destination: SubredditPostsListView(name: item.rawValue)) {
                     Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
                 }.tag(item.rawValue)
             }
@@ -39,7 +39,7 @@ struct Sidebar: View {
                 subredditsHeader.foregroundColor(.gray)
                 ForEach(localData.subreddits) { reddit in
                     HStack {
-                        NavigationLink(destination: SubredditView(name: reddit.name)) {
+                        NavigationLink(destination: SubredditPostsListView(name: reddit.name)) {
                             Label(reddit.name.capitalized, systemImage: "star")
                         }.tag("local\(reddit.name)")
                         if isInEditMode {
@@ -64,7 +64,7 @@ struct Sidebar: View {
                     Text("Subscriptions").foregroundColor(.gray)
                     ForEach(subs) { reddit in
                         HStack {
-                            NavigationLink(destination: SubredditView(name: reddit.name)) {
+                            NavigationLink(destination: SubredditPostsListView(name: reddit.name)) {
                                 Label(reddit.name.capitalized, systemImage: "globe")
                             }.tag(reddit.name)
                         }

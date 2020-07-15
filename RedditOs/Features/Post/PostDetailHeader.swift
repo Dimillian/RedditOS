@@ -10,7 +10,7 @@ import Backend
 import SDWebImageSwiftUI
 
 struct PostDetailHeader: View {
-    let listing: Listing
+    let listing: SubredditPost
     
     var body: some View {
         HStack {

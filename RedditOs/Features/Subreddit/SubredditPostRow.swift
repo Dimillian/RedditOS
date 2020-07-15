@@ -21,7 +21,7 @@ struct SubredditPostRow: View {
         }
     }
     
-    let listing: Listing
+    let listing: SubredditPost
     let displayMode: DisplayMode
     
     @Environment(\.openURL) private var openURL

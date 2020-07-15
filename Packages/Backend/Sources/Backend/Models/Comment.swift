@@ -7,25 +7,10 @@
 
 import Foundation
 
-public struct CommentsRoot: Decodable {
-    public let kind: String
-    public let data: CommentData
-    
+extension ListingResponse where T == Comment {
     public var comments: [Comment] {
-        data.children.map{ $0.data }
+        data?.children.map{ $0.data } ?? []
     }
-}
-
-public struct CommentData: Decodable {
-    public let after: String?
-    public let before: String?
-    public let dist: Int?
-    public let children: [CommentChildrenTop]
-}
-
-public struct CommentChildrenTop: Decodable {
-    public let kind: String
-    public let data: Comment
 }
 
 public struct Comment: Decodable, Identifiable {
@@ -41,7 +26,7 @@ public struct Comment: Decodable, Identifiable {
         if let replies = replies {
             switch replies {
             case let .some(replies):
-                return replies.data.children.map{ $0.data }
+                return replies.data?.children.map{ $0.data }
             default:
                 return nil
             }
@@ -54,13 +39,13 @@ public enum Replies: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         do {
-            self = .some(try container.decode(CommentsRoot.self))
+            self = .some(try container.decode(ListingResponse<Comment>.self))
         } catch {
             self = .none(try container.decode(String.self))
         }
     }
     
-    case some(CommentsRoot)
+    case some(ListingResponse<Comment>)
     case none(String)
 }
 

@@ -19,7 +19,7 @@ class SubredditViewModel: ObservableObject {
     
     private var listingCancellable: AnyCancellable?
     
-    @Published var listings: [Listing]?
+    @Published var listings: [SubredditPost]?
     @Published var sortOrder = SortOrder.hot {
         didSet {
             listings = nil
@@ -32,7 +32,7 @@ class SubredditViewModel: ObservableObject {
     }
     
     func fetchListings() {
-        listingCancellable = Listing.fetch(subreddit: name,
+        listingCancellable = SubredditPost.fetch(subreddit: name,
                                            sort: sortOrder.rawValue,
                                            after: listings?.last)
             .receive(on: DispatchQueue.main)

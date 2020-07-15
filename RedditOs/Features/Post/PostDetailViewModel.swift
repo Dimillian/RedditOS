@@ -11,12 +11,12 @@ import Combine
 import Backend
 
 class PostDetailViewModel: ObservableObject {
-    let listing: Listing
+    let listing: SubredditPost
     @Published var comments: [Comment]?
     
     private var commentsCancellable: AnyCancellable?
     
-    init(listing: Listing) {
+    init(listing: SubredditPost) {
         self.listing = listing
     }
     

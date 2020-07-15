@@ -11,7 +11,7 @@ import AVKit
 import SDWebImageSwiftUI
 
 struct PostDetailContent: View {
-    let listing: Listing
+    let listing: SubredditPost
     @Binding var redrawLink: Bool
     
     @ViewBuilder

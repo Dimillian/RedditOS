@@ -13,7 +13,7 @@ struct PostDetail: View {
     @StateObject private var viewModel: PostDetailViewModel
     @State private var redrawLink = false
     
-    init(listing: Listing) {
+    init(listing: SubredditPost) {
         _viewModel = StateObject(wrappedValue: PostDetailViewModel(listing: listing))
     }
     

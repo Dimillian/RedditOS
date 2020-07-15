@@ -9,7 +9,7 @@ import SwiftUI
 import Backend
 
 struct ListingVoteView: View {
-    let listing: Listing
+    let listing: SubredditPost
     
     var body: some View {
         VStack(spacing: 2) {

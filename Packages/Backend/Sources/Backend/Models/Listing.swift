@@ -1,15 +1,8 @@
-//
-//  File.swift
-//  
-//
-//  Created by Thomas Ricouard on 09/07/2020.
-//
-
 import Foundation
 
-public struct ListingResponse: Decodable {
+public struct ListingResponse<T: Decodable>: Decodable {
     public let kind: String?
-    public let data: ListingData?
+    public let data: ListingData<T>?
     public let errorMessage: String?
     
     public init(error: String) {
@@ -19,102 +12,16 @@ public struct ListingResponse: Decodable {
     }
 }
 
-public struct ListingData: Decodable {
+public struct ListingData<T: Decodable>: Decodable {
     public let modhash: String?
-    public let dist: Int
-    public let children: [ListingHolder]
+    public let dist: Int?
+    public let after: String?
+    public let before: String?
+    public let children: [ListingHolder<T>]
 }
 
-public struct ListingHolder: Decodable {
+public struct ListingHolder<T: Decodable>: Decodable {
     public let kind: String
-    public let data: Listing
+    public let data: T
 }
 
-public struct Listing: Decodable, Identifiable {
-    public let id: String
-    public let title: String
-    public let numComments: Int
-    public let subreddit: String
-    public let thumbnail: String
-    public let created: Date
-    public let createdUtc: Date
-    public var thumbnailURL: URL? {
-        guard thumbnail.hasPrefix("http"),
-              let url = URL(string: thumbnail) else {
-            return nil
-        }
-        return url
-    }
-    public let author: String
-    public let selftext: String?
-    public let description: String?
-    public let ups: Int
-    public let downs: Int
-    public let secureMedia: SecureMedia?
-    public let url: String?
-    public let permalink: String?
-    public var redditURL: URL? {
-        if let permalink = permalink, let url = URL(string: "https://reddit.com\(permalink)") {
-            return url
-        }
-        return nil
-    }
-    public let likes: Bool?
-}
-
-public struct SecureMedia: Decodable {
-    public let redditVideo: RedditVideo?
-    public let oembed: Oembed?
-    
-    public var video: Video? {
-        if let video = redditVideo {
-            return Video(url: video.fallbackUrl, width: video.width, height: video.height)
-        } else if let oembed = oembed,
-                  let url = oembed.url,
-                  let width = oembed.width,
-                  let height = oembed.height {
-            return Video(url: url, width: width, height: height)
-        }
-        return nil
-    }
-}
-
-public struct RedditVideo: Decodable {
-    public let fallbackUrl: URL
-    public let height: Int
-    public let width: Int
-}
-
-public struct Oembed: Decodable {
-    public let providerUrl: URL?
-    public let thumbnailUrl: URL?
-    public let url: URL?
-    public let width: Int?
-    public let height: Int?
-    public let thumbnailWidth: Int?
-    public let thumbnailHeight: Int?
-    public let type: String?
-}
-
-public struct Video {
-    public let url: URL
-    public let width: Int
-    public let height: Int
-}
-
-public let static_listing = Listing(id: "0",
-                                    title: "A very long title to be able to debug the UI correctly as it should be displayed on mutliple lines.",
-                                    numComments: 3400,
-                                    subreddit: "preview",
-                                    thumbnail: "self",
-                                    created: Date(),
-                                    createdUtc: Date(),
-                                    author: "test",
-                                    selftext: "A text",
-                                    description: "A description",
-                                    ups: 1000,
-                                    downs: 30,
-                                    secureMedia: nil,
-                                    url: "https://test.com",
-                                    permalink: nil,
-                                    likes: false)
