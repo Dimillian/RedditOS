@@ -42,7 +42,7 @@ struct SubredditPostsListView: View {
             .frame(width: 430)
 
         }
-        .navigationTitle(isDefaultChannel ? "\(viewModel.name.capitalized)" : "r/\(viewModel.name)")
+        .navigationTitle(isDefaultChannel ? "\(viewModel.name.capitalized)" : "\(viewModel.name)")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Picker(selection: $displayMode,
@@ -80,6 +80,7 @@ struct SubredditPostsListView: View {
                 }.popover(isPresented: $isSearchSheetOpen) {
                     SearchSubredditsPopover().environmentObject(userData)
                 }
+                .keyboardShortcut("f", modifiers: .command)
             }
         }
         .onAppear(perform: viewModel.fetchListings)

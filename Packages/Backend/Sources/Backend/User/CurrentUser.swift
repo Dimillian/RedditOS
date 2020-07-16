@@ -6,8 +6,8 @@ public class CurrentUser: ObservableObject {
     @Published public var user: User?
     @Published public var subscriptions: [Subreddit] = []
     
+    private var subscriptionFetched = false
     private var disposables: [AnyCancellable?] = []
-    
     private var authStateCancellable: AnyCancellable?
     
     public init() {
@@ -17,6 +17,10 @@ public class CurrentUser: ObservableObject {
                 self.user = nil
             case .authenthicated:
                 self.refreshUser()
+                if !self.subscriptionFetched {
+                    self.subscriptionFetched = true
+                    self.fetchSubscription(after: nil)
+                }
             default:
                 break
             }
@@ -31,6 +35,22 @@ public class CurrentUser: ObservableObject {
             }, receiveValue: { user in
                 self.user = user
             })
+        disposables.append(cancellable)
+    }
+    
+    private func fetchSubscription(after: String?) {
+        let cancellable = Subreddit.fetchMine(after: after)
+            .receive(on: DispatchQueue.main)
+            .sink { subs in
+                if let subscriptions = subs.data?.children {
+                    var news = subscriptions.map{ $0.data }
+                    news.sort{ $0.displayName.lowercased() < $1.displayName.lowercased() }
+                    self.subscriptions.append(contentsOf: news)
+                }
+                if let after = subs.data?.after {
+                    self.fetchSubscription(after: after)
+                }
+            }
         disposables.append(cancellable)
     }
     

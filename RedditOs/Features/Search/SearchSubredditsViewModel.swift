@@ -12,7 +12,7 @@ import Backend
 
 class SearchSubredditsViewModel: ObservableObject {
     @Published var searchText = ""
-    @Published var results: [Subreddit]?
+    @Published var results: [SubredditSmall]?
     @Published var isLoading = false
     
     private var searchCancellable: AnyCancellable?

@@ -24,4 +24,5 @@ class SidebarViewModel: ObservableObject {
     }
     
     @Published var selection: Set<String> = [MainSubreddits.hot.rawValue]
+    @Published var subscriptionFilter = ""
 }

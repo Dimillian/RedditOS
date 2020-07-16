@@ -7,24 +7,27 @@
 
 import SwiftUI
 import Backend
+import SDWebImageSwiftUI
 
 struct Sidebar: View {
     @EnvironmentObject private var localData: PersistedContent
     @EnvironmentObject private var currentUser: CurrentUser
     @StateObject private var viewModel = SidebarViewModel()
     @State private var isSearchPopoverPresented = false
-    @State private var isFavoritesSectionHovered = false
+    @State private var isHovered = false
     @State private var isInEditMode = false
     
     var body: some View {
         List(selection: $viewModel.selection) {
-            ForEach(SidebarViewModel.MainSubreddits.allCases, id: \.self) { item in
-                NavigationLink(destination: SubredditPostsListView(name: item.rawValue)) {
-                    Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
-                }.tag(item.rawValue)
+            Section {
+                ForEach(SidebarViewModel.MainSubreddits.allCases, id: \.self) { item in
+                    NavigationLink(destination: SubredditPostsListView(name: item.rawValue)) {
+                        Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
+                    }.tag(item.rawValue)
+                }
             }
              
-            Group {
+            Section {
                 Text("Account").foregroundColor(.gray)
                 NavigationLink(destination: ProfileView()) {
                     Label("Profile", systemImage: "person.crop.square")
@@ -35,13 +38,13 @@ struct Sidebar: View {
                 Label("Saved", systemImage: "archivebox")
             }.listItemTint(Color("RedditBlue"))
             
-            Group {
+            Section {
                 subredditsHeader.foregroundColor(.gray)
                 ForEach(localData.subreddits) { reddit in
                     HStack {
-                        NavigationLink(destination: SubredditPostsListView(name: reddit.name)) {
-                            Label(reddit.name.capitalized, systemImage: "star")
-                        }.tag("local\(reddit.name)")
+                        SidebarSubredditRow(name: reddit.name,
+                                            iconURL: reddit.iconImg)
+                            .tag("local\(reddit.name)")
                         if isInEditMode {
                             Spacer()
                             Button {
@@ -60,22 +63,41 @@ struct Sidebar: View {
             .animation(.easeInOut)
                         
             if let subs = currentUser.subscriptions {
-                Group {
+                Section {
                     Text("Subscriptions").foregroundColor(.gray)
+                    TextField("Filter", text: $viewModel.subscriptionFilter)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                     ForEach(subs) { reddit in
                         HStack {
-                            NavigationLink(destination: SubredditPostsListView(name: reddit.name)) {
-                                Label(reddit.name.capitalized, systemImage: "globe")
-                            }.tag(reddit.name)
+                            SidebarSubredditRow(name: reddit.displayName,
+                                                iconURL: reddit.iconImg)
+                                .tag(reddit.displayName)
+                            Spacer()
+                            if isHovered {
+                                let isfavorite = localData.subreddits.first(where: { $0.name == reddit.displayName}) != nil
+                                Button {
+                                    if isfavorite {
+                                        localData.subreddits.removeAll(where: { $0.name == reddit.displayName })
+                                    } else {
+                                        localData.subreddits.append(SubredditSmall.makeSubredditSmall(with: reddit))
+                                    }
+                                } label: {
+                                    Image(systemName: isfavorite ? "star.fill" : "star")
+                                        .imageScale(.large)
+                                        .foregroundColor(.yellow)
+                                }
+                                .buttonStyle(BorderlessButtonStyle())
+                            }
                         }
+    
                     }
                 }.listItemTint(Color("RedditBlue"))
             }
         }
         .listStyle(SidebarListStyle())
-        .frame(minWidth: 150, idealWidth: 150, maxWidth: 200, maxHeight: .infinity)
+        .frame(minWidth: 200, idealWidth: 200, maxWidth: 200, maxHeight: .infinity)
         .onHover { hovered in
-            isFavoritesSectionHovered = hovered
+            isHovered = hovered
         }
         .padding(.top, 16)
     }
@@ -83,7 +105,7 @@ struct Sidebar: View {
     private var subredditsHeader: some View {
         HStack(spacing: 8) {
             Text("Favorites")
-            if isFavoritesSectionHovered {
+            if isHovered {
                 Button {
                     isSearchPopoverPresented = true
                 } label: {

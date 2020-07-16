@@ -10,7 +10,7 @@ import Backend
 import SDWebImageSwiftUI
 
 struct SubredditRow: View {
-    let subreddit: Subreddit
+    let subreddit: SubredditSmall
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -20,6 +20,7 @@ struct SubredditRow: View {
                     WebImage(url: url)
                         .resizable()
                         .frame(width: 30, height: 30)
+                        .cornerRadius(15)
                 } else {
                     RoundedRectangle(cornerRadius: 15,
                                      style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/)
