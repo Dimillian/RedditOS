@@ -85,6 +85,7 @@ struct Sidebar: View {
                                     Image(systemName: isfavorite ? "star.fill" : "star")
                                         .imageScale(.large)
                                         .foregroundColor(.yellow)
+                                        .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
                                 }
                                 .buttonStyle(BorderlessButtonStyle())
                             }

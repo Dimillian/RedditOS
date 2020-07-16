@@ -30,6 +30,7 @@ public struct SubredditPost: Decodable, Identifiable {
     public let secureMedia: SecureMedia?
     public let url: String?
     public let permalink: String?
+    public let linkFlairText: String?
     public let visited: Bool
     public var redditURL: URL? {
         if let permalink = permalink, let url = URL(string: "https://reddit.com\(permalink)") {
@@ -95,5 +96,6 @@ public let static_listing = SubredditPost(id: "0",
                                     secureMedia: nil,
                                     url: "https://test.com",
                                     permalink: nil,
+                                    linkFlairText: "Text",
                                     visited: false,
                                     likes: false)

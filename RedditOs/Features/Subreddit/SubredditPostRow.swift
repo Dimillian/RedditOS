@@ -58,11 +58,22 @@ struct SubredditPostRow: View {
                                 .fontWeight(.bold)
                                 .font(.headline)
                                 .lineLimit(displayMode == .compact ? 2 : nil)
-                            if displayMode == .large,
-                               let urlString = listing.url,
-                               let url = URL(string: urlString) {
-                                Link(destination: url) {
-                                    Text(url.host ?? url.absoluteString)
+                            HStack {
+                                if listing.linkFlairText?.isEmpty == false {
+                                    Text(listing.linkFlairText!)
+                                        .font(.callout)
+                                        .fontWeight(.light)
+                                        .padding(4)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 6)
+                                                .fill(Color("RedditBlue")))
+                                }
+                                if displayMode == .large,
+                                   let urlString = listing.url,
+                                   let url = URL(string: urlString) {
+                                    Link(destination: url) {
+                                        Text(url.host ?? url.absoluteString)
+                                    }
                                 }
                             }
                             ListingInfoView(listing: listing)
