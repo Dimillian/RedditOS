@@ -14,5 +14,12 @@ extension Subreddit {
             .replaceError(with: ListingResponse(error: "error"))
             .eraseToAnyPublisher()
     }
+    
+    static public func fetchAbout(name: String) -> AnyPublisher<ListingHolder<Subreddit>?, Never> {
+        API.shared.request(endpoint: .subredditAbout(name: name))
+            .subscribe(on: DispatchQueue.global())
+            .replaceError(with: nil)
+            .eraseToAnyPublisher()
+    }
 }
 

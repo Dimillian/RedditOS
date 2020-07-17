@@ -2,6 +2,7 @@ import Foundation
 
 public enum Endpoint {
     case subreddit(name: String, sort: String?)
+    case subredditAbout(name: String)
     case searchSubreddit
     case comments(name: String, id: String)
     case accessToken
@@ -27,6 +28,8 @@ public enum Endpoint {
             return "api/v1/me"
         case .mineSubscriptions:
             return "subreddits/mine/subscriber"
+        case let .subredditAbout(name):
+            return "r/\(name)/about"
         }
     }
 }

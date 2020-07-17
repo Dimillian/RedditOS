@@ -9,6 +9,24 @@ import Foundation
 import SwiftUI
 
 extension Color {
+    static public var textColor: Color {
+        Color("TextColor")
+    }
+    
+    static public var invertedTextColor: Color {
+        Color("InvertedTextColor")
+    }
+    
+    static public var redditBlue: Color {
+        Color("RedditBlue")
+    }
+    
+    static public var redditGold: Color {
+        Color("RedditGold")
+    }
+}
+
+extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0

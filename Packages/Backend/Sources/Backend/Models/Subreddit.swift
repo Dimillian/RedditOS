@@ -11,4 +11,5 @@ public struct Subreddit: Decodable, Identifiable {
     public let iconImg: String?
     public let bannerImg: String?
     public let subscribers: Int?
+    public let accountsActive: Int?
 }

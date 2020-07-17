@@ -59,15 +59,7 @@ struct SubredditPostRow: View {
                                 .font(.headline)
                                 .lineLimit(displayMode == .compact ? 2 : nil)
                             HStack {
-                                if listing.linkFlairText?.isEmpty == false {
-                                    Text(listing.linkFlairText!)
-                                        .font(.callout)
-                                        .fontWeight(.light)
-                                        .padding(4)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 6)
-                                                .fill(Color("RedditBlue")))
-                                }
+                                FlairView(post: listing)
                                 if displayMode == .large,
                                    let urlString = listing.url,
                                    let url = URL(string: urlString) {
@@ -88,7 +80,7 @@ struct SubredditPostRow: View {
                 Spacer()
             }
         }
-        .frame(width: 390)
+        .frame(width: 450)
         .padding(.vertical, 8)
         .contextMenu {
             Button {

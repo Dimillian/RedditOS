@@ -31,6 +31,8 @@ public struct SubredditPost: Decodable, Identifiable {
     public let url: String?
     public let permalink: String?
     public let linkFlairText: String?
+    public let linkFlairBackgroundColor: String?
+    public let linkFlairTextColor: String?
     public let visited: Bool
     public var redditURL: URL? {
         if let permalink = permalink, let url = URL(string: "https://reddit.com\(permalink)") {
@@ -66,7 +68,7 @@ public struct RedditVideo: Decodable {
 
 public struct Oembed: Decodable {
     public let providerUrl: URL?
-    public let thumbnailUrl: URL?
+    public let thumbnailUrl: String?
     public let url: URL?
     public let width: Int?
     public let height: Int?
@@ -97,5 +99,7 @@ public let static_listing = SubredditPost(id: "0",
                                     url: "https://test.com",
                                     permalink: nil,
                                     linkFlairText: "Text",
+                                    linkFlairBackgroundColor: nil,
+                                    linkFlairTextColor: nil,
                                     visited: false,
                                     likes: false)

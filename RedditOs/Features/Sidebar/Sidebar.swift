@@ -36,7 +36,7 @@ struct Sidebar: View {
                 Label("Posts", systemImage: "square.and.pencil")
                 Label("Comments", systemImage: "text.bubble")
                 Label("Saved", systemImage: "archivebox")
-            }.listItemTint(Color("RedditBlue"))
+            }.listItemTint(.redditBlue)
             
             Section {
                 subredditsHeader.foregroundColor(.gray)
@@ -59,7 +59,7 @@ struct Sidebar: View {
                     }
                 }
             }
-            .listItemTint(Color("RedditGold"))
+            .listItemTint(.redditGold)
             .animation(.easeInOut)
                         
             if let subs = currentUser.subscriptions {
@@ -92,7 +92,7 @@ struct Sidebar: View {
                         }
     
                     }
-                }.listItemTint(Color("RedditBlue"))
+                }.listItemTint(.redditBlue)
             }
         }
         .listStyle(SidebarListStyle())

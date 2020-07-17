@@ -24,6 +24,16 @@ struct SubredditPostsListView: View {
         SidebarViewModel.MainSubreddits.allCases.map{ $0.rawValue }.contains(viewModel.name)
     }
     
+    var subtitle: String {
+        if isDefaultChannel {
+            return ""
+        }
+        if let subscribers = viewModel.subreddit?.subscribers, let connected = viewModel.subreddit?.accountsActive {
+            return "\(subscribers.toRoundedSuffixAsString()) subscribers - \(connected.toRoundedSuffixAsString()) active"
+        }
+        return ""
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -42,7 +52,8 @@ struct SubredditPostsListView: View {
             .frame(width: 430)
 
         }
-        .navigationTitle(isDefaultChannel ? "\(viewModel.name.capitalized)" : "\(viewModel.name)")
+        .navigationTitle(viewModel.name.capitalized)
+        .navigationSubtitle(subtitle)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Picker(selection: $displayMode,
@@ -82,8 +93,32 @@ struct SubredditPostsListView: View {
                 }
                 .keyboardShortcut("f", modifiers: .command)
             }
+            
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: {
+                    
+                }) {
+                    Image(systemName: "info")
+                }
+                .keyboardShortcut("i", modifiers: .command)
+            }
+            
+            
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: {
+                    
+                }) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .keyboardShortcut("s", modifiers: .command)
+            }
         }
         .onAppear(perform: viewModel.fetchListings)
+        .onAppear {
+            if !isDefaultChannel {
+                viewModel.fetchAbout()
+            }
+        }
     }
 }
 

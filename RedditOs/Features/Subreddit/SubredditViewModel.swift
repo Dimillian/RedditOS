@@ -17,8 +17,10 @@ class SubredditViewModel: ObservableObject {
     
     let name: String
     
+    private var subredditCancellable: AnyCancellable?
     private var listingCancellable: AnyCancellable?
     
+    @Published var subreddit: Subreddit?
     @Published var listings: [SubredditPost]?
     @Published var sortOrder = SortOrder.hot {
         didSet {
@@ -29,6 +31,14 @@ class SubredditViewModel: ObservableObject {
     
     init(name: String) {
         self.name = name
+    }
+    
+    func fetchAbout() {
+        subredditCancellable = Subreddit.fetchAbout(name: name)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] holder in
+                self?.subreddit = holder?.data
+            }
     }
     
     func fetchListings() {
@@ -44,6 +54,5 @@ class SubredditViewModel: ObservableObject {
                     self?.listings = listings
                 }
             }
-         
     }
 }

@@ -43,9 +43,9 @@ public class CurrentUser: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { subs in
                 if let subscriptions = subs.data?.children {
-                    var news = subscriptions.map{ $0.data }
-                    news.sort{ $0.displayName.lowercased() < $1.displayName.lowercased() }
+                    let news = subscriptions.map{ $0.data }
                     self.subscriptions.append(contentsOf: news)
+                    self.subscriptions.sort{ $0.displayName.lowercased() < $1.displayName.lowercased() }
                 }
                 if let after = subs.data?.after {
                     self.fetchSubscription(after: after)

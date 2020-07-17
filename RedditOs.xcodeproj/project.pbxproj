@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6906880D24B743900067D973 /* SubredditPostRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6906880C24B743900067D973 /* SubredditPostRow.swift */; };
+		6918A8CB24C1FEDC008A74E1 /* FlairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6918A8CA24C1FEDC008A74E1 /* FlairView.swift */; };
 		692566D624B8A25A0014E0D4 /* PostDetailContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692566D524B8A25A0014E0D4 /* PostDetailContent.swift */; };
 		692566D824B8A3190014E0D4 /* PostDetailActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692566D724B8A3190014E0D4 /* PostDetailActions.swift */; };
 		692566DA24B8A3830014E0D4 /* PostDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692566D924B8A3830014E0D4 /* PostDetailHeader.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		6906880C24B743900067D973 /* SubredditPostRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubredditPostRow.swift; sourceTree = "<group>"; };
+		6918A8CA24C1FEDC008A74E1 /* FlairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlairView.swift; sourceTree = "<group>"; };
 		692566D524B8A25A0014E0D4 /* PostDetailContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContent.swift; sourceTree = "<group>"; };
 		692566D724B8A3190014E0D4 /* PostDetailActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailActions.swift; sourceTree = "<group>"; };
 		692566D924B8A3830014E0D4 /* PostDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailHeader.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				6970A0AD24B74A9D00B11031 /* ListingInfoView.swift */,
 				6970A0B224B77D1200B11031 /* ListingVoteView.swift */,
 				6970A0BC24B82E1C00B11031 /* LoadingRow.swift */,
+				6918A8CA24C1FEDC008A74E1 /* FlairView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			files = (
 				69EACF1324B668F200303A16 /* Sidebar.swift in Sources */,
 				6970A0BF24B8343100B11031 /* SubredditRow.swift in Sources */,
+				6918A8CB24C1FEDC008A74E1 /* FlairView.swift in Sources */,
 				69D076C824B9E871001619AC /* Color.swift in Sources */,
 				6970A0AE24B74A9D00B11031 /* ListingInfoView.swift in Sources */,
 				6970A0B624B783FE00B11031 /* LinkPresentationRepresentable.swift in Sources */,

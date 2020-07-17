@@ -33,7 +33,7 @@ struct ListingVoteView: View {
                 Image(systemName: "arrowtriangle.down.circle")
                     .resizable()
                     .frame(width: 16, height: 16)
-                    .foregroundColor(listing.likes == false ? Color("RedditBlue") : nil)
+                    .foregroundColor(listing.likes == false ? .redditBlue : nil)
             }).buttonStyle(BorderlessButtonStyle())
         }.frame(width: 40)
     }

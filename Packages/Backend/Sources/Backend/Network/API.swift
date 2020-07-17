@@ -102,7 +102,10 @@ public class API {
             }
             .decode(type: T.self, decoder: decoder)
             .mapError{ error in
-                APIError.parseError(reason: error)
+                print("----- BEGIN PARSING ERROR-----")
+                print(error)
+                print("----- END PARSING ERROR-----")
+                return APIError.parseError(reason: error)
             }
             .eraseToAnyPublisher()
     }
