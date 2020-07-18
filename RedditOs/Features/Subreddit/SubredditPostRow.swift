@@ -45,9 +45,15 @@ struct SubredditPostRow: View {
                                         .frame(width: 80, height: 60)
                                         .foregroundColor(Color.gray)
                                     if listing.url != nil {
-                                        Image(systemName: "link")
-                                            .imageScale(.large)
-                                            .foregroundColor(.blue)
+                                        if listing.selftext == nil || listing.selftext?.isEmpty == true {
+                                            Image(systemName: "link")
+                                                .imageScale(.large)
+                                                .foregroundColor(.blue)
+                                        } else {
+                                            Image(systemName: "bubble.left.and.bubble.right.fill")
+                                                .imageScale(.large)
+                                                .foregroundColor(.white)
+                                        }
                                     }
                                 }
                             }
@@ -60,7 +66,8 @@ struct SubredditPostRow: View {
                                 .lineLimit(displayMode == .compact ? 2 : nil)
                             HStack {
                                 FlairView(post: listing)
-                                if displayMode == .large,
+                                if (listing.selftext == nil || listing.selftext?.isEmpty == true),
+                                   displayMode == .large,
                                    let urlString = listing.url,
                                    let url = URL(string: urlString) {
                                     Link(destination: url) {
@@ -80,7 +87,7 @@ struct SubredditPostRow: View {
                 Spacer()
             }
         }
-        .frame(width: 450)
+        .frame(width: 470)
         .padding(.vertical, 8)
         .contextMenu {
             Button {

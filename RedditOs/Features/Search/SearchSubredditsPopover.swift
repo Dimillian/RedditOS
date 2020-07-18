@@ -22,8 +22,8 @@ struct SearchSubredditsPopover: View {
             } else if let results = viewModel.results {
                 ForEach(results) { result in
                     SubredditRow(subreddit: result).onTapGesture {
-                        if !userData.subreddits.contains(result) {
-                            userData.subreddits.append(result)
+                        if !userData.favorites.contains(result) {
+                            userData.favorites.append(result)
                         }
                     }
                 }

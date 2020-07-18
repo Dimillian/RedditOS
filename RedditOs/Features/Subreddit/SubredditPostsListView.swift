@@ -49,8 +49,7 @@ struct SubredditPostsListView: View {
                 }
             }
             .listStyle(InsetListStyle())
-            .frame(width: 430)
-
+            .frame(width: 500)
         }
         .navigationTitle(viewModel.name.capitalized)
         .navigationSubtitle(subtitle)

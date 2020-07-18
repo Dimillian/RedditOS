@@ -35,7 +35,7 @@ public class API {
     
     static private func makeSessionConfiguration() -> URLSessionConfiguration {
         let configuration = URLSessionConfiguration.default
-        let headers: [String: String] = ["User-Agent": "macOS:RedditOS:v1.0 (by /u/Dimillian)"]
+        let headers = ["User-Agent": "macOS:RedditOS:v1.0 (by /u/Dimillian)"]
         configuration.httpAdditionalHeaders = headers
         configuration.urlCache = .shared
         configuration.requestCachePolicy = .reloadRevalidatingCacheData

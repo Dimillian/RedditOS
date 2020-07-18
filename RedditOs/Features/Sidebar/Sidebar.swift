@@ -40,7 +40,7 @@ struct Sidebar: View {
             
             Section {
                 subredditsHeader.foregroundColor(.gray)
-                ForEach(localData.subreddits) { reddit in
+                ForEach(localData.favorites) { reddit in
                     HStack {
                         SidebarSubredditRow(name: reddit.name,
                                             iconURL: reddit.iconImg)
@@ -48,7 +48,7 @@ struct Sidebar: View {
                         if isInEditMode {
                             Spacer()
                             Button {
-                                localData.subreddits.removeAll(where: { $0 == reddit })
+                                localData.favorites.removeAll(where: { $0 == reddit })
                             } label: {
                                 Image(systemName: "minus.circle.fill")
                                     .imageScale(.large)
@@ -74,12 +74,12 @@ struct Sidebar: View {
                                 .tag(reddit.displayName)
                             Spacer()
                             if isHovered {
-                                let isfavorite = localData.subreddits.first(where: { $0.name == reddit.displayName}) != nil
+                                let isfavorite = localData.favorites.first(where: { $0.name == reddit.displayName}) != nil
                                 Button {
                                     if isfavorite {
-                                        localData.subreddits.removeAll(where: { $0.name == reddit.displayName })
+                                        localData.favorites.removeAll(where: { $0.name == reddit.displayName })
                                     } else {
-                                        localData.subreddits.append(SubredditSmall.makeSubredditSmall(with: reddit))
+                                        localData.favorites.append(SubredditSmall.makeSubredditSmall(with: reddit))
                                     }
                                 } label: {
                                     Image(systemName: isfavorite ? "star.fill" : "star")

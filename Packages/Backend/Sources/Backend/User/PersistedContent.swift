@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 public class PersistedContent: ObservableObject {
-    @Published public var subreddits: [SubredditSmall] = [] {
+    @Published public var favorites: [SubredditSmall] = [] {
         didSet {
             save()
         }
@@ -20,7 +20,7 @@ public class PersistedContent: ObservableObject {
     private let decoder = JSONDecoder()
     
     struct SavedData: Codable {
-        let subreddits: [SubredditSmall]
+        let favorites: [SubredditSmall]
     }
     
     public init() {
@@ -39,7 +39,7 @@ public class PersistedContent: ObservableObject {
         if let data = try? Data(contentsOf: filePath) {
             do {
                 let savedData = try decoder.decode(SavedData.self, from: data)
-                self.subreddits = savedData.subreddits.sorted{ $0.name.lowercased() < $1.name.lowercased() }
+                self.favorites = savedData.favorites.sorted{ $0.name.lowercased() < $1.name.lowercased() }
             } catch let error {
                 print("Error while loading: \(error.localizedDescription)")
             }
@@ -48,7 +48,7 @@ public class PersistedContent: ObservableObject {
     
     private func save() {
         do {
-            let savedData = SavedData(subreddits: subreddits)
+            let savedData = SavedData(favorites: favorites)
             let data = try self.encoder.encode(savedData)
             try data.write(to: self.filePath, options: .atomicWrite)
         } catch let error {

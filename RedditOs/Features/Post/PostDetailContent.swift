@@ -40,7 +40,7 @@ struct PostDetailContent: View {
                         .padding()
                     Spacer()
                 }
-            } else {
+            } else if listing.selftext == nil || listing.selftext?.isEmpty == true {
                 LinkPresentationView(url: realURL, redraw: $redrawLink)
             }
         }
