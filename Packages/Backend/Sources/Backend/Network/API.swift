@@ -13,29 +13,27 @@ public class API {
     private var oauthStateCancellable: AnyCancellable?
     
     init() {
-        session = URLSession(configuration: Self.makeSessionConfiguration())
         decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .secondsSince1970
         
+        session = URLSession(configuration: Self.makeSessionConfiguration(token: nil))
         oauthStateCancellable = OauthClient.shared.$authState.sink { state in
             switch state {
             case .authenthicated(let token):
-                let configuration = Self.makeSessionConfiguration()
-                var header = configuration.httpAdditionalHeaders ?? [:]
-                header["Authorization"] = "bearer \(token)"
-                configuration.httpAdditionalHeaders = header
-                self.session = URLSession(configuration: configuration)
+                self.session = URLSession(configuration: Self.makeSessionConfiguration(token: token))
             default:
-                self.session = URLSession(configuration: Self.makeSessionConfiguration())
-                break
+                self.session = URLSession(configuration: Self.makeSessionConfiguration(token: nil))
             }
         }
     }
     
-    static private func makeSessionConfiguration() -> URLSessionConfiguration {
+    static private func makeSessionConfiguration(token: String?) -> URLSessionConfiguration {
         let configuration = URLSessionConfiguration.default
-        let headers = ["User-Agent": "macOS:RedditOS:v1.0 (by /u/Dimillian)"]
+        var headers = ["User-Agent": "macOS:RedditOS:v1.0 (by /u/Dimillian)"]
+        if let token = token {
+            headers["Authorization"] = "bearer \(token)"
+        }
         configuration.httpAdditionalHeaders = headers
         configuration.urlCache = .shared
         configuration.requestCachePolicy = .reloadRevalidatingCacheData
@@ -44,23 +42,21 @@ public class API {
         return configuration
     }
     
-    public static func makeURL(endpoint: Endpoint,
-                               basicAuthUser: String?,
-                               isJSONAPI: Bool) -> URL {
-        var url: URL!
+    static private func makeURL(endpoint: Endpoint,
+                                basicAuthUser: String?,
+                                isJSONAPI: Bool) -> URL {
+        var url: URL
         if let user = basicAuthUser {
             url = URL(string: "\(Self.URL_PREFIX)\(user):@www.\(Self.HOST)")!
-                .appendingPathComponent(endpoint.path())
         } else {
             switch OauthClient.shared.authState {
-            case .authenthicated, .signinInProgress:
+            case .authenthicated:
                 url = URL(string: "\(Self.URL_PREFIX)\(Self.HOST_AUTH_DOMAIN).\(Self.HOST)")!
-                    .appendingPathComponent(endpoint.path())
             default:
                 url = URL(string: "\(Self.URL_PREFIX)www.\(Self.HOST)")!
-                    .appendingPathComponent(endpoint.path())
             }
         }
+        url = url.appendingPathComponent(endpoint.path())
         if isJSONAPI {
             url = url.appendingPathExtension("json")
         }
@@ -75,7 +71,7 @@ public class API {
                                       queryParamsAsBody: Bool = false,
                                       params: [String: String]? = nil) -> AnyPublisher<T ,APIError> {
         var url = Self.makeURL(endpoint: endpoint, basicAuthUser: basicAuthUser, isJSONAPI: isJSONEndpoint)
-        var request: URLRequest!
+        var request: URLRequest
         if let params = params {
             if queryParamsAsBody {
                 var urlComponents = URLComponents()
