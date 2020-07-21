@@ -10,20 +10,21 @@ import Backend
 import AVKit
 
 struct PostDetail: View {
-    @StateObject private var viewModel: PostDetailViewModel
+    @ObservedObject var viewModel: PostViewModel
     @State private var redrawLink = false
-    
-    init(listing: SubredditPost) {
-        _viewModel = StateObject(wrappedValue: PostDetailViewModel(listing: listing))
-    }
-    
+        
     var body: some View {
         List {
             VStack(alignment: .leading, spacing: 8) {
-                ListingInfoView(listing: viewModel.listing)
-                PostDetailHeader(listing: viewModel.listing)
-                PostDetailContent(listing: viewModel.listing, redrawLink: $redrawLink)
-                PostDetailActions(listing: viewModel.listing)
+                HStack {
+                    PostVoteView(viewModel: viewModel)
+                    VStack(alignment: .leading) {
+                        PostInfoView(post: viewModel.post)
+                        PostDetailHeader(listing: viewModel.post)
+                    }
+                }
+                PostDetailContent(listing: viewModel.post, redrawLink: $redrawLink)
+                PostDetailActions(listing: viewModel.post)
             }.padding(.bottom, 16)
             PostDetailCommentsSection(comments: viewModel.comments)
         }
@@ -36,6 +37,6 @@ struct PostDetail: View {
 
 struct PostDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetail(listing: static_listing)
+        PostDetail(viewModel: PostViewModel(post: static_listing))
     }
 }

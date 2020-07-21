@@ -7,6 +7,7 @@ public enum Endpoint {
     case comments(name: String, id: String)
     case accessToken
     case me, mineSubscriptions
+    case vote
     
     func path() -> String {
         switch self {
@@ -30,6 +31,8 @@ public enum Endpoint {
             return "subreddits/mine/subscriber"
         case let .subredditAbout(name):
             return "r/\(name)/about"
+        case .vote:
+            return "api/vote"
         }
     }
 }

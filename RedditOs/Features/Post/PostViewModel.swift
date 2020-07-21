@@ -11,7 +11,7 @@ import Combine
 import Backend
 
 class PostViewModel: ObservableObject {
-    let post: SubredditPost
+    @Published var post: SubredditPost
     @Published var comments: [Comment]?
     
     private var commentsCancellable: AnyCancellable?

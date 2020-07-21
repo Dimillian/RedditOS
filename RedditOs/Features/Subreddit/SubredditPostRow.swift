@@ -21,66 +21,43 @@ struct SubredditPostRow: View {
         }
     }
     
-    let listing: SubredditPost
+    @StateObject var viewModel: PostViewModel
     let displayMode: DisplayMode
     
     @Environment(\.openURL) private var openURL
+    
+    init(post: SubredditPost, displayMode: DisplayMode) {
+        _viewModel = StateObject(wrappedValue: PostViewModel(post: post))
+        self.displayMode = displayMode
+    }
         
     var body: some View {
-        NavigationLink(destination: PostDetail(listing: listing)) {
+        NavigationLink(destination: PostDetail(viewModel: viewModel)) {
             HStack {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top, spacing: 8) {
-                        ListingVoteView(listing: listing)
-                        
+                        PostVoteView(viewModel: viewModel)
                         if displayMode == .large {
-                            if let url = listing.thumbnailURL {
-                                WebImage(url: url)
-                                    .frame(width: 80, height: 60)
-                                    .aspectRatio(contentMode: .fit)
-                                    .cornerRadius(8)
-                            } else {
-                                ZStack(alignment: .center) {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .frame(width: 80, height: 60)
-                                        .foregroundColor(Color.gray)
-                                    if listing.url != nil {
-                                        if listing.selftext == nil || listing.selftext?.isEmpty == true {
-                                            Image(systemName: "link")
-                                                .imageScale(.large)
-                                                .foregroundColor(.blue)
-                                        } else {
-                                            Image(systemName: "bubble.left.and.bubble.right.fill")
-                                                .imageScale(.large)
-                                                .foregroundColor(.white)
-                                        }
-                                    }
-                                }
-                            }
+                            SubredditPostThumbnailView(post:viewModel.post)
                         }
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(listing.title)
+                            Text(viewModel.post.title)
                                 .fontWeight(.bold)
                                 .font(.headline)
                                 .lineLimit(displayMode == .compact ? 2 : nil)
                             HStack {
-                                FlairView(post: listing)
-                                if (listing.selftext == nil || listing.selftext?.isEmpty == true),
+                                FlairView(post: viewModel.post)
+                                if (viewModel.post.selftext == nil || viewModel.post.selftext?.isEmpty == true),
                                    displayMode == .large,
-                                   let urlString = listing.url,
+                                   let urlString = viewModel.post.url,
                                    let url = URL(string: urlString) {
                                     Link(destination: url) {
                                         Text(url.host ?? url.absoluteString)
                                     }
                                 }
                             }
-                            ListingInfoView(listing: listing)
-                            HStack(spacing: 6) {
-                                Image(systemName: "bubble.middle.bottom.fill")
-                                    .imageScale(.small)
-                                Text("\(listing.numComments) comments")
-                            }
+                            PostInfoView(post: viewModel.post)
                         }
                     }
                 }
@@ -90,13 +67,16 @@ struct SubredditPostRow: View {
         .frame(width: 470)
         .padding(.vertical, 8)
         .contextMenu {
+            Button { } label: { Text("Upvote") }
+            Button { } label: { Text("Downvote") }
+            Button { } label: { Text("Save") }
             Button {
-                if let url = listing.redditURL {
+                if let url = viewModel.post.redditURL {
                     openURL(url)
                 }
             } label: { Text("Open in browser") }
             Button {
-                if let url = listing.redditURL {
+                if let url = viewModel.post.redditURL {
                     NSPasteboard.general.clearContents()
                     NSPasteboard.general.setString(url.absoluteString, forType: .string)
                 }
@@ -109,15 +89,15 @@ struct SubredditPostRow: View {
 struct SubredditPostRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            SubredditPostRow(listing: static_listing, displayMode: .large)
-            SubredditPostRow(listing: static_listing, displayMode: .large)
-            SubredditPostRow(listing: static_listing, displayMode: .large)
+            SubredditPostRow(post: static_listing, displayMode: .large)
+            SubredditPostRow(post: static_listing, displayMode: .large)
+            SubredditPostRow(post: static_listing, displayMode: .large)
             
             Divider()
             
-            SubredditPostRow(listing: static_listing, displayMode: .compact)
-            SubredditPostRow(listing: static_listing, displayMode: .compact)
-            SubredditPostRow(listing: static_listing, displayMode: .compact)
+            SubredditPostRow(post: static_listing, displayMode: .compact)
+            SubredditPostRow(post: static_listing, displayMode: .compact)
+            SubredditPostRow(post: static_listing, displayMode: .compact)
         }
     }
 }

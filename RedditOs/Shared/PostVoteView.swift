@@ -1,5 +1,5 @@
 //
-//  ListingVoteView.swift
+//  PostVoteView.swift
 //  RedditOs
 //
 //  Created by Thomas Ricouard on 09/07/2020.
@@ -8,32 +8,32 @@
 import SwiftUI
 import Backend
 
-struct ListingVoteView: View {
-    let listing: SubredditPost
+struct PostVoteView: View {
+    @ObservedObject var viewModel: PostViewModel
     
     var body: some View {
         VStack(spacing: 2) {
             Button(action: {
-                
+                viewModel.post.vote(vote: viewModel.post.likes == true ? .neutral : .upvote)
             },
             label: {
                 Image(systemName: "arrowtriangle.up.circle")
                     .resizable()
                     .frame(width: 16, height: 16)
-                    .foregroundColor(listing.likes == true ? .accentColor : nil)
+                    .foregroundColor(viewModel.post.likes == true ? .accentColor : nil)
             }).buttonStyle(BorderlessButtonStyle())
             
-            Text(listing.ups.toRoundedSuffixAsString())
+            Text(viewModel.post.ups.toRoundedSuffixAsString())
                 .fontWeight(.bold)
             
             Button(action: {
-                
+                viewModel.post.vote(vote: viewModel.post.likes == false ? .neutral : .downvote)
             },
             label: {
                 Image(systemName: "arrowtriangle.down.circle")
                     .resizable()
                     .frame(width: 16, height: 16)
-                    .foregroundColor(listing.likes == false ? .redditBlue : nil)
+                    .foregroundColor(viewModel.post.likes == false ? .redditBlue : nil)
             }).buttonStyle(BorderlessButtonStyle())
         }.frame(width: 40)
     }
@@ -41,6 +41,6 @@ struct ListingVoteView: View {
 
 struct ListingVoteView_Previews: PreviewProvider {
     static var previews: some View {
-        ListingVoteView(listing: static_listing)
+        PostVoteView(viewModel: PostViewModel(post: static_listing))
     }
 }

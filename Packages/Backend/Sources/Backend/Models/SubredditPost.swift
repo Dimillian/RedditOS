@@ -40,7 +40,7 @@ public struct SubredditPost: Decodable, Identifiable {
         }
         return nil
     }
-    public let likes: Bool?
+    public var likes: Bool?
 }
 
 public struct SecureMedia: Decodable {

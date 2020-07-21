@@ -39,7 +39,7 @@ struct SubredditPostsListView: View {
             List {
                 if let listings = viewModel.listings {
                     ForEach(listings) { listing in
-                        SubredditPostRow(listing: listing, displayMode: displayMode)
+                        SubredditPostRow(post: listing, displayMode: displayMode)
                     }
                     LoadingRow(text: "Loading next page")
                         .onAppear(perform: viewModel.fetchListings)
