@@ -7,8 +7,17 @@
 
 import Foundation
 
-public struct SubredditPost: Decodable, Identifiable {
+public struct SubredditPost: Decodable, Identifiable, Hashable {
+    public static func == (lhs: SubredditPost, rhs: SubredditPost) -> Bool {
+        lhs.id == rhs.id && lhs.likes == rhs.likes
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     public let id: String
+    public let name: String
     public let title: String
     public let numComments: Int
     public let subreddit: String
@@ -84,6 +93,7 @@ public struct Video {
 }
 
 public let static_listing = SubredditPost(id: "0",
+                                          name: "t3_0",
                                     title: "A very long title to be able to debug the UI correctly as it should be displayed on mutliple lines.",
                                     numComments: 3400,
                                     subreddit: "preview",

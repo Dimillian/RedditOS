@@ -14,7 +14,7 @@ struct PostVoteView: View {
     var body: some View {
         VStack(spacing: 2) {
             Button(action: {
-                viewModel.post.vote(vote: viewModel.post.likes == true ? .neutral : .upvote)
+                viewModel.vote(vote: viewModel.post.likes == true ? .neutral : .upvote)
             },
             label: {
                 Image(systemName: "arrowtriangle.up.circle")
@@ -27,7 +27,7 @@ struct PostVoteView: View {
                 .fontWeight(.bold)
             
             Button(action: {
-                viewModel.post.vote(vote: viewModel.post.likes == false ? .neutral : .downvote)
+                viewModel.vote(vote: viewModel.post.likes == false ? .neutral : .downvote)
             },
             label: {
                 Image(systemName: "arrowtriangle.down.circle")

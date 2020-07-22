@@ -23,16 +23,21 @@ struct SubredditPostRow: View {
     
     @StateObject var viewModel: PostViewModel
     let displayMode: DisplayMode
+    @Binding var selectedPost: SubredditPost?
     
     @Environment(\.openURL) private var openURL
     
-    init(post: SubredditPost, displayMode: DisplayMode) {
+    init(post: SubredditPost, displayMode: DisplayMode, selectedPost: Binding<SubredditPost?>) {
         _viewModel = StateObject(wrappedValue: PostViewModel(post: post))
+        _selectedPost = selectedPost
         self.displayMode = displayMode
     }
         
     var body: some View {
-        NavigationLink(destination: PostDetail(viewModel: viewModel)) {
+        NavigationLink(
+            destination: PostDetail(viewModel: viewModel),
+            tag: viewModel.post,
+            selection: $selectedPost) {
             HStack {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top, spacing: 8) {
@@ -89,15 +94,15 @@ struct SubredditPostRow: View {
 struct SubredditPostRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            SubredditPostRow(post: static_listing, displayMode: .large)
-            SubredditPostRow(post: static_listing, displayMode: .large)
-            SubredditPostRow(post: static_listing, displayMode: .large)
+            SubredditPostRow(post: static_listing, displayMode: .large, selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .large, selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .large, selectedPost: .constant(nil))
             
             Divider()
             
-            SubredditPostRow(post: static_listing, displayMode: .compact)
-            SubredditPostRow(post: static_listing, displayMode: .compact)
-            SubredditPostRow(post: static_listing, displayMode: .compact)
+            SubredditPostRow(post: static_listing, displayMode: .compact, selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .compact, selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .compact, selectedPost: .constant(nil))
         }
     }
 }

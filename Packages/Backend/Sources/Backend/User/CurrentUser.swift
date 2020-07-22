@@ -54,7 +54,7 @@ public class CurrentUser: ObservableObject {
         disposables.append(cancellable)
     }
     
-    private func makeUserPublisher() -> AnyPublisher<User, APIError>? {
+    private func makeUserPublisher() -> AnyPublisher<User, NetworkError>? {
         return API.shared.request(endpoint: .me).eraseToAnyPublisher()
     }
 }

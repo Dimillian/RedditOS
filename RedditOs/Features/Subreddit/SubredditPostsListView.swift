@@ -15,6 +15,7 @@ struct SubredditPostsListView: View {
     @StateObject private var viewModel: SubredditViewModel
     @AppStorage("postDisplayMode") private var displayMode = SubredditPostRow.DisplayMode.large
     @State private var isSearchSheetOpen = false
+    @State private var selectedPost: SubredditPost?
     
     init(name: String) {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
@@ -39,7 +40,9 @@ struct SubredditPostsListView: View {
             List {
                 if let listings = viewModel.listings {
                     ForEach(listings) { listing in
-                        SubredditPostRow(post: listing, displayMode: displayMode)
+                        SubredditPostRow(post: listing,
+                                         displayMode: displayMode,
+                                         selectedPost: $selectedPost)
                     }
                     LoadingRow(text: "Loading next page")
                         .onAppear(perform: viewModel.fetchListings)
@@ -101,7 +104,6 @@ struct SubredditPostsListView: View {
                 }
                 .keyboardShortcut("i", modifiers: .command)
             }
-            
             
             ToolbarItem(placement: .primaryAction) {
                 Button(action: {

@@ -15,9 +15,21 @@ class PostViewModel: ObservableObject {
     @Published var comments: [Comment]?
     
     private var commentsCancellable: AnyCancellable?
+    private var voteCancellable: AnyCancellable?
     
     init(post: SubredditPost) {
         self.post = post
+    }
+    
+    func vote(vote: SubredditPost.Vote) {
+        let oldValue = post.likes
+        voteCancellable = post.vote(vote: vote)
+            .subscribe(on: DispatchQueue.main)
+            .sink{ [weak self] error in
+                if error.message != nil {
+                    self?.post.likes = oldValue
+                }
+            }
     }
     
     func fechComments() {

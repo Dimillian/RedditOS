@@ -125,7 +125,7 @@ public class OauthClient: ObservableObject {
             })
     }
     
-    private func makeOauthPublisher(code: String) -> AnyPublisher<AuthTokenResponse, APIError>? {
+    private func makeOauthPublisher(code: String) -> AnyPublisher<AuthTokenResponse, NetworkError>? {
         let params: [String: String] = ["code": code,
                                         "grant_type": "authorization_code",
                                         "redirect_uri": redirectURI]
@@ -137,7 +137,7 @@ public class OauthClient: ObservableObject {
                                   params: params).eraseToAnyPublisher()
     }
     
-    private func makeRefreshOauthPublisher(refreshToken: String) -> AnyPublisher<AuthTokenResponse, APIError>? {
+    private func makeRefreshOauthPublisher(refreshToken: String) -> AnyPublisher<AuthTokenResponse, NetworkError>? {
         let params: [String: String] = ["grant_type": "refresh_token",
                                          "refresh_token": refreshToken]
         return API.shared.request(endpoint: .accessToken,

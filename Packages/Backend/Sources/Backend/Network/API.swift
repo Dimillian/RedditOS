@@ -69,7 +69,7 @@ public class API {
                                       httpMethod: String = "GET",
                                       isJSONEndpoint: Bool = true,
                                       queryParamsAsBody: Bool = false,
-                                      params: [String: String]? = nil) -> AnyPublisher<T ,APIError> {
+                                      params: [String: String]? = nil) -> AnyPublisher<T ,NetworkError> {
         var url = Self.makeURL(endpoint: endpoint, basicAuthUser: basicAuthUser, isJSONAPI: isJSONEndpoint)
         var request: URLRequest
         if let params = params {
@@ -94,14 +94,14 @@ public class API {
         request.httpMethod = httpMethod
         return session.dataTaskPublisher(for: request)
             .tryMap{ data, response in
-                return try APIError.processResponse(data: data, response: response)
+                return try NetworkError.processResponse(data: data, response: response)
             }
             .decode(type: T.self, decoder: decoder)
             .mapError{ error in
                 print("----- BEGIN PARSING ERROR-----")
                 print(error)
                 print("----- END PARSING ERROR-----")
-                return APIError.parseError(reason: error)
+                return NetworkError.parseError(reason: error)
             }
             .eraseToAnyPublisher()
     }
