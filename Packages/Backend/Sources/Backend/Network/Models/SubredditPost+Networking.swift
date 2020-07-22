@@ -13,7 +13,7 @@ extension SubredditPost {
         case upvote = 1, downvote = -1, neutral = 0
     }
     
-    public mutating func vote(vote: Vote) -> AnyPublisher<RedditError, Never> {
+    public mutating func vote(vote: Vote) -> AnyPublisher<NetworkResponse, Never> {
         switch vote {
         case .upvote:
             likes = true
@@ -22,15 +22,7 @@ extension SubredditPost {
         case .neutral:
             likes = nil
         }
-        let params = ["id": name,
-                      "dir": "\(vote.rawValue)"]
-        return API.shared.request(endpoint: .vote,
-                                  httpMethod: "POST",
-                                  isJSONEndpoint: false,
-                                  queryParamsAsBody: true,
-                                  params: params)
-            .subscribe(on: DispatchQueue.global())
-            .catch { RedditError.processNetworkError(error: $0) }
-            .eraseToAnyPublisher()
+        return API.shared.POST(endpoint: .vote,
+                               params: ["id": name, "dir": "\(vote.rawValue)"])
     }
 }

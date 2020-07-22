@@ -24,9 +24,9 @@ class PostViewModel: ObservableObject {
     func vote(vote: SubredditPost.Vote) {
         let oldValue = post.likes
         voteCancellable = post.vote(vote: vote)
-            .subscribe(on: DispatchQueue.main)
-            .sink{ [weak self] error in
-                if error.message != nil {
+            .receive(on: DispatchQueue.main)
+            .sink{ [weak self] response in
+                if response.error != nil {
                     self?.post.likes = oldValue
                 }
             }

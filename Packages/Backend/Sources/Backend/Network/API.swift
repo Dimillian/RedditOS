@@ -105,4 +105,17 @@ public class API {
             }
             .eraseToAnyPublisher()
     }
+    
+    public func POST(endpoint: Endpoint,
+                     isJSONEndpoint: Bool = true,
+                     params: [String: String]? = nil) -> AnyPublisher<NetworkResponse, Never> {
+        request(endpoint: endpoint,
+                httpMethod: "POST",
+                isJSONEndpoint: isJSONEndpoint,
+                queryParamsAsBody: true,
+                params: params)
+            .subscribe(on: DispatchQueue.global())
+            .catch { Just(NetworkResponse(error: RedditError.processNetworkError(error: $0))) }
+            .eraseToAnyPublisher()
+    }
 }
