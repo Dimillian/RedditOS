@@ -10,15 +10,14 @@ import Backend
 
 struct PostDetailCommentsSection: View {
     let comments: [Comment]?
+    private let placeholderComments = Array(repeating: static_comment, count: 10)
     
     @ViewBuilder
     var body: some View {
-        if let comments = comments {
-            ForEach(comments) { comment in
-                makeRow(comment: comment)
-            }
-        } else {
-            LoadingRow(text: "")
+        OutlineGroup(comments ?? placeholderComments,
+                     children: \.repliesComments) { comment in
+            makeRow(comment: comment)
+                .redacted(reason: comments == nil ? .placeholder : [])
         }
     }
     

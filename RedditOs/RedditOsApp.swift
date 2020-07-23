@@ -36,6 +36,25 @@ struct RedditOsApp: App {
             .environmentObject(PersistedContent())
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUser())
+        }.commands{
+            CommandMenu("Subreddit") {
+                Button(action: {
+                    
+                }) {
+                    Text("Seach")
+                }.keyboardShortcut("f", modifiers: .command)
+                Button(action: {
+                    
+                }) {
+                    Text("Navigate to")
+                }
+                Divider()
+                Button(action: {
+                    
+                }) {
+                    Text("Favorite")
+                }
+            }
         }
         
         Settings {

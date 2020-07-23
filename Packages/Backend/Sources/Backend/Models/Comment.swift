@@ -49,6 +49,11 @@ public enum Replies: Decodable {
     case none(String)
 }
 
-public let static_comment = Comment(id: "1", body: "Comment text",
-                                    author: "user", created: Date(), createdUtc: Date(), replies: .none(""), score: 2500)
+public let static_comment = Comment(id: "1",
+                                    body: "Comment text with a long line of text \n and another line.",
+                                    author: "TestUser",
+                                    created: Date(),
+                                    createdUtc: Date(),
+                                    replies: .none(""),
+                                    score: 2500)
 public let static_comments = [static_comment, static_comment, static_comment]

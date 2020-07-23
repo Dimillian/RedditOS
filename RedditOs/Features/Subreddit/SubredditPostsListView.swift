@@ -11,6 +11,8 @@ import Backend
 struct SubredditPostsListView: View {
     let posts = Array(repeating: 0, count: 20)
     
+    private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
+    
     @EnvironmentObject private var userData: PersistedContent
     @StateObject private var viewModel: SubredditViewModel
     @AppStorage("postDisplayMode") private var displayMode = SubredditPostRow.DisplayMode.large
@@ -38,17 +40,15 @@ struct SubredditPostsListView: View {
     var body: some View {
         NavigationView {
             List {
-                if let listings = viewModel.listings {
-                    ForEach(listings) { listing in
-                        SubredditPostRow(post: listing,
-                                         displayMode: displayMode,
-                                         selectedPost: $selectedPost)
-                    }
+                ForEach(viewModel.listings ?? loadingPlaceholders) { listing in
+                    SubredditPostRow(post: listing,
+                                     displayMode: displayMode,
+                                     selectedPost: $selectedPost)
+                        .redacted(reason: viewModel.listings == nil ? .placeholder : [])
+                }
+                if viewModel.listings != nil {
                     LoadingRow(text: "Loading next page")
                         .onAppear(perform: viewModel.fetchListings)
-              
-                } else {
-                    LoadingRow(text: nil)
                 }
             }
             .listStyle(InsetListStyle())
@@ -68,7 +68,7 @@ struct SubredditPostsListView: View {
                                     .tag(mode)
                             }
                         }
-                }).pickerStyle(DefaultPickerStyle())
+                })
             }
             
             ToolbarItem(placement: .primaryAction) {
