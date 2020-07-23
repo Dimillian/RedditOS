@@ -27,16 +27,13 @@ struct RedditOsApp: App {
         WindowGroup {
             NavigationView {
                 Sidebar()
-                Text("Select a post")
-                    .frame(minWidth: 250,
-                           maxWidth: .infinity,
-                           maxHeight: .infinity)
             }
             .frame(minHeight: 400, idealHeight: 800)
             .environmentObject(PersistedContent())
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUser())
-        }.commands{
+        }
+        .commands{
             CommandMenu("Subreddit") {
                 Button(action: {
                     

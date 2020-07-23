@@ -53,6 +53,18 @@ struct SubredditPostsListView: View {
             }
             .listStyle(InsetListStyle())
             .frame(width: 500)
+            
+            VStack(alignment: .center, spacing: 16) {
+                Text("No post selected")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                Image(systemName: "bolt.slash")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+            }
+            .frame(minWidth: 500,
+                   maxWidth: .infinity,
+                   maxHeight: .infinity)
         }
         .navigationTitle(viewModel.name.capitalized)
         .navigationSubtitle(subtitle)
