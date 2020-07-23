@@ -24,6 +24,10 @@ extension Color {
     static public var redditGold: Color {
         Color("RedditGold")
     }
+    
+    static public var redditGray: Color {
+        Color("RedditGray")
+    }
 }
 
 extension Color {

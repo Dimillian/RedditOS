@@ -59,7 +59,8 @@ public struct SecureMedia: Decodable {
     public var video: Video? {
         if let video = redditVideo {
             return Video(url: video.fallbackUrl, width: video.width, height: video.height)
-        } else if let oembed = oembed,
+        } else if oembed?.type == "video",
+                  let oembed = oembed,
                   let url = oembed.url,
                   let width = oembed.width,
                   let height = oembed.height {
@@ -78,6 +79,9 @@ public struct RedditVideo: Decodable {
 public struct Oembed: Decodable {
     public let providerUrl: URL?
     public let thumbnailUrl: String?
+    public var thumbnailUrlAsURL: URL? {
+        thumbnailUrl != nil ? URL(string: thumbnailUrl!) : nil
+    }
     public let url: URL?
     public let width: Int?
     public let height: Int?

@@ -14,7 +14,7 @@ struct SubredditPostThumbnailView: View {
     
     @ViewBuilder
     var body: some View {
-        if let url = post.thumbnailURL {
+        if let url = post.thumbnailURL ?? post.secureMedia?.oembed?.thumbnailUrlAsURL {
             WebImage(url: url)
                 .frame(width: 80, height: 60)
                 .aspectRatio(contentMode: .fit)
@@ -23,16 +23,16 @@ struct SubredditPostThumbnailView: View {
             ZStack(alignment: .center) {
                 RoundedRectangle(cornerRadius: 8)
                     .frame(width: 80, height: 60)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(.redditGray)
                 if post.url != nil {
                     if post.selftext == nil || post.selftext?.isEmpty == true {
                         Image(systemName: "link")
                             .imageScale(.large)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.gray)
                     } else {
                         Image(systemName: "bubble.left.and.bubble.right.fill")
                             .imageScale(.large)
-                            .foregroundColor(.white)
+                            .foregroundColor(.gray)
                     }
                 }
             }

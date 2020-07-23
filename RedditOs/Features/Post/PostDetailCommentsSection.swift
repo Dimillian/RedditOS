@@ -12,7 +12,6 @@ struct PostDetailCommentsSection: View {
     let comments: [Comment]?
     private let placeholderComments = Array(repeating: static_comment, count: 10)
     
-    @ViewBuilder
     var body: some View {
         OutlineGroup(comments ?? placeholderComments,
                      children: \.repliesComments) { comment in

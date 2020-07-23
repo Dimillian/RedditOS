@@ -72,9 +72,12 @@ struct SubredditPostRow: View {
         .frame(width: 470)
         .padding(.vertical, 8)
         .contextMenu {
-            Button { } label: { Text("Upvote") }
-            Button { } label: { Text("Downvote") }
-            Button { } label: { Text("Save") }
+            Button {
+                viewModel.vote(vote: .upvote)
+            } label: { Text("Upvote") }
+            Button {
+                viewModel.vote(vote: .downvote)
+            } label: { Text("Downvote") }
             Button {
                 if let url = viewModel.post.redditURL {
                     openURL(url)
