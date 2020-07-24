@@ -9,19 +9,8 @@ import AppKit
 import SwiftUI
 import Backend
 
-class AppDelegateAdaptor: NSObject, NSApplicationDelegate {
-    func application(_ application: NSApplication, open urls: [URL]) {
-        if let url = urls.first {
-            OauthClient.shared.handleNextURL(url: url)
-        }
-    }
-}
-
-
 @main
 struct RedditOsApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegateAdaptor.self) private var appDelegate
-    
     @SceneBuilder
     var body: some Scene {
         WindowGroup {
@@ -29,9 +18,12 @@ struct RedditOsApp: App {
                 Sidebar()
             }
             .frame(minHeight: 400, idealHeight: 800)
-            .environmentObject(PersistedContent())
+            .environmentObject(LocalDataStore())
             .environmentObject(OauthClient.shared)
-            .environmentObject(CurrentUser())
+            .environmentObject(CurrentUserStore())
+            .onOpenURL { url in
+                OauthClient.shared.handleNextURL(url: url)
+            }
         }
         .commands{
             CommandMenu("Subreddit") {

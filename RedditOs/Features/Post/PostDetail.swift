@@ -29,6 +29,7 @@ struct PostDetail: View {
             PostDetailCommentsSection(comments: viewModel.comments)
         }
         .onAppear(perform: viewModel.fechComments)
+        .onAppear(perform: viewModel.postVisit)
         .frame(minWidth: 500,
                maxWidth: .infinity,
                maxHeight: .infinity)

@@ -13,7 +13,7 @@ struct SubredditPostsListView: View {
     
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     
-    @EnvironmentObject private var userData: PersistedContent
+    @EnvironmentObject private var localData: LocalDataStore
     @StateObject private var viewModel: SubredditViewModel
     @AppStorage("postDisplayMode") private var displayMode = SubredditPostRow.DisplayMode.large
     @State private var isSearchSheetOpen = false
@@ -103,7 +103,7 @@ struct SubredditPostsListView: View {
                 }) {
                     Image(systemName: "magnifyingglass")
                 }.popover(isPresented: $isSearchSheetOpen) {
-                    SearchSubredditsPopover().environmentObject(userData)
+                    SearchSubredditsPopover().environmentObject(localData)
                 }
                 .keyboardShortcut("f", modifiers: .command)
             }

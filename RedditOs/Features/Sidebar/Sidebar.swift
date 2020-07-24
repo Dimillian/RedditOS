@@ -10,8 +10,8 @@ import Backend
 import SDWebImageSwiftUI
 
 struct Sidebar: View {
-    @EnvironmentObject private var localData: PersistedContent
-    @EnvironmentObject private var currentUser: CurrentUser
+    @EnvironmentObject private var localData: LocalDataStore
+    @EnvironmentObject private var currentUser: CurrentUserStore
     @StateObject private var viewModel = SidebarViewModel()
     @State private var isSearchPopoverPresented = false
     @State private var isHovered = false
@@ -27,19 +27,19 @@ struct Sidebar: View {
                 }
             }
              
-            Section {
-                Text("Account").foregroundColor(.gray)
+            Section(header: Text("Account")) {
                 NavigationLink(destination: ProfileView()) {
                     Label("Profile", systemImage: "person.crop.square")
                 }.tag("profile")
                 Label("Inbox", systemImage: "envelope")
                 Label("Posts", systemImage: "square.and.pencil")
                 Label("Comments", systemImage: "text.bubble")
-                Label("Saved", systemImage: "archivebox")
+                NavigationLink(destination: SavedPostsListView()) {
+                    Label("Saved", systemImage: "archivebox")
+                }
             }.listItemTint(.redditBlue)
             
-            Section {
-                subredditsHeader.foregroundColor(.gray)
+            Section(header: subredditsHeader) {
                 ForEach(localData.favorites) { reddit in
                     HStack {
                         SidebarSubredditRow(name: reddit.name,
@@ -48,7 +48,7 @@ struct Sidebar: View {
                         if isInEditMode {
                             Spacer()
                             Button {
-                                localData.favorites.removeAll(where: { $0 == reddit })
+                                localData.remove(favorite: reddit)
                             } label: {
                                 Image(systemName: "minus.circle.fill")
                                     .imageScale(.large)
@@ -62,9 +62,8 @@ struct Sidebar: View {
             .listItemTint(.redditGold)
             .animation(.easeInOut)
                         
-            if let subs = currentUser.subscriptions {
-                Section {
-                    Text("Subscriptions").foregroundColor(.gray)
+            if let subs = currentUser.subscriptions, currentUser.user != nil {
+                Section(header: Text("Subscriptions")) {
                     TextField("Filter", text: $viewModel.subscriptionFilter)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     ForEach(subs) { reddit in
@@ -77,9 +76,9 @@ struct Sidebar: View {
                                 let isfavorite = localData.favorites.first(where: { $0.name == reddit.displayName}) != nil
                                 Button {
                                     if isfavorite {
-                                        localData.favorites.removeAll(where: { $0.name == reddit.displayName })
+                                        localData.remove(favoriteNamed: reddit.displayName)
                                     } else {
-                                        localData.favorites.append(SubredditSmall.makeSubredditSmall(with: reddit))
+                                        localData.add(favorite: SubredditSmall.makeSubredditSmall(with: reddit))
                                     }
                                 } label: {
                                     Image(systemName: isfavorite ? "star.fill" : "star")

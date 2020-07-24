@@ -42,7 +42,7 @@ public struct SubredditPost: Decodable, Identifiable, Hashable {
     public let linkFlairText: String?
     public let linkFlairBackgroundColor: String?
     public let linkFlairTextColor: String?
-    public let visited: Bool
+    public var visited: Bool
     public var redditURL: URL? {
         if let permalink = permalink, let url = URL(string: "https://reddit.com\(permalink)") {
             return url

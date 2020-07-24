@@ -23,7 +23,8 @@ public class OauthClient: ObservableObject {
     // Oauth URL
     private let baseURL = "https://www.reddit.com/api/v1/authorize"
     private let secrets: [String: AnyObject]?
-    private let scopes = ["mysubreddits", "identity", "edit", "save", "vote", "subscribe", "read", "submit"]
+    private let scopes = ["mysubreddits", "identity", "edit", "save",
+                          "vote", "subscribe", "read", "submit", "history"]
     private let state = UUID().uuidString
     private let redirectURI = "redditos://auth"
     private let duration = "permanent"

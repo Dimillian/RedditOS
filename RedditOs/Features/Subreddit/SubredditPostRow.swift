@@ -51,6 +51,7 @@ struct SubredditPostRow: View {
                                 .fontWeight(.bold)
                                 .font(.headline)
                                 .lineLimit(displayMode == .compact ? 2 : nil)
+                                .foregroundColor(viewModel.post.visited ? .gray : nil)
                             HStack {
                                 FlairView(post: viewModel.post)
                                 if (viewModel.post.selftext == nil || viewModel.post.selftext?.isEmpty == true),
@@ -73,10 +74,10 @@ struct SubredditPostRow: View {
         .padding(.vertical, 8)
         .contextMenu {
             Button {
-                viewModel.vote(vote: .upvote)
+                viewModel.postVote(vote: .upvote)
             } label: { Text("Upvote") }
             Button {
-                viewModel.vote(vote: .downvote)
+                viewModel.postVote(vote: .downvote)
             } label: { Text("Downvote") }
             Button {
                 if let url = viewModel.post.redditURL {

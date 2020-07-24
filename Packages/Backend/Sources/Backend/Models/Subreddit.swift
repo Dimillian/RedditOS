@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Subreddit: Decodable, Identifiable {
+public struct Subreddit: Codable, Identifiable {
     public let id: String
     public let displayName: String
     public let title: String

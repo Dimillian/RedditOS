@@ -10,7 +10,7 @@ import Backend
 
 struct ProfileView: View {
     @EnvironmentObject private var oauthClient: OauthClient
-    @EnvironmentObject private var currentUser: CurrentUser
+    @EnvironmentObject private var currentUser: CurrentUserStore
     @Environment(\.openURL) private var openURL
     
     var body: some View {

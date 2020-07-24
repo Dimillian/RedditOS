@@ -14,30 +14,43 @@ class PostViewModel: ObservableObject {
     @Published var post: SubredditPost
     @Published var comments: [Comment]?
     
-    private var commentsCancellable: AnyCancellable?
-    private var voteCancellable: AnyCancellable?
+    private var cancellableStore: [AnyCancellable] = []
     
     init(post: SubredditPost) {
         self.post = post
     }
     
-    func vote(vote: SubredditPost.Vote) {
+    func postVisit() {
+        let oldValue = post.visited
+        let cancellable = post.visit()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] response in
+                if response.error != nil {
+                    self?.post.visited = oldValue
+                }
+            }
+        cancellableStore.append(cancellable)
+    }
+    
+    func postVote(vote: SubredditPost.Vote) {
         let oldValue = post.likes
-        voteCancellable = post.vote(vote: vote)
+        let cancellable = post.vote(vote: vote)
             .receive(on: DispatchQueue.main)
             .sink{ [weak self] response in
                 if response.error != nil {
                     self?.post.likes = oldValue
                 }
             }
+        cancellableStore.append(cancellable)
     }
     
     func fechComments() {
-        commentsCancellable = Comment.fetch(subreddit: post.subreddit, id: post.id)
+        let cancellable = Comment.fetch(subreddit: post.subreddit, id: post.id)
             .receive(on: DispatchQueue.main)
             .map{ $0.last?.comments }
             .sink{ [weak self] comments in
                 self?.comments = comments
             }
+        cancellableStore.append(cancellable)
     }
 }

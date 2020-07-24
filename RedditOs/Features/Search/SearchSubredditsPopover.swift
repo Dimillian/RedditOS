@@ -9,7 +9,7 @@ import SwiftUI
 import Backend
 
 struct SearchSubredditsPopover: View {
-    @EnvironmentObject private var userData: PersistedContent
+    @EnvironmentObject private var userData: LocalDataStore
     @StateObject private var viewModel = SearchSubredditsViewModel()
     
     var body: some View {
@@ -22,9 +22,7 @@ struct SearchSubredditsPopover: View {
             } else if let results = viewModel.results {
                 ForEach(results) { result in
                     SubredditRow(subreddit: result).onTapGesture {
-                        if !userData.favorites.contains(result) {
-                            userData.favorites.append(result)
-                        }
+                        userData.add(favorite: result)
                     }
                 }
             }
