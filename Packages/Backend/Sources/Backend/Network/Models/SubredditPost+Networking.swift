@@ -31,9 +31,16 @@ extension SubredditPost {
         switch vote {
         case .upvote:
             likes = true
+            ups += 1
         case .downvote:
             likes = false
+            ups -= 1
         case .neutral:
+            if likes == true {
+                ups -= 1
+            } else if likes == false {
+                ups += 1
+            }
             likes = nil
         }
         return API.shared.POST(endpoint: .vote,

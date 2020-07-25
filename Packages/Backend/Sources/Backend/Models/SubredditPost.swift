@@ -34,7 +34,7 @@ public struct SubredditPost: Decodable, Identifiable, Hashable {
     public let author: String
     public let selftext: String?
     public let description: String?
-    public let ups: Int
+    public var ups: Int
     public let downs: Int
     public let secureMedia: SecureMedia?
     public let url: String?

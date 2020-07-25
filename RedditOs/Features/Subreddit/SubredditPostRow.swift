@@ -43,7 +43,7 @@ struct SubredditPostRow: View {
                     HStack(alignment: .top, spacing: 8) {
                         PostVoteView(viewModel: viewModel)
                         if displayMode == .large {
-                            SubredditPostThumbnailView(post:viewModel.post)
+                            SubredditPostThumbnailView(viewModel: viewModel)
                         }
                         
                         VStack(alignment: .leading, spacing: 4) {
@@ -79,6 +79,9 @@ struct SubredditPostRow: View {
             Button {
                 viewModel.postVote(vote: .downvote)
             } label: { Text("Downvote") }
+            Button {
+                viewModel.toggleSave()
+            } label: { Text(viewModel.post.saved ? "Unsave": "Save") }
             Button {
                 if let url = viewModel.post.redditURL {
                     openURL(url)
