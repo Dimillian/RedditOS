@@ -39,32 +39,12 @@ struct SubredditPostsListView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.listings ?? loadingPlaceholders) { listing in
-                    SubredditPostRow(post: listing,
-                                     displayMode: displayMode,
-                                     selectedPost: $selectedPost)
-                        .redacted(reason: viewModel.listings == nil ? .placeholder : [])
-                }
-                if viewModel.listings != nil {
-                    LoadingRow(text: "Loading next page")
-                        .onAppear(perform: viewModel.fetchListings)
-                }
-            }
-            .listStyle(InsetListStyle())
-            .frame(width: 500)
-            
-            VStack(alignment: .center, spacing: 16) {
-                Text("No post selected")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                Image(systemName: "bolt.slash")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-            }
-            .frame(minWidth: 500,
-                   maxWidth: .infinity,
-                   maxHeight: .infinity)
+            PostsListView(posts: viewModel.listings,
+                          selectedPost: $selectedPost,
+                          displayMode: .constant(displayMode)) {
+                viewModel.fetchListings()
+            }.onAppear(perform: viewModel.fetchListings)
+            PostNoSelectionPlaceholder()
         }
         .navigationTitle(viewModel.name.capitalized)
         .navigationSubtitle(subtitle)

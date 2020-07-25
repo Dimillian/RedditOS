@@ -10,9 +10,25 @@ import Backend
 
 struct SavedPostsListView: View {
     @EnvironmentObject private var currentUser: CurrentUserStore
+    @State private var selectedPost: SubredditPost?
+    @State private var displayMode = SubredditPostRow.DisplayMode.large
+    private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            PostsListView(posts: currentUser.savedPosts,
+                          selectedPost: $selectedPost,
+                          displayMode: $displayMode) {
+                currentUser.fetchSaved(after: currentUser.savedPosts?.last)
+            }.onAppear {
+                currentUser.fetchSaved(after: nil)
+            }
+            PostNoSelectionPlaceholder()
+        }
+        .navigationTitle("Saved")
+        .onAppear {
+            currentUser.fetchSaved(after: nil)
+        }
     }
 }
 

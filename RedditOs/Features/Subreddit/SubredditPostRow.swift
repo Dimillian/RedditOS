@@ -22,15 +22,15 @@ struct SubredditPostRow: View {
     }
     
     @StateObject var viewModel: PostViewModel
-    let displayMode: DisplayMode
+    @Binding var displayMode: DisplayMode
     @Binding var selectedPost: SubredditPost?
     
     @Environment(\.openURL) private var openURL
     
-    init(post: SubredditPost, displayMode: DisplayMode, selectedPost: Binding<SubredditPost?>) {
+    init(post: SubredditPost, displayMode: Binding<DisplayMode>, selectedPost: Binding<SubredditPost?>) {
         _viewModel = StateObject(wrappedValue: PostViewModel(post: post))
         _selectedPost = selectedPost
-        self.displayMode = displayMode
+        _displayMode = displayMode
     }
         
     var body: some View {
@@ -98,15 +98,15 @@ struct SubredditPostRow: View {
 struct SubredditPostRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            SubredditPostRow(post: static_listing, displayMode: .large, selectedPost: .constant(nil))
-            SubredditPostRow(post: static_listing, displayMode: .large, selectedPost: .constant(nil))
-            SubredditPostRow(post: static_listing, displayMode: .large, selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .constant(.large), selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .constant(.large), selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .constant(.large), selectedPost: .constant(nil))
             
             Divider()
             
-            SubredditPostRow(post: static_listing, displayMode: .compact, selectedPost: .constant(nil))
-            SubredditPostRow(post: static_listing, displayMode: .compact, selectedPost: .constant(nil))
-            SubredditPostRow(post: static_listing, displayMode: .compact, selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .constant(.compact), selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .constant(.compact), selectedPost: .constant(nil))
+            SubredditPostRow(post: static_listing, displayMode: .constant(.compact), selectedPost: .constant(nil))
         }
     }
 }
