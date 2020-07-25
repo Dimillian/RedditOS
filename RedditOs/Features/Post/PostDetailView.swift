@@ -24,7 +24,7 @@ struct PostDetailView: View {
                     }
                 }
                 PostDetailContent(listing: viewModel.post, redrawLink: $redrawLink)
-                PostDetailActions(listing: viewModel.post)
+                PostDetailActionsView(viewModel: viewModel)
             }.padding(.bottom, 16)
             PostDetailCommentsSection(comments: viewModel.comments)
         }

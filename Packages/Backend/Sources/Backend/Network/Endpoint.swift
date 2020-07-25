@@ -7,7 +7,7 @@ public enum Endpoint {
     case comments(name: String, id: String)
     case accessToken
     case me, mineSubscriptions
-    case vote, visits
+    case vote, visits, save, unsave
     case userSaved(username: String)
     
     func path() -> String {
@@ -36,6 +36,10 @@ public enum Endpoint {
             return "api/vote"
         case .visits:
             return "api/store_visits"
+        case .save:
+            return "api/save"
+        case .unsave:
+            return "api/unsave"
         case let .userSaved(username):
             return "user/\(username)/saved"
         }

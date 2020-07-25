@@ -44,6 +44,18 @@ class PostViewModel: ObservableObject {
         cancellableStore.append(cancellable)
     }
     
+    func toggleSave() {
+        let oldValue = post.saved
+        let cancellable = (post.saved ? post.unsave() : post.save())
+            .receive(on: DispatchQueue.main)
+            .sink{ [weak self] response in
+                if response.error != nil {
+                    self?.post.saved = oldValue
+                }
+            }
+        cancellableStore.append(cancellable)
+    }
+    
     func fechComments() {
         let cancellable = Comment.fetch(subreddit: post.subreddit, id: post.id)
             .receive(on: DispatchQueue.main)

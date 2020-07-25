@@ -35,7 +35,7 @@ struct SubredditPostRow: View {
         
     var body: some View {
         NavigationLink(
-            destination: PostDetail(viewModel: viewModel),
+            destination: PostDetailView(viewModel: viewModel),
             tag: viewModel.post,
             selection: $selectedPost) {
             HStack {

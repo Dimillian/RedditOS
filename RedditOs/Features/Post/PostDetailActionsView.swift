@@ -15,14 +15,16 @@ struct PostDetailActionsView: View {
         HStack(spacing: 16) {
             HStack(spacing: 6) {
                 Image(systemName: "bubble.middle.bottom.fill")
-                    .imageScale(.small)
+                    .imageScale(.medium)
                 Text("\(viewModel.post.numComments) comments")
+                    .foregroundColor(.white)
             }
             
             HStack(spacing: 6) {
                 Image(systemName: "square.and.arrow.up")
-                    .imageScale(.small)
+                    .imageScale(.medium)
                 Text("Share")
+                    .foregroundColor(.white)
             }
             
             HStack(spacing: 6) {
@@ -30,15 +32,18 @@ struct PostDetailActionsView: View {
                     viewModel.toggleSave()
                 }) {
                     Image(systemName: viewModel.post.saved ? "bookmark.fill": "bookmark")
-                        .imageScale(.small)
+                        .imageScale(.medium)
+                        .foregroundColor(viewModel.post.saved ? .accentColor : .white)
                     Text("Save")
+                        .foregroundColor(.white)
                 }.buttonStyle(BorderlessButtonStyle())
             }
             
             HStack(spacing: 6) {
                 Image(systemName: "flag")
-                    .imageScale(.small)
+                    .imageScale(.medium)
                 Text("Report")
+                    .foregroundColor(.white)
             }
             
         }

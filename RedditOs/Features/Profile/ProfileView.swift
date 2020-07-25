@@ -30,7 +30,6 @@ struct ProfileView: View {
                 }
             }
             .listStyle(PlainListStyle())
-            .frame(width: 400)
         }
         .navigationTitle("Profile")
         .navigationSubtitle(currentUser.user?.name ?? "Login")

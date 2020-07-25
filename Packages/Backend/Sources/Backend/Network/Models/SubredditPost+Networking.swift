@@ -44,4 +44,14 @@ extension SubredditPost {
         visited = true
         return API.shared.POST(endpoint: .visits, params: ["links": name])
     }
+    
+    public mutating func save() -> AnyPublisher<NetworkResponse, Never> {
+        saved = true
+        return API.shared.POST(endpoint: .save, params: ["id": name])
+    }
+    
+    public mutating func unsave() -> AnyPublisher<NetworkResponse, Never> {
+        saved = false
+        return API.shared.POST(endpoint: .unsave, params: ["id": name])
+    }
 }

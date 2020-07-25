@@ -43,6 +43,7 @@ public struct SubredditPost: Decodable, Identifiable, Hashable {
     public let linkFlairBackgroundColor: String?
     public let linkFlairTextColor: String?
     public var visited: Bool
+    public var saved: Bool
     public var redditURL: URL? {
         if let permalink = permalink, let url = URL(string: "https://reddit.com\(permalink)") {
             return url
@@ -116,4 +117,5 @@ public let static_listing = SubredditPost(id: "0",
                                     linkFlairBackgroundColor: nil,
                                     linkFlairTextColor: nil,
                                     visited: false,
+                                    saved: false,
                                     likes: nil)
