@@ -9,6 +9,8 @@ import SwiftUI
 import Backend
 
 struct PostInfoView: View {
+    @EnvironmentObject private var uiState: UIState
+    
     let post: SubredditPost
     @State private var showUserPopover = false
     
@@ -29,6 +31,7 @@ struct PostInfoView: View {
                 .buttonStyle(BorderlessButtonStyle())
                 .popover(isPresented: $showUserPopover, content: {
                     UserPopoverView(username: post.author)
+                        .environmentObject(uiState)
                 })
                 
                 HStack(spacing: 4) {

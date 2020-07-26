@@ -15,8 +15,10 @@ extension ListingResponse where T == Comment {
 
 public struct Comment: Decodable, Identifiable {
     public let id: String
+    public let name: String
     public let body: String?
     public let author: String?
+    public let lindId: String?
     public let created: Date?
     public let createdUtc: Date?
     public let replies: Replies?
@@ -50,8 +52,10 @@ public enum Replies: Decodable {
 }
 
 public let static_comment = Comment(id: UUID().uuidString,
+                                    name: "t1_id",
                                     body: "Comment text with a long line of text \n and another line.",
                                     author: "TestUser",
+                                    lindId: "",
                                     created: Date(),
                                     createdUtc: Date(),
                                     replies: .none(""),

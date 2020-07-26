@@ -11,6 +11,8 @@ import Backend
 
 @main
 struct RedditOsApp: App {
+    @StateObject private var uiState = UIState()
+    
     @SceneBuilder
     var body: some Scene {
         WindowGroup {
@@ -21,9 +23,11 @@ struct RedditOsApp: App {
             .environmentObject(LocalDataStore())
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUserStore())
+            .environmentObject(uiState)
             .onOpenURL { url in
                 OauthClient.shared.handleNextURL(url: url)
             }
+            .sheet(item: $uiState.presentedRoute, content: { $0.makeSheet() })
         }
         .commands{
             CommandMenu("Subreddit") {

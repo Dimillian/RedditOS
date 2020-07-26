@@ -52,4 +52,16 @@ extension User {
             .replaceError(with: ListingResponse(error: "error"))
             .eraseToAnyPublisher()
     }
+    
+    public func fetchComments(after: Comment?) -> AnyPublisher<ListingResponse<Comment>, Never> {
+        var params: [String: String] = [:]
+        if let listing = after {
+            params["after"] = listing.name
+        }
+        return API.shared.request(endpoint: .userComments(username: name),
+                                  params: params)
+            .subscribe(on: DispatchQueue.global())
+            .replaceError(with: ListingResponse(error: "error"))
+            .eraseToAnyPublisher()
+    }
 }

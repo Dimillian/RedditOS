@@ -16,7 +16,11 @@
 		69222AA724CD6D6C009F31B4 /* SubmittedPostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69222AA624CD6D6C009F31B4 /* SubmittedPostsListView.swift */; };
 		69222AAA24CD7518009F31B4 /* CommentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69222AA924CD7518009F31B4 /* CommentRow.swift */; };
 		6924D53C24CD949D005487CA /* UserPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53B24CD949D005487CA /* UserPopoverView.swift */; };
-		6924D53E24CD94B0005487CA /* UserPopoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53D24CD94B0005487CA /* UserPopoverViewModel.swift */; };
+		6924D53E24CD94B0005487CA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53D24CD94B0005487CA /* UserViewModel.swift */; };
+		6924D54024CDCED0005487CA /* UserSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53F24CDCED0005487CA /* UserSheetView.swift */; };
+		6924D54324CDD049005487CA /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D54224CDD049005487CA /* UIState.swift */; };
+		6924D54524CDD7D7005487CA /* UserSheetOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D54424CDD7D7005487CA /* UserSheetOverviewView.swift */; };
+		6924D54A24CDDDD9005487CA /* UserSheetCommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D54924CDDDD9005487CA /* UserSheetCommentsView.swift */; };
 		692566D624B8A25A0014E0D4 /* PostDetailContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692566D524B8A25A0014E0D4 /* PostDetailContent.swift */; };
 		692566D824B8A3190014E0D4 /* PostDetailActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692566D724B8A3190014E0D4 /* PostDetailActionsView.swift */; };
 		692566DA24B8A3830014E0D4 /* PostDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692566D924B8A3830014E0D4 /* PostDetailHeader.swift */; };
@@ -55,7 +59,11 @@
 		69222AA624CD6D6C009F31B4 /* SubmittedPostsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmittedPostsListView.swift; sourceTree = "<group>"; };
 		69222AA924CD7518009F31B4 /* CommentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRow.swift; sourceTree = "<group>"; };
 		6924D53B24CD949D005487CA /* UserPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPopoverView.swift; sourceTree = "<group>"; };
-		6924D53D24CD94B0005487CA /* UserPopoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPopoverViewModel.swift; sourceTree = "<group>"; };
+		6924D53D24CD94B0005487CA /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		6924D53F24CDCED0005487CA /* UserSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSheetView.swift; sourceTree = "<group>"; };
+		6924D54224CDD049005487CA /* UIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIState.swift; sourceTree = "<group>"; };
+		6924D54424CDD7D7005487CA /* UserSheetOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSheetOverviewView.swift; sourceTree = "<group>"; };
+		6924D54924CDDDD9005487CA /* UserSheetCommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSheetCommentsView.swift; sourceTree = "<group>"; };
 		692566D524B8A25A0014E0D4 /* PostDetailContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContent.swift; sourceTree = "<group>"; };
 		692566D724B8A3190014E0D4 /* PostDetailActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailActionsView.swift; sourceTree = "<group>"; };
 		692566D924B8A3830014E0D4 /* PostDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailHeader.swift; sourceTree = "<group>"; };
@@ -110,11 +118,46 @@
 		69222AAB24CD7607009F31B4 /* Users */ = {
 			isa = PBXGroup;
 			children = (
-				69222AA424CD6A89009F31B4 /* UserHeaderView.swift */,
-				6924D53B24CD949D005487CA /* UserPopoverView.swift */,
-				6924D53D24CD94B0005487CA /* UserPopoverViewModel.swift */,
+				6924D54824CDD822005487CA /* shared */,
+				6924D54724CDD81B005487CA /* popover */,
+				6924D54624CDD817005487CA /* sheet */,
 			);
 			path = Users;
+			sourceTree = "<group>";
+		};
+		6924D54124CDD038005487CA /* Environements */ = {
+			isa = PBXGroup;
+			children = (
+				6924D54224CDD049005487CA /* UIState.swift */,
+			);
+			path = Environements;
+			sourceTree = "<group>";
+		};
+		6924D54624CDD817005487CA /* sheet */ = {
+			isa = PBXGroup;
+			children = (
+				6924D53F24CDCED0005487CA /* UserSheetView.swift */,
+				6924D54424CDD7D7005487CA /* UserSheetOverviewView.swift */,
+				6924D54924CDDDD9005487CA /* UserSheetCommentsView.swift */,
+			);
+			path = sheet;
+			sourceTree = "<group>";
+		};
+		6924D54724CDD81B005487CA /* popover */ = {
+			isa = PBXGroup;
+			children = (
+				6924D53B24CD949D005487CA /* UserPopoverView.swift */,
+			);
+			path = popover;
+			sourceTree = "<group>";
+		};
+		6924D54824CDD822005487CA /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				69222AA424CD6A89009F31B4 /* UserHeaderView.swift */,
+				6924D53D24CD94B0005487CA /* UserViewModel.swift */,
+			);
+			path = shared;
 			sourceTree = "<group>";
 		};
 		6927894724B9B74900EEFBF2 /* Profile */ = {
@@ -189,6 +232,7 @@
 			children = (
 				69EACF0224B63D5800303A16 /* RedditOsApp.swift */,
 				69D076C624B9E861001619AC /* Extensions */,
+				6924D54124CDD038005487CA /* Environements */,
 				6970A0B424B783F200B11031 /* Representables */,
 				6970A0AC24B7494C00B11031 /* Shared */,
 				69EACF2024B7298C00303A16 /* Features */,
@@ -346,18 +390,21 @@
 				69D076C824B9E871001619AC /* Color.swift in Sources */,
 				6970A0AE24B74A9D00B11031 /* PostInfoView.swift in Sources */,
 				6970A0B624B783FE00B11031 /* LinkPresentationRepresentable.swift in Sources */,
+				6924D54324CDD049005487CA /* UIState.swift in Sources */,
 				692566D624B8A25A0014E0D4 /* PostDetailContent.swift in Sources */,
 				694C634F24C0AA6D0017897D /* SidebarSubredditRow.swift in Sources */,
 				69EACF1524B6F1E200303A16 /* SubredditPostsListView.swift in Sources */,
 				692F237624CB3A7B006C9D40 /* SavedPostsListView.swift in Sources */,
-				6924D53E24CD94B0005487CA /* UserPopoverViewModel.swift in Sources */,
+				6924D53E24CD94B0005487CA /* UserViewModel.swift in Sources */,
 				69222AA724CD6D6C009F31B4 /* SubmittedPostsListView.swift in Sources */,
 				692566DA24B8A3830014E0D4 /* PostDetailHeader.swift in Sources */,
+				6924D54A24CDDDD9005487CA /* UserSheetCommentsView.swift in Sources */,
 				6970A0C324B896CD00B11031 /* PostDetailCommentsSection.swift in Sources */,
 				6970A0B924B79AFD00B11031 /* SearchSubredditsPopover.swift in Sources */,
 				69222AA324CC0291009F31B4 /* PostNoSelectionPlaceholder.swift in Sources */,
 				6924D53C24CD949D005487CA /* UserPopoverView.swift in Sources */,
 				6970A0BB24B79F5900B11031 /* SearchSubredditsViewModel.swift in Sources */,
+				6924D54524CDD7D7005487CA /* UserSheetOverviewView.swift in Sources */,
 				6906880D24B743900067D973 /* SubredditPostRow.swift in Sources */,
 				69EACF1F24B7298800303A16 /* SidebarViewModel.swift in Sources */,
 				6927894924B9B75200EEFBF2 /* ProfileView.swift in Sources */,
@@ -366,6 +413,7 @@
 				692566D824B8A3190014E0D4 /* PostDetailActionsView.swift in Sources */,
 				69EACF0324B63D5800303A16 /* RedditOsApp.swift in Sources */,
 				69EACF2524B73DF400303A16 /* SubredditViewModel.swift in Sources */,
+				6924D54024CDCED0005487CA /* UserSheetView.swift in Sources */,
 				6970A0BD24B82E1C00B11031 /* LoadingRow.swift in Sources */,
 				69222AAA24CD7518009F31B4 /* CommentRow.swift in Sources */,
 				6970A0B324B77D1200B11031 /* PostVoteView.swift in Sources */,

@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct UserPopoverView: View {
-    @StateObject private var viewModel: UserPopoverViewModel
+    @Environment(\.presentationMode) var presentation
+    @EnvironmentObject private var uiState: UIState
+    @StateObject private var viewModel: UserViewModel
     
     init(username: String) {
-        _viewModel = StateObject(wrappedValue: UserPopoverViewModel(username: username))
+        _viewModel = StateObject(wrappedValue: UserViewModel(username: username))
     }
     var body: some View {
         Group {
@@ -24,6 +26,15 @@ struct UserPopoverView: View {
                     Spacer()
                     UserHeaderView(user: user)
                     Spacer()
+                    Button(action: {
+                        if let user = viewModel.user {
+                            presentation.wrappedValue.dismiss()
+                            uiState.presentedRoute = .user(user: user)
+                        }
+                    }) {
+                        Text("View full profile")
+                    }
+                    .padding(.bottom, 16)
                 }
             } else {
                 LoadingRow(text: "Loading user")
@@ -34,6 +45,6 @@ struct UserPopoverView: View {
 
 struct UserPopoverView_Previews: PreviewProvider {
     static var previews: some View {
-        UserPopoverView(username: "")
+        UserPopoverView(username: "").environmentObject(UIState())
     }
 }
