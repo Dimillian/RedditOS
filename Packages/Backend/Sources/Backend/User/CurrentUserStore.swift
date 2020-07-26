@@ -26,6 +26,7 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
     private var fetchingSubscriptions: [Subreddit] = []
     private var disposables: [AnyCancellable?] = []
     private var authStateCancellable: AnyCancellable?
+    private var afterOverview: String?
     
     let persistedDataFilename = "CurrentUserData"
     typealias DataType = SaveData
@@ -115,11 +116,12 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
         disposables.append(cancellable)
     }
     
-    public func fetchOverview(after: String?) {
-        let cancellable = user?.fetchOverview(after: after)
+    public func fetchOverview() {
+        let cancellable = user?.fetchOverview(after: afterOverview)
             .receive(on: DispatchQueue.main)
-            .map{ $0.data?.children.map{ $0.data }}
-            .sink{ listings in
+            .sink{ content in
+                self.afterOverview = content.data?.after
+                let listings = content.data?.children.map{ $0.data }
                 if self.overview?.last != nil, let listings = listings {
                     self.overview?.append(contentsOf: listings)
                 } else if self.overview == nil {

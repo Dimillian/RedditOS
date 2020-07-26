@@ -51,7 +51,7 @@ struct ProfileView: View {
         if let user = currentUser.user {
             UserHeaderVIew(user: user)
                 .onAppear {
-                    currentUser.fetchOverview(after: nil)
+                    currentUser.fetchOverview()
             }
         } else {
             authView
@@ -81,6 +81,11 @@ struct ProfileView: View {
                     CommentRow(comment: comment)
                 }
             }
+            LoadingRow(text: "Loading next page")
+                .onAppear {
+                    currentUser.fetchOverview()
+            }
+            
             // This is crashing SwiftUI for now.
             /*
             ForEach(overview) { content in
