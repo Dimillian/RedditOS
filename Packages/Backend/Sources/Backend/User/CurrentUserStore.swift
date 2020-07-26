@@ -44,10 +44,12 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
             case .signedOut:
                 self.user = nil
             case .authenthicated:
-                self.refreshUser()
-                if !self.subscriptionFetched {
-                    self.subscriptionFetched = true
-                    self.fetchSubscription(after: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.refreshUser()
+                    if !self.subscriptionFetched {
+                        self.subscriptionFetched = true
+                        self.fetchSubscription(after: nil)
+                    }
                 }
             default:
                 break

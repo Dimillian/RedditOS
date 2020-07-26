@@ -58,6 +58,13 @@ public enum GenericListingContent: Decodable, Identifiable {
         return nil
     }
     
+    public var comment: Comment? {
+        if case .comment(let comment) = self {
+            return comment
+        }
+        return nil
+    }
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ListingHolder<GenericListingContent>.CodingKeys.self)
         let kind = try container.decode(String.self, forKey: .kind)

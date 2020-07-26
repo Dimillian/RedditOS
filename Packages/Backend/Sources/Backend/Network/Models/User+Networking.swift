@@ -14,7 +14,7 @@ extension User {
     }
     
     public func fetchOverview(after: String?) -> AnyPublisher<ListingResponse<GenericListingContent>, Never> {
-        var params: [String: String] = [:]
+        var params: [String: String] = ["limit" : "100"]
         if let after = after {
             params["after"] = after
         }

@@ -100,10 +100,10 @@ public class OauthClient: ObservableObject {
                 .receive(on: DispatchQueue.main)
                 .sink(receiveCompletion: { _ in },
                 receiveValue: { response in
-                    self.authState = .authenthicated(authToken: response.accessToken)
                     let keychain = Keychain(service: self.keychainService)
                     keychain[self.keychainAuthTokenKey] = response.accessToken
                     keychain[self.keychainAuthTokenRefreshToken] = response.refreshToken
+                    self.authState = .authenthicated(authToken: response.accessToken)
                 })
         }
     }

@@ -10,9 +10,14 @@ import Backend
 import SDWebImageSwiftUI
 
 struct ProfileView: View {
+    enum OverviewFilter: String, CaseIterable {
+        case posts, comments
+    }
+    
     @EnvironmentObject private var oauthClient: OauthClient
     @EnvironmentObject private var currentUser: CurrentUserStore
     @Environment(\.openURL) private var openURL
+    @State private var overviewFilter = OverviewFilter.posts
     
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     
@@ -56,9 +61,25 @@ struct ProfileView: View {
     @ViewBuilder
     private var userOverview: some View {
         if let overview = currentUser.overview {
-            let posts = overview.compactMap{ $0.post }
-            ForEach(posts) { post in
-                SubredditPostRow(post: post, displayMode: .constant(.large))
+            Picker("", selection: $overviewFilter) {
+                ForEach(OverviewFilter.allCases, id: \.self) { filter in
+                    Text(filter.rawValue.capitalized)
+                        .tag(filter)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(.vertical, 12)
+            
+            if overviewFilter == .posts {
+                let posts = overview.compactMap{ $0.post }
+                ForEach(posts) { post in
+                    SubredditPostRow(post: post, displayMode: .constant(.large))
+                }
+            } else if overviewFilter == .comments {
+                let comments = overview.compactMap{ $0.comment }
+                ForEach(comments) { comment in
+                    CommentRow(comment: comment)
+                }
             }
             // This is crashing SwiftUI for now.
             /*
