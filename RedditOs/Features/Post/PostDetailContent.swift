@@ -23,8 +23,8 @@ struct PostDetailContent: View {
             HStack {
                 Spacer()
                 VideoPlayer(player: AVPlayer(url: video.url))
-                    .frame(width: CGFloat(video.width),
-                           height: CGFloat(video.height))
+                    .frame(width: min(500, CGFloat(video.width)),
+                           height: min(500, CGFloat(video.height)))
                 Spacer()
             }
         } else if let url = listing.url, let realURL = URL(string: url) {

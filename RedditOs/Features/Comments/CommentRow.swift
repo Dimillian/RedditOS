@@ -11,10 +11,11 @@ import Backend
 struct CommentRow: View {
     let comment: Comment
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 0) {
                 Text(comment.author ?? "Unknown")
-                    .font(.footnote)
+                    .font(.callout)
+                    .fontWeight(.bold)
                 if let score = comment.score {
                     Text(" · \(score.toRoundedSuffixAsString()) points  · ")
                         .foregroundColor(.gray)
@@ -28,6 +29,7 @@ struct CommentRow: View {
             }
             Text(comment.body ?? "No comment content")
                 .font(.body)
+                .padding(.bottom, 4)
             Divider()
         }.padding(.vertical, 4)
     }
@@ -35,6 +37,11 @@ struct CommentRow: View {
 
 struct CommentRow_Previews: PreviewProvider {
     static var previews: some View {
-        CommentRow(comment: static_comment)
+        List {
+            CommentRow(comment: static_comment)
+            CommentRow(comment: static_comment)
+            CommentRow(comment: static_comment)
+            CommentRow(comment: static_comment)
+        }
     }
 }
