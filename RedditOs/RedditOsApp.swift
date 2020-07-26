@@ -44,6 +44,22 @@ struct RedditOsApp: App {
                     Text("Favorite")
                 }
             }
+            
+            #if DEBUG
+            CommandMenu("Debug") {
+                Button(action: {
+                    switch OauthClient.shared.authState {
+                    case let .authenthicated(token):
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(token, forType: .string)
+                    default:
+                        break
+                    }
+                }) {
+                    Text("Copy oauth token to pasteboard")
+                }
+            }
+            #endif
         }
         
         Settings {

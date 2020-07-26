@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Backend
+import SDWebImageSwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject private var oauthClient: OauthClient
@@ -16,20 +17,21 @@ struct ProfileView: View {
     var body: some View {
         NavigationView {
             List {
-                if let user = currentUser.user {
-                    HStack(spacing: 32) {
-                        Spacer()
-                        makeStatsView(number: user.commentKarma.toRoundedSuffixAsString(),
-                                      name: "Comment Karma")
-                        makeStatsView(number: user.linkKarma.toRoundedSuffixAsString(),
-                                      name: "Link Karma")
-                        Spacer()
-                    }.padding(.top, 16)
-                } else {
-                    authView
-                }
+                Group {
+                    if let user = currentUser.user {
+                        UserView(user: user)
+                    } else {
+                        HStack {
+                            Spacer()
+                            authView
+                            Spacer()
+                        }
+                    }
+                }.padding(.top, 16)
             }
             .listStyle(PlainListStyle())
+            
+            PostNoSelectionPlaceholder()
         }
         .navigationTitle("Profile")
         .navigationSubtitle(currentUser.user?.name ?? "Login")
@@ -42,18 +44,6 @@ struct ProfileView: View {
                 }
 
             }
-        }
-    }
-    
-    private func makeStatsView(number: String, name: String) -> some View {
-        VStack {
-            Text(number)
-                .font(.title)
-                .fontWeight(.bold)
-            Text(name)
-                .font(.subheadline)
-                .fontWeight(.bold)
-                .foregroundColor(.gray)
         }
     }
         

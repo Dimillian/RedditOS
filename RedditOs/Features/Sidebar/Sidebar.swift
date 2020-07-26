@@ -29,10 +29,22 @@ struct Sidebar: View {
              
             Section(header: Text("Account")) {
                 NavigationLink(destination: ProfileView()) {
-                    Label("Profile", systemImage: "person.crop.square")
+                    if let user = currentUser.user, let avatar = user.avatarURL {
+                        HStack {
+                            WebImage(url: avatar)
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                                .cornerRadius(8)
+                            Text(user.name)
+                        }
+                    } else {
+                        Label("Profile", systemImage: "person.crop.square")
+                    }
                 }.tag("profile")
                 Label("Inbox", systemImage: "envelope")
-                Label("Posts", systemImage: "square.and.pencil")
+                NavigationLink(destination: SubmittedPostsListView()) {
+                    Label("Posts", systemImage: "square.and.pencil")
+                }
                 Label("Comments", systemImage: "text.bubble")
                 NavigationLink(destination: SavedPostsListView()) {
                     Label("Saved", systemImage: "archivebox")

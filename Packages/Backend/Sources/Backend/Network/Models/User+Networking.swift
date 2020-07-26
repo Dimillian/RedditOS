@@ -24,4 +24,16 @@ extension User {
             .replaceError(with: ListingResponse(error: "error"))
             .eraseToAnyPublisher()
     }
+    
+    public func fetchSubmitted(after: SubredditPost?) -> AnyPublisher<ListingResponse<SubredditPost>, Never> {
+        var params: [String: String] = [:]
+        if let listing = after {
+            params["after"] = listing.name
+        }
+        return API.shared.request(endpoint: .userSubmitted(username: name),
+                                  params: params)
+            .subscribe(on: DispatchQueue.global())
+            .replaceError(with: ListingResponse(error: "error"))
+            .eraseToAnyPublisher()
+    }
 }

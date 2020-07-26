@@ -1,26 +1,26 @@
 //
-//  SavedPostsListView.swift
+//  SubmittedPostsListView.swift
 //  RedditOs
 //
-//  Created by Thomas Ricouard on 24/07/2020.
+//  Created by Thomas Ricouard on 26/07/2020.
 //
 
 import SwiftUI
 import Backend
 
-struct SavedPostsListView: View {
+struct SubmittedPostsListView: View {
     @EnvironmentObject private var currentUser: CurrentUserStore
     @State private var selectedPost: SubredditPost?
     @State private var displayMode = SubredditPostRow.DisplayMode.large
     
     var body: some View {
         NavigationView {
-            PostsListView(posts: currentUser.savedPosts,
+            PostsListView(posts: currentUser.submittedPosts,
                           selectedPost: $selectedPost,
                           displayMode: $displayMode) {
-                currentUser.fetchSaved(after: currentUser.savedPosts?.last)
+                currentUser.fetchSubmitted(after: currentUser.submittedPosts?.last)
             }.onAppear {
-                currentUser.fetchSaved(after: nil)
+                currentUser.fetchSubmitted(after: nil)
             }
             PostNoSelectionPlaceholder()
         }
@@ -31,8 +31,8 @@ struct SavedPostsListView: View {
     }
 }
 
-struct SavedPostListView_Previews: PreviewProvider {
+struct SubmittedPostsListView_Previews: PreviewProvider {
     static var previews: some View {
-        SavedPostsListView()
+        SubmittedPostsListView()
     }
 }

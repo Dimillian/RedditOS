@@ -9,6 +9,7 @@ public enum Endpoint {
     case me, mineSubscriptions
     case vote, visits, save, unsave
     case userSaved(username: String)
+    case userSubmitted(username: String)
     
     func path() -> String {
         switch self {
@@ -42,6 +43,8 @@ public enum Endpoint {
             return "api/unsave"
         case let .userSaved(username):
             return "user/\(username)/saved"
+        case let .userSubmitted(username):
+            return "user/\(username)/submitted"
         }
     }
 }

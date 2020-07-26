@@ -19,6 +19,7 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
     }
     
     @Published public private(set) var savedPosts: [SubredditPost]?
+    @Published public private(set) var submittedPosts: [SubredditPost]?
     
     private var subscriptionFetched = false
     private var fetchingSubscriptions: [Subreddit] = []
@@ -96,4 +97,19 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
             }
         disposables.append(cancellable)
     }
+    
+    public func fetchSubmitted(after: SubredditPost?) {
+        let cancellable = user?.fetchSubmitted(after: after)
+            .receive(on: DispatchQueue.main)
+            .map{ $0.data?.children.map{ $0.data }}
+            .sink{ listings in
+                if self.submittedPosts?.last != nil, let listings = listings {
+                    self.submittedPosts?.append(contentsOf: listings)
+                } else if self.savedPosts == nil {
+                    self.submittedPosts = listings
+                }
+            }
+        disposables.append(cancellable)
+    }
+    
 }

@@ -64,7 +64,9 @@ struct SubredditPostsListView: View {
             }
             
             ToolbarItem(placement: .primaryAction) {
-                if !isDefaultChannel {
+                if isDefaultChannel {
+                    Text("")
+                } else {
                     Picker(selection: $viewModel.sortOrder,
                            label: Text("Sorting"),
                            content: {
@@ -72,8 +74,6 @@ struct SubredditPostsListView: View {
                                 Text(sort.rawValue.capitalized).tag(sort)
                             }
                            })
-                } else {
-                    EmptyView()
                 }
             }
             
