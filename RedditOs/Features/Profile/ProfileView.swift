@@ -14,22 +14,16 @@ struct ProfileView: View {
     @EnvironmentObject private var currentUser: CurrentUserStore
     @Environment(\.openURL) private var openURL
     
+    private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
+    
     var body: some View {
         NavigationView {
             List {
-                Group {
-                    if let user = currentUser.user {
-                        UserView(user: user)
-                    } else {
-                        HStack {
-                            Spacer()
-                            authView
-                            Spacer()
-                        }
-                    }
-                }.padding(.top, 16)
+                headerView.padding(.vertical, 16)
+                if currentUser.user != nil {
+                    userOverview
+                }
             }
-            .listStyle(PlainListStyle())
             
             PostNoSelectionPlaceholder()
         }
@@ -46,24 +40,68 @@ struct ProfileView: View {
             }
         }
     }
+    
+    @ViewBuilder
+    private var headerView: some View {
+        if let user = currentUser.user {
+            UserHeaderVIew(user: user)
+                .onAppear {
+                    currentUser.fetchOverview(after: nil)
+            }
+        } else {
+            authView
+        }
+    }
+    
+    @ViewBuilder
+    private var userOverview: some View {
+        if let overview = currentUser.overview {
+            let posts = overview.compactMap{ $0.post }
+            ForEach(posts) { post in
+                SubredditPostRow(post: post, displayMode: .constant(.large))
+            }
+            // This is crashing SwiftUI for now.
+            /*
+            ForEach(overview) { content in
+                switch content {
+                case let .post(post):
+                    SubredditPostRow(post: post, displayMode: .constant(.large))
+                case let .comment(comment):
+                    CommentRow(comment: comment)
+                default:
+                    Text("Unsupported view")
+                }
+            }
+             */
+        } else {
+            ForEach(loadingPlaceholders) { post in
+                SubredditPostRow(post: post, displayMode: .constant(.large))
+                    .redacted(reason: .placeholder)
+            }
+        }
+    }
         
     @ViewBuilder
-    var authView: some View {
-        switch oauthClient.authState {
-        case .signedOut:
-            Button {
-                if let url = oauthClient.startOauthFlow() {
-                    openURL(url)
+    private var authView: some View {
+        HStack {
+            Spacer()
+            switch oauthClient.authState {
+            case .signedOut:
+                Button {
+                    if let url = oauthClient.startOauthFlow() {
+                        openURL(url)
+                    }
+                } label: {
+                    Text("Sign in")
                 }
-            } label: {
-                Text("Sign in")
+            case .signinInProgress:
+                ProgressView("Auth in progress")
+            case .authenthicated:
+                Text("Signed in")
+            case .unknown:
+                Text("Error")
             }
-        case .signinInProgress:
-            ProgressView("Auth in progress")
-        case .authenthicated:
-            Text("Signed in")
-        case .unknown:
-            Text("Error")
+            Spacer()
         }
     }
 }

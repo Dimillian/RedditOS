@@ -18,6 +18,7 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
         }
     }
     
+    @Published public private(set) var overview: [GenericListingContent]?
     @Published public private(set) var savedPosts: [SubredditPost]?
     @Published public private(set) var submittedPosts: [SubredditPost]?
     
@@ -105,8 +106,22 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
             .sink{ listings in
                 if self.submittedPosts?.last != nil, let listings = listings {
                     self.submittedPosts?.append(contentsOf: listings)
-                } else if self.savedPosts == nil {
+                } else if self.submittedPosts == nil {
                     self.submittedPosts = listings
+                }
+            }
+        disposables.append(cancellable)
+    }
+    
+    public func fetchOverview(after: String?) {
+        let cancellable = user?.fetchOverview(after: after)
+            .receive(on: DispatchQueue.main)
+            .map{ $0.data?.children.map{ $0.data }}
+            .sink{ listings in
+                if self.overview?.last != nil, let listings = listings {
+                    self.overview?.append(contentsOf: listings)
+                } else if self.overview == nil {
+                    self.overview = listings
                 }
             }
         disposables.append(cancellable)

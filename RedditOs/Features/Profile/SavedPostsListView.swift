@@ -10,13 +10,11 @@ import Backend
 
 struct SavedPostsListView: View {
     @EnvironmentObject private var currentUser: CurrentUserStore
-    @State private var selectedPost: SubredditPost?
     @State private var displayMode = SubredditPostRow.DisplayMode.large
     
     var body: some View {
         NavigationView {
             PostsListView(posts: currentUser.savedPosts,
-                          selectedPost: $selectedPost,
                           displayMode: $displayMode) {
                 currentUser.fetchSaved(after: currentUser.savedPosts?.last)
             }.onAppear {

@@ -29,16 +29,10 @@ struct Sidebar: View {
              
             Section(header: Text("Account")) {
                 NavigationLink(destination: ProfileView()) {
-                    if let user = currentUser.user, let avatar = user.avatarURL {
-                        HStack {
-                            WebImage(url: avatar)
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                                .cornerRadius(8)
-                            Text(user.name)
-                        }
+                    if let user = currentUser.user {
+                        Label(user.name, systemImage: "person.crop.circle")
                     } else {
-                        Label("Profile", systemImage: "person.crop.square")
+                        Label("Profile", systemImage: "person.crop.circle")
                     }
                 }.tag("profile")
                 Label("Inbox", systemImage: "envelope")

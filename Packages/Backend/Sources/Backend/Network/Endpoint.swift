@@ -8,6 +8,7 @@ public enum Endpoint {
     case accessToken
     case me, mineSubscriptions
     case vote, visits, save, unsave
+    case userOverview(usernmame: String)
     case userSaved(username: String)
     case userSubmitted(username: String)
     
@@ -41,6 +42,8 @@ public enum Endpoint {
             return "api/save"
         case .unsave:
             return "api/unsave"
+        case let .userOverview(username):
+            return "user/\(username)/overview"
         case let .userSaved(username):
             return "user/\(username)/saved"
         case let .userSubmitted(username):

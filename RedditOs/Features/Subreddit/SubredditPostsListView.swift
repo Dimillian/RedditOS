@@ -17,7 +17,6 @@ struct SubredditPostsListView: View {
     @StateObject private var viewModel: SubredditViewModel
     @AppStorage("postDisplayMode") private var displayMode = SubredditPostRow.DisplayMode.large
     @State private var isSearchSheetOpen = false
-    @State private var selectedPost: SubredditPost?
     
     init(name: String) {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
@@ -40,7 +39,6 @@ struct SubredditPostsListView: View {
     var body: some View {
         NavigationView {
             PostsListView(posts: viewModel.listings,
-                          selectedPost: $selectedPost,
                           displayMode: .constant(displayMode)) {
                 viewModel.fetchListings()
             }.onAppear(perform: viewModel.fetchListings)

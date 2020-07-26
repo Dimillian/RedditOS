@@ -1,5 +1,5 @@
 //
-//  UserView.swift
+//  UserHeaderVIew.swift
 //  RedditOs
 //
 //  Created by Thomas Ricouard on 26/07/2020.
@@ -9,7 +9,7 @@ import SwiftUI
 import Backend
 import SDWebImageSwiftUI
 
-struct UserView: View {
+struct UserHeaderVIew: View {
     let user: User
     
     var body: some View {
@@ -59,6 +59,6 @@ struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserView(user: static_user)
+        UserHeaderVIew(user: static_user)
     }
 }

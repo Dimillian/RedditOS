@@ -15,31 +15,9 @@ struct PostDetailCommentsSection: View {
     var body: some View {
         OutlineGroup(comments ?? placeholderComments,
                      children: \.repliesComments) { comment in
-            makeRow(comment: comment)
+            CommentRow(comment: comment)
                 .redacted(reason: comments == nil ? .placeholder : [])
         }
-    }
-    
-    func makeRow(comment: Comment) -> some View {
-        VStack(alignment: .leading) {
-            HStack(spacing: 0) {
-                Text(comment.author ?? "Unknown")
-                    .font(.footnote)
-                if let score = comment.score {
-                    Text(" · \(score.toRoundedSuffixAsString()) points  · ")
-                        .foregroundColor(.gray)
-                        .font(.caption)
-                }
-                if let date = comment.createdUtc {
-                    Text(date, style: .relative)
-                        .foregroundColor(.gray)
-                        .font(.caption)
-                }
-            }
-            Text(comment.body ?? "No comment content")
-                .font(.body)
-            Divider()
-        }.padding(.vertical, 4)
     }
 }
 

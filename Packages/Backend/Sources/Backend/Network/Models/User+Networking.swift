@@ -13,6 +13,18 @@ extension User {
         API.shared.request(endpoint: .me).eraseToAnyPublisher()
     }
     
+    public func fetchOverview(after: String?) -> AnyPublisher<ListingResponse<GenericListingContent>, Never> {
+        var params: [String: String] = [:]
+        if let after = after {
+            params["after"] = after
+        }
+        return API.shared.request(endpoint: .userOverview(usernmame: name),
+                                  params: params)
+            .subscribe(on: DispatchQueue.global())
+            .replaceError(with: ListingResponse(error: "error"))
+            .eraseToAnyPublisher()
+    }
+    
     public func fetchSaved(after: SubredditPost?) -> AnyPublisher<ListingResponse<SubredditPost>, Never> {
         var params: [String: String] = ["type": "links"]
         if let listing = after {

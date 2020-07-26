@@ -11,7 +11,6 @@ import Backend
 struct PostsListView: View {
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     let posts: [SubredditPost]?
-    @Binding var selectedPost: SubredditPost?
     @Binding var displayMode: SubredditPostRow.DisplayMode
     var onNextPage: (() -> Void)
     
@@ -19,8 +18,7 @@ struct PostsListView: View {
         List {
             ForEach(posts ?? loadingPlaceholders) { post in
                 SubredditPostRow(post: post,
-                                 displayMode: $displayMode,
-                                 selectedPost: $selectedPost)
+                                 displayMode: $displayMode)
                     .redacted(reason: posts == nil ? .placeholder : [])
             }
             if posts != nil {
@@ -38,7 +36,6 @@ struct PostsListView: View {
 struct PostsListView_Previews: PreviewProvider {
     static var previews: some View {
         PostsListView(posts: nil,
-                      selectedPost: .constant(nil),
                       displayMode: .constant(.large),
                       onNextPage: {
             
