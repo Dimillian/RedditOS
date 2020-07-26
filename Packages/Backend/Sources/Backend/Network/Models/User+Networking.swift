@@ -13,6 +13,10 @@ extension User {
         API.shared.request(endpoint: .me).eraseToAnyPublisher()
     }
     
+    static public func fetchUserAbout(username: String) -> AnyPublisher<ListingHolder<User>, NetworkError>? {
+        API.shared.request(endpoint: .userAbout(username: username)).eraseToAnyPublisher()
+    }
+    
     public func fetchOverview(after: String?) -> AnyPublisher<ListingResponse<GenericListingContent>, Never> {
         var params: [String: String] = ["limit" : "100"]
         if let after = after {

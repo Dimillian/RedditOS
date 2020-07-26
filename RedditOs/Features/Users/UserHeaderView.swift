@@ -9,7 +9,7 @@ import SwiftUI
 import Backend
 import SDWebImageSwiftUI
 
-struct UserHeaderVIew: View {
+struct UserHeaderView: View {
     let user: User
     
     var body: some View {
@@ -20,7 +20,12 @@ struct UserHeaderVIew: View {
                     .resizable()
                     .frame(width: 100, height: 100)
                     .cornerRadius(8)
+            } else {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.redditGray)
+                    .frame(width: 100, height: 100)
             }
+            
             VStack(alignment: .center, spacing: 16) {
                 HStack(spacing: 32) {
                     makeStatsView(number: user.commentKarma.toRoundedSuffixAsString(),
@@ -59,6 +64,6 @@ struct UserHeaderVIew: View {
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserHeaderVIew(user: static_user)
+        UserHeaderView(user: static_user)
     }
 }

@@ -49,7 +49,7 @@ struct ProfileView: View {
     @ViewBuilder
     private var headerView: some View {
         if let user = currentUser.user {
-            UserHeaderVIew(user: user)
+            UserHeaderView(user: user)
                 .onAppear {
                     currentUser.fetchOverview()
             }

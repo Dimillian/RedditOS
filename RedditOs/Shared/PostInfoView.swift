@@ -10,16 +10,27 @@ import Backend
 
 struct PostInfoView: View {
     let post: SubredditPost
+    @State private var showUserPopover = false
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("r/\(post.subreddit)")
                 .fontWeight(.bold)
                 .font(.subheadline)
             HStack(spacing: 12) {
-                HStack(spacing: 4) {
-                    Image(systemName: "person")
-                    Text("u/\(post.author)")
-                }
+                Button(action: {
+                    showUserPopover = true
+                }, label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "person")
+                        Text("u/\(post.author)")
+                    }
+                })
+                .buttonStyle(BorderlessButtonStyle())
+                .popover(isPresented: $showUserPopover, content: {
+                    UserPopoverView(username: post.author)
+                })
+                
                 HStack(spacing: 4) {
                     Image(systemName: "clock")
                     Text(post.createdUtc, style: .offset)
