@@ -121,7 +121,7 @@ struct Sidebar: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .popover(isPresented: $isSearchPopoverPresented) {
-                    SearchSubredditsPopover().environmentObject(localData)
+                    PopoverSearchSubredditView().environmentObject(localData)
                 }
                 
                 Button {

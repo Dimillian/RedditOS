@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import Backend
 
-class SearchSubredditsViewModel: ObservableObject {
+class PopoverSearchSubredditViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var results: [SubredditSmall]?
     @Published var isLoading = false

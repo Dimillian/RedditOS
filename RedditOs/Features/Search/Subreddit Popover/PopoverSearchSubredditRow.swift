@@ -9,7 +9,7 @@ import SwiftUI
 import Backend
 import SDWebImageSwiftUI
 
-struct SubredditRow: View {
+struct PopoverSearchSubredditRow: View {
     let subreddit: SubredditSmall
     
     var body: some View {
@@ -43,10 +43,10 @@ struct SubredditRow: View {
 struct SubredditRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            SubredditRow(subreddit: static_subreddit)
-            SubredditRow(subreddit: static_subreddit)
-            SubredditRow(subreddit: static_subreddit)
-            SubredditRow(subreddit: static_subreddit)
+            PopoverSearchSubredditRow(subreddit: static_subreddit)
+            PopoverSearchSubredditRow(subreddit: static_subreddit)
+            PopoverSearchSubredditRow(subreddit: static_subreddit)
+            PopoverSearchSubredditRow(subreddit: static_subreddit)
         }
     }
 }

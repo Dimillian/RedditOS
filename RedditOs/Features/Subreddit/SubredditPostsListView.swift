@@ -16,7 +16,6 @@ struct SubredditPostsListView: View {
     @EnvironmentObject private var localData: LocalDataStore
     @StateObject private var viewModel: SubredditViewModel
     @AppStorage("postDisplayMode") private var displayMode = SubredditPostRow.DisplayMode.large
-    @State private var isSearchSheetOpen = false
     
     init(name: String) {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
@@ -48,6 +47,10 @@ struct SubredditPostsListView: View {
         .navigationSubtitle(subtitle)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
+                ToolbarSearchBar()
+            }
+            
+            ToolbarItem(placement: .primaryAction) {
                 Picker(selection: $displayMode,
                        label: Text("Display"),
                        content: {
@@ -73,17 +76,6 @@ struct SubredditPostsListView: View {
                             }
                            })
                 }
-            }
-            
-            ToolbarItem(placement: .primaryAction) {
-                Button(action: {
-                    isSearchSheetOpen = true
-                }) {
-                    Image(systemName: "magnifyingglass")
-                }.popover(isPresented: $isSearchSheetOpen) {
-                    SearchSubredditsPopover().environmentObject(localData)
-                }
-                .keyboardShortcut("f", modifiers: .command)
             }
             
             ToolbarItem(placement: .primaryAction) {

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "69EACEFE24B63D5800303A16"
-               BuildableName = "RedditOs.app"
+               BuildableName = "Curiosity.app"
                BlueprintName = "RedditOs"
                ReferencedContainer = "container:RedditOs.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "69EACEFE24B63D5800303A16"
-            BuildableName = "RedditOs.app"
+            BuildableName = "Curiosity.app"
             BlueprintName = "RedditOs"
             ReferencedContainer = "container:RedditOs.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "69EACEFE24B63D5800303A16"
-            BuildableName = "RedditOs.app"
+            BuildableName = "Curiosity.app"
             BlueprintName = "RedditOs"
             ReferencedContainer = "container:RedditOs.xcodeproj">
          </BuildableReference>
