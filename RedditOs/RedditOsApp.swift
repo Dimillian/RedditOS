@@ -34,7 +34,7 @@ struct RedditOsApp: App {
                 Button(action: {
                     
                 }) {
-                    Text("Seach")
+                    Text("Search")
                 }.keyboardShortcut("f", modifiers: .command)
                 Button(action: {
                     
