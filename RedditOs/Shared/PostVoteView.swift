@@ -25,6 +25,8 @@ struct PostVoteView: View {
             
             Text(viewModel.post.ups.toRoundedSuffixAsString())
                 .fontWeight(.bold)
+                .minimumScaleFactor(0.1)
+                .lineLimit(1)
             
             Button(action: {
                 viewModel.postVote(vote: viewModel.post.likes == false ? .neutral : .downvote)
