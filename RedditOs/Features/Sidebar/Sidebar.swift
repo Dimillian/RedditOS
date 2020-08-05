@@ -38,11 +38,11 @@ struct Sidebar: View {
                 Label("Inbox", systemImage: "envelope")
                 NavigationLink(destination: SubmittedPostsListView()) {
                     Label("Posts", systemImage: "square.and.pencil")
-                }
+                }.tag("Posts")
                 Label("Comments", systemImage: "text.bubble")
                 NavigationLink(destination: SavedPostsListView()) {
                     Label("Saved", systemImage: "archivebox")
-                }
+                }.tag("Saved")
             }.listItemTint(.redditBlue)
             
             Section(header: subredditsHeader) {
@@ -105,7 +105,6 @@ struct Sidebar: View {
         .onHover { hovered in
             isHovered = hovered
         }
-        .padding(.top, 16)
     }
     
     private var subredditsHeader: some View {
