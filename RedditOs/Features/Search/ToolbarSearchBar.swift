@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ToolbarSearchBar: View {
     @State private var isFocused = false
-    @State private var searchText = ""
+    @StateObject private var searchViewModel = SubredditSearchViewModel()
     
     var body: some View {
-        TextField("Search anything", text: $searchText) { editing in
+        TextField("Search anything", text: $searchViewModel.searchText) { editing in
             isFocused = editing
         } onCommit: {
             
@@ -23,10 +23,9 @@ struct ToolbarSearchBar: View {
                         .stroke(isFocused ? Color.accentColor : Color.clear)
                         .background(Color.black.opacity(0.2).cornerRadius(8)))
         .textFieldStyle(PlainTextFieldStyle())
-        .frame(width: 500)
+        .frame(width: 300)
         .popover(isPresented: $isFocused) {
-            Text("Search results coming soon")
-            .frame(width: 500, height: 500)
+            GlobalSearchPopoverView(viewModel: searchViewModel)
         }
     }
 }

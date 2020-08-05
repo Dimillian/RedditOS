@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import Backend
 
-class PopoverSearchSubredditViewModel: ObservableObject {
+class SubredditSearchViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var results: [SubredditSmall]?
     @Published var isLoading = false
@@ -27,8 +27,13 @@ class PopoverSearchSubredditViewModel: ObservableObject {
             .filter { !$0.isEmpty }
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] text in
-                self?.isLoading = true
-                self?.search(with: text)
+                if text.isEmpty {
+                    self?.isLoading = false
+                    self?.results = nil
+                } else {
+                    self?.isLoading = true
+                    self?.search(with: text)
+                }
             })
     }
     

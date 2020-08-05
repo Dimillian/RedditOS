@@ -10,6 +10,7 @@ import Backend
 import SDWebImageSwiftUI
 
 struct Sidebar: View {
+    @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var localData: LocalDataStore
     @EnvironmentObject private var currentUser: CurrentUserStore
     @StateObject private var viewModel = SidebarViewModel()
@@ -25,6 +26,10 @@ struct Sidebar: View {
                         Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
                     }.tag(item.rawValue)
                 }
+                NavigationLink(destination: SubredditPostsListView(name: uiState.searchedSubreddit),
+                               isActive: $uiState.displaySearch) {
+                    EmptyView()
+                }.hidden()
             }
              
             Section(header: Text("Account")) {
@@ -120,7 +125,7 @@ struct Sidebar: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .popover(isPresented: $isSearchPopoverPresented) {
-                    PopoverSearchSubredditView().environmentObject(localData)
+                    PopoverSearchSubredditView()
                 }
                 
                 Button {

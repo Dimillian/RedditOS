@@ -42,6 +42,7 @@ public struct SubredditPost: Decodable, Identifiable, Hashable {
     public let linkFlairText: String?
     public let linkFlairBackgroundColor: String?
     public let linkFlairTextColor: String?
+    public let allAwardings: [Award]
     public var visited: Bool
     public var saved: Bool
     public var redditURL: URL? {
@@ -51,50 +52,6 @@ public struct SubredditPost: Decodable, Identifiable, Hashable {
         return nil
     }
     public var likes: Bool?
-}
-
-public struct SecureMedia: Decodable {
-    public let redditVideo: RedditVideo?
-    public let oembed: Oembed?
-    
-    public var video: Video? {
-        if let video = redditVideo {
-            return Video(url: video.fallbackUrl, width: video.width, height: video.height)
-        } else if oembed?.type == "video",
-                  let oembed = oembed,
-                  let url = oembed.url,
-                  let width = oembed.width,
-                  let height = oembed.height {
-            return Video(url: url, width: width, height: height)
-        }
-        return nil
-    }
-}
-
-public struct RedditVideo: Decodable {
-    public let fallbackUrl: URL
-    public let height: Int
-    public let width: Int
-}
-
-public struct Oembed: Decodable {
-    public let providerUrl: URL?
-    public let thumbnailUrl: String?
-    public var thumbnailUrlAsURL: URL? {
-        thumbnailUrl != nil ? URL(string: thumbnailUrl!) : nil
-    }
-    public let url: URL?
-    public let width: Int?
-    public let height: Int?
-    public let thumbnailWidth: Int?
-    public let thumbnailHeight: Int?
-    public let type: String?
-}
-
-public struct Video {
-    public let url: URL
-    public let width: Int
-    public let height: Int
 }
 
 public let static_listing = SubredditPost(id: "0",
@@ -116,6 +73,7 @@ public let static_listing = SubredditPost(id: "0",
                                     linkFlairText: nil,
                                     linkFlairBackgroundColor: nil,
                                     linkFlairTextColor: nil,
+                                    allAwardings: [],
                                     visited: false,
                                     saved: false,
                                     likes: nil)
