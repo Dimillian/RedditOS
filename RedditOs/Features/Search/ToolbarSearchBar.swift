@@ -24,6 +24,10 @@ struct ToolbarSearchBar: View {
                         .background(Color.black.opacity(0.2).cornerRadius(8)))
         .textFieldStyle(PlainTextFieldStyle())
         .frame(width: 500)
+        .popover(isPresented: $isFocused) {
+            Text("Search results coming soon")
+            .frame(width: 500, height: 500)
+        }
     }
 }
 

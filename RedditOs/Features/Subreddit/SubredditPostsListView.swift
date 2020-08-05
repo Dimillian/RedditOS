@@ -47,21 +47,18 @@ struct SubredditPostsListView: View {
         .navigationSubtitle(subtitle)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                ToolbarSearchBar()
+                Spacer()
             }
             
             ToolbarItem(placement: .primaryAction) {
-                Picker(selection: $displayMode,
-                       label: Text("Display"),
+                Picker("",
+                       selection: $displayMode,
                        content: {
                         ForEach(SubredditPostRow.DisplayMode.allCases, id: \.self) { mode in
-                            HStack {
-                                Text(mode.rawValue.capitalized)
-                                Image(systemName: mode.iconName())
-                                    .tag(mode)
-                            }
+                            Image(systemName: mode.iconName())
+                                .tag(mode)
                         }
-                })
+                       }).pickerStyle(InlinePickerStyle())
             }
             
             ToolbarItem(placement: .primaryAction) {
@@ -94,6 +91,10 @@ struct SubredditPostsListView: View {
                     Image(systemName: "square.and.arrow.up")
                 }
                 .keyboardShortcut("s", modifiers: .command)
+            }
+            
+            ToolbarItem(placement: .primaryAction) {
+                ToolbarSearchBar()
             }
         }
         .onAppear(perform: viewModel.fetchListings)
