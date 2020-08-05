@@ -19,21 +19,19 @@ struct PostInfoView: View {
             Text("r/\(post.subreddit)")
                 .fontWeight(.bold)
                 .font(.subheadline)
+            Button(action: {
+                showUserPopover = true
+            }, label: {
+                HStack(spacing: 4) {
+                    Image(systemName: "person")
+                    Text("u/\(post.author)")
+                }
+            })
+            .buttonStyle(BorderlessButtonStyle())
+            .popover(isPresented: $showUserPopover, content: {
+                UserPopoverView(username: post.author)
+            })
             HStack(spacing: 12) {
-                Button(action: {
-                    showUserPopover = true
-                }, label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "person")
-                        Text("u/\(post.author)")
-                    }
-                })
-                .buttonStyle(BorderlessButtonStyle())
-                .popover(isPresented: $showUserPopover, content: {
-                    UserPopoverView(username: post.author)
-                        .environmentObject(uiState)
-                })
-                
                 HStack(spacing: 4) {
                     Image(systemName: "clock")
                     Text(post.createdUtc, style: .offset)
@@ -42,6 +40,9 @@ struct PostInfoView: View {
                     Image(systemName: "bubble.middle.bottom")
                         .imageScale(.small)
                     Text("\(post.numComments)")
+                }
+                if !post.allAwardings.isEmpty {
+                    PostAwardsView(awards: post.allAwardings)
                 }
             }
             .font(.callout)

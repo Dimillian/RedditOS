@@ -31,4 +31,8 @@ class UIState: ObservableObject {
     }
     
     @Published var presentedRoute: Route?
+    
+    @Published var searchedSubreddit = ""
+    @Published var searchedUser = ""
+    @Published var displaySearch = false
 }
