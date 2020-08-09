@@ -22,7 +22,7 @@ struct RedditOsApp: App {
             .frame(minHeight: 400, idealHeight: 800)
             .environmentObject(LocalDataStore())
             .environmentObject(OauthClient.shared)
-            .environmentObject(CurrentUserStore())
+            .environmentObject(CurrentUserStore.shared)
             .environmentObject(uiState)
             .onOpenURL { url in
                 OauthClient.shared.handleNextURL(url: url)

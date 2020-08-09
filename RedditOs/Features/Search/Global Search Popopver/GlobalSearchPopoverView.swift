@@ -13,7 +13,7 @@ struct GlobalSearchPopoverView: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var currentUser: CurrentUserStore
     
-    @ObservedObject var viewModel: SubredditSearchViewModel
+    @ObservedObject var viewModel: SearchViewModel
     
     var body: some View {
         ScrollView {
@@ -43,24 +43,27 @@ struct GlobalSearchPopoverView: View {
     
     private func makeQuickAccess() -> some View {
         Group {
-            Label("Go to r/\(viewModel.searchText)", systemImage: "globe")
+            GlobalSearchSubRow(icon: nil,
+                               name: "Go to r/\(viewModel.searchText)")
                 .onTapGesture {
                     uiState.searchedSubreddit = viewModel.searchText
                     uiState.displaySearch = true
                 }
-            Label("Go to u/\(viewModel.searchText)", systemImage: "person")
+            GlobalSearchSubRow(icon: nil,
+                               name: "Go to u/\(viewModel.searchText)")
         }.padding(4)
     }
     
     private func makeMySubscriptionsSearch() -> some View {
         Group {
-            let subs = currentUser.subscriptions.filter{ $0.displayName.lowercased().contains(viewModel.searchText.lowercased()) }
-            if !subs.isEmpty {
-                ForEach(subs) { sub in
-                    makeSubRow(icon: sub.iconImg, name: sub.displayName)
+            if let subs = viewModel.filteredSubscriptions {
+                if subs.isEmpty {
+                    Label("No matching subscriptions for \(viewModel.searchText)", systemImage: "magnifyingglass")
+                } else {
+                    ForEach(subs) { sub in
+                        makeSubRow(icon: sub.iconImg, name: sub.displayName)
+                    }
                 }
-            } else {
-                Label("No matching subscriptions for \(viewModel.searchText)", systemImage: "magnifyingglass")
             }
         }.padding(4)
     }
@@ -82,21 +85,7 @@ struct GlobalSearchPopoverView: View {
     }
     
     private func makeSubRow(icon: String?, name: String) -> some View {
-        HStack {
-            if let image = icon,
-               let url = URL(string: image) {
-                WebImage(url: url)
-                    .resizable()
-                    .frame(width: 16, height: 16)
-                    .cornerRadius(8)
-            } else {
-                Image(systemName: "globe")
-                    .resizable()
-                    .frame(width: 16, height: 16)
-            }
-            Text(name)
-        }
-        .onTapGesture {
+        GlobalSearchSubRow(icon: icon, name: name).onTapGesture {
             uiState.searchedSubreddit = name
             uiState.displaySearch = true
         }
