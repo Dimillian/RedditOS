@@ -15,14 +15,14 @@ struct SubredditPostsListView: View {
     
     @EnvironmentObject private var localData: LocalDataStore
     @StateObject private var viewModel: SubredditViewModel
-    @AppStorage("postDisplayMode") private var displayMode = SubredditPostRow.DisplayMode.large
+    @AppStorage(SettingsKey.subreddit_display_mode) private var displayMode = SubredditPostRow.DisplayMode.large
     
     init(name: String) {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
     }
     
     var isDefaultChannel: Bool {
-        SidebarViewModel.MainSubreddits.allCases.map{ $0.rawValue }.contains(viewModel.name)
+        UIState.DefaultChannels.allCases.map{ $0.rawValue }.contains(viewModel.name)
     }
     
     var subtitle: String {
@@ -47,10 +47,6 @@ struct SubredditPostsListView: View {
         .navigationSubtitle(subtitle)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Spacer()
-            }
-            
-            ToolbarItem(placement: .primaryAction) {
                 Picker("",
                        selection: $displayMode,
                        content: {
@@ -71,7 +67,7 @@ struct SubredditPostsListView: View {
                             ForEach(SubredditViewModel.SortOrder.allCases, id: \.self) { sort in
                                 Text(sort.rawValue.capitalized).tag(sort)
                             }
-                           })
+                        })
                 }
             }
             

@@ -30,8 +30,22 @@ class UIState: ObservableObject {
         }
     }
     
-    @Published var presentedRoute: Route?
+    enum DefaultChannels: String, CaseIterable {
+        case hot, best, new, top, rising
+        
+        func icon() -> String {
+            switch self {
+            case .best: return "rosette"
+            case .hot: return "flame"
+            case .new: return "calendar.circle"
+            case .top: return "chart.bar"
+            case .rising: return "waveform.path.ecg"
+            }
+        }
+    }
     
+    @Published var presentedRoute: Route?
+    @Published var sidebarSelection: Set<String> = [DefaultChannels.hot.rawValue]
     @Published var searchedSubreddit = ""
     @Published var searchedUser = ""
     @Published var displaySearch = false

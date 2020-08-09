@@ -13,15 +13,14 @@ struct Sidebar: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var localData: LocalDataStore
     @EnvironmentObject private var currentUser: CurrentUserStore
-    @StateObject private var viewModel = SidebarViewModel()
     @State private var isSearchPopoverPresented = false
     @State private var isHovered = false
     @State private var isInEditMode = false
     
     var body: some View {
-        List(selection: $viewModel.selection) {
+        List(selection: $uiState.sidebarSelection) {
             Section {
-                ForEach(SidebarViewModel.MainSubreddits.allCases, id: \.self) { item in
+                ForEach(UIState.DefaultChannels.allCases, id: \.self) { item in
                     NavigationLink(destination: SubredditPostsListView(name: item.rawValue)) {
                         Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
                     }.tag(item.rawValue)
@@ -75,8 +74,6 @@ struct Sidebar: View {
                         
             if let subs = currentUser.subscriptions, currentUser.user != nil {
                 Section(header: Text("Subscriptions")) {
-                    TextField("Filter", text: $viewModel.subscriptionFilter)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                     ForEach(subs) { reddit in
                         HStack {
                             SidebarSubredditRow(name: reddit.displayName,

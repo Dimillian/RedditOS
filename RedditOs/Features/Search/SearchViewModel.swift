@@ -10,21 +10,26 @@ import SwiftUI
 import Combine
 import Backend
 
-class SubredditSearchViewModel: ObservableObject {
+class SearchViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var results: [SubredditSmall]?
+    @Published var filteredSubscriptions: [Subreddit]?
     @Published var isLoading = false
     
-    private var searchCancellable: AnyCancellable?
+    private var currentUser: CurrentUserStore
+    
+    private var delayedSearchCancellable: AnyCancellable?
+    private var instantSearchCancellable: AnyCancellable?
     private var apiPublisher: AnyPublisher<SubredditResponse, Never>?
     private var apiCancellable: AnyCancellable?
     
-    init() {
-        searchCancellable = $searchText
+    init(currentUser: CurrentUserStore = .shared) {
+        self.currentUser = currentUser
+        
+        delayedSearchCancellable = $searchText
             .subscribe(on: DispatchQueue.global())
             .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
             .removeDuplicates()
-            .filter { !$0.isEmpty }
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] text in
                 if text.isEmpty {
@@ -33,6 +38,17 @@ class SubredditSearchViewModel: ObservableObject {
                 } else {
                     self?.isLoading = true
                     self?.search(with: text)
+                }
+            })
+        
+        instantSearchCancellable = $searchText
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] text in
+                guard let w = self else { return }
+                if text.isEmpty {
+                    w.filteredSubscriptions = nil
+                } else {
+                    w.filteredSubscriptions = w.currentUser.subscriptions.filter{ $0.displayName.lowercased().contains(text.lowercased()) }
                 }
             })
     }

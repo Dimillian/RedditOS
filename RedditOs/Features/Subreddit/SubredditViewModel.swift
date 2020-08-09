@@ -22,12 +22,13 @@ class SubredditViewModel: ObservableObject {
     
     @Published var subreddit: Subreddit?
     @Published var listings: [SubredditPost]?
-    @Published var sortOrder = SortOrder.hot {
+    @AppStorage(SettingsKey.subreddit_defaut_sort_order) var sortOrder = SortOrder.hot {
         didSet {
             listings = nil
             fetchListings()
         }
     }
+    @Published var errorLoadingAbout = false
     
     init(name: String) {
         self.name = name
@@ -37,6 +38,7 @@ class SubredditViewModel: ObservableObject {
         subredditCancellable = Subreddit.fetchAbout(name: name)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] holder in
+                self?.errorLoadingAbout = holder == nil
                 self?.subreddit = holder?.data
             }
     }

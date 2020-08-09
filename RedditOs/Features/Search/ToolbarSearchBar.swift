@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ToolbarSearchBar: View {
     @State private var isFocused = false
-    @StateObject private var searchViewModel = SubredditSearchViewModel()
+    @StateObject private var searchViewModel = SearchViewModel()
     
     var body: some View {
         TextField("Search anything", text: $searchViewModel.searchText) { editing in

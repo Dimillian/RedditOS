@@ -4,6 +4,8 @@ import Combine
 
 public class CurrentUserStore: ObservableObject, PersistentDataStore {
     
+    public static let shared = CurrentUserStore()
+    
     @Published public private(set) var user: User? {
         didSet {
             persistData(data: SaveData(user: user,
