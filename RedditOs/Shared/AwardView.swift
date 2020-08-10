@@ -9,7 +9,7 @@ import SwiftUI
 import Backend
 import SDWebImageSwiftUI
 
-struct PostAwardsView: View {
+struct AwardsView: View {
     let awards: [Award]
     
     @State private var popoverPresented = false
@@ -53,7 +53,7 @@ struct PostAwardsView: View {
 
 struct PostAwardsView_Previews: PreviewProvider {
     static var previews: some View {
-        PostAwardsView(awards: [static_award, static_award,
+        AwardsView(awards: [static_award, static_award,
                                 static_award, static_award,
                                 static_award, static_award])
     }

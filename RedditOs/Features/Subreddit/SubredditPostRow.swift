@@ -48,7 +48,12 @@ struct SubredditPostRow: View {
                                 .lineLimit(displayMode == .compact ? 2 : nil)
                                 .foregroundColor(viewModel.post.visited ? .gray : nil)
                             HStack {
-                                FlairView(post: viewModel.post)
+                                if let richText = viewModel.post.linkFlairRichtext, !richText.isEmpty {
+                                    FlairView(richText: richText,
+                                              textColorHex: viewModel.post.linkFlairTextColor,
+                                              backgroundColorHex: viewModel.post.linkFlairBackgroundColor,
+                                              display: .normal)
+                                }
                                 if (viewModel.post.selftext == nil || viewModel.post.selftext?.isEmpty == true),
                                    displayMode == .large,
                                    let urlString = viewModel.post.url,
