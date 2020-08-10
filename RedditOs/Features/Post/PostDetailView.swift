@@ -10,6 +10,7 @@ import Backend
 import AVKit
 
 struct PostDetailView: View {
+    @EnvironmentObject private var uiState: UIState
     @ObservedObject var viewModel: PostViewModel
     @State private var redrawLink = false
         
@@ -30,6 +31,12 @@ struct PostDetailView: View {
         }
         .onAppear(perform: viewModel.fechComments)
         .onAppear(perform: viewModel.postVisit)
+        .onAppear(perform: {
+            uiState.selectedPost = viewModel.post
+        })
+        .onDisappear(perform: {
+            uiState.selectedPost = nil
+        })
         .frame(minWidth: 500,
                maxWidth: .infinity,
                maxHeight: .infinity)

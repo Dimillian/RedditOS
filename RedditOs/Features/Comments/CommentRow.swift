@@ -13,9 +13,23 @@ struct CommentRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 0) {
-                Text(comment.author ?? "Unknown")
-                    .font(.callout)
-                    .fontWeight(.bold)
+                HStack(spacing: 6) {
+                    if let richText = comment.authorFlairRichtext, !richText.isEmpty {
+                        FlairView(richText: richText,
+                                  textColorHex: comment.authorFlairTextColor,
+                                  backgroundColorHex: comment.authorFlairBackgroundColor,
+                                  display: .small)
+                    }
+                    if comment.isSubmitter == true {
+                        Image(systemName: "music.mic")
+                            .foregroundColor(.redditBlue)
+                    } else {
+                        Image(systemName: "person")
+                    }
+                    Text(comment.author ?? "Unknown")
+                        .font(.callout)
+                        .fontWeight(.bold)
+                }
                 if let score = comment.score {
                     Text(" · \(score.toRoundedSuffixAsString()) points  · ")
                         .foregroundColor(.gray)
@@ -25,6 +39,9 @@ struct CommentRow: View {
                     Text(date, style: .relative)
                         .foregroundColor(.gray)
                         .font(.caption)
+                }
+                if let awards = comment.allAwardings, !awards.isEmpty {
+                    AwardsView(awards: awards).padding(.leading, 8)
                 }
             }
             Text(comment.body ?? "No comment content")

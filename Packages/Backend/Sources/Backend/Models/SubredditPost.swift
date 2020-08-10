@@ -39,9 +39,17 @@ public struct SubredditPost: Decodable, Identifiable, Hashable {
     public let secureMedia: SecureMedia?
     public let url: String?
     public let permalink: String?
+    
     public let linkFlairText: String?
+    public let linkFlairRichtext: [FlairRichText]?
     public let linkFlairBackgroundColor: String?
     public let linkFlairTextColor: String?
+    
+    public let authorFlairRichtext: [FlairRichText]?
+    public let authorFlairText: String?
+    public let authorFlairTextColor: String?
+    public let authorFlairBackgroundColor: String?
+    
     public let allAwardings: [Award]
     public var visited: Bool
     public var saved: Bool
@@ -71,8 +79,13 @@ public let static_listing = SubredditPost(id: "0",
                                     url: "https://test.com",
                                     permalink: nil,
                                     linkFlairText: nil,
+                                    linkFlairRichtext: nil,
                                     linkFlairBackgroundColor: nil,
                                     linkFlairTextColor: nil,
+                                    authorFlairRichtext: nil,
+                                    authorFlairText: nil,
+                                    authorFlairTextColor: nil,
+                                    authorFlairBackgroundColor: nil,
                                     allAwardings: [],
                                     visited: false,
                                     saved: false,

@@ -7,12 +7,20 @@
 
 import SwiftUI
 import Backend
+import SDWebImageSwiftUI
 
 struct FlairView: View {
-    let post: SubredditPost
+    enum Display {
+        case small, normal
+    }
+    
+    let richText: [FlairRichText]?
+    let textColorHex: String?
+    let backgroundColorHex: String?
+    let display: Display
     
     var backgroundColor: Color {
-        if let color = post.linkFlairBackgroundColor{
+        if let color = backgroundColorHex {
             if color.isEmpty {
                 return .gray
             }
@@ -25,29 +33,45 @@ struct FlairView: View {
         if backgroundColor == .gray {
             return .white
         }
-        return post.linkFlairTextColor == "dark" ? .black : .white
+        return textColorHex == "dark" ? .black : .white
     }
 
     @ViewBuilder
     var body: some View {
-        if post.linkFlairText == nil || post.linkFlairText?.isEmpty == true {
-            EmptyView()
+        if let texts = richText {
+            HStack(spacing: 4) {
+                ForEach(texts, id: \.self) { text in
+                    if text.e == "emoji" {
+                        WebImage(url: text.u!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                    } else if text.e == "text" {
+                        Text(text.t!)
+                            .foregroundColor(textColor)
+                            .font(display == .small ? .footnote : .callout)
+                            .fontWeight(.light)
+                    } else {
+                        EmptyView()
+                    }
+                }
+            }
+            .padding(4)
+            .background(
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(backgroundColor)
+            )
         } else {
-            Text(post.linkFlairText!)
-                .foregroundColor(textColor)
-                .font(.callout)
-                .fontWeight(.light)
-                .padding(4)
-                .background(
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(backgroundColor)
-                )
+            EmptyView()
         }
     }
 }
 
 struct FlairView_Previews: PreviewProvider {
     static var previews: some View {
-        FlairView(post: static_listing)
+        FlairView(richText: nil,
+                  textColorHex: nil,
+                  backgroundColorHex: "#dadada",
+                  display: .normal)
     }
 }

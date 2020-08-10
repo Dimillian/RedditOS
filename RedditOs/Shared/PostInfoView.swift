@@ -19,18 +19,26 @@ struct PostInfoView: View {
             Text("r/\(post.subreddit)")
                 .fontWeight(.bold)
                 .font(.subheadline)
-            Button(action: {
-                showUserPopover = true
-            }, label: {
-                HStack(spacing: 4) {
-                    Image(systemName: "person")
-                    Text("u/\(post.author)")
+            HStack(spacing: 6) {
+                Button(action: {
+                    showUserPopover = true
+                }, label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "person")
+                        Text("u/\(post.author)")
+                    }
+                })
+                .buttonStyle(BorderlessButtonStyle())
+                .popover(isPresented: $showUserPopover, content: {
+                    UserPopoverView(username: post.author)
+                })
+                if let richText = post.authorFlairRichtext, !richText.isEmpty {
+                    FlairView(richText: richText,
+                              textColorHex: post.authorFlairTextColor,
+                              backgroundColorHex: post.authorFlairBackgroundColor,
+                              display: .small)
                 }
-            })
-            .buttonStyle(BorderlessButtonStyle())
-            .popover(isPresented: $showUserPopover, content: {
-                UserPopoverView(username: post.author)
-            })
+            }
             HStack(spacing: 12) {
                 HStack(spacing: 4) {
                     Image(systemName: "clock")
@@ -42,7 +50,7 @@ struct PostInfoView: View {
                     Text("\(post.numComments)")
                 }
                 if !post.allAwardings.isEmpty {
-                    PostAwardsView(awards: post.allAwardings)
+                    AwardsView(awards: post.allAwardings)
                 }
             }
             .font(.callout)

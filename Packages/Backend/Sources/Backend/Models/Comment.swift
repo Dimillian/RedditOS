@@ -17,12 +17,19 @@ public struct Comment: Decodable, Identifiable {
     public let id: String
     public let name: String
     public let body: String?
+    public let isSubmitter: Bool?
     public let author: String?
     public let lindId: String?
     public let created: Date?
     public let createdUtc: Date?
     public let replies: Replies?
     public let score: Int?
+    public let allAwardings: [Award]?
+    
+    public let authorFlairRichtext: [FlairRichText]?
+    public let authorFlairText: String?
+    public let authorFlairTextColor: String?
+    public let authorFlairBackgroundColor: String?
     
     public var repliesComments: [Comment]? {
         if let replies = replies {
@@ -54,10 +61,16 @@ public enum Replies: Decodable {
 public let static_comment = Comment(id: UUID().uuidString,
                                     name: "t1_id",
                                     body: "Comment text with a long line of text \n and another line.",
+                                    isSubmitter: false,
                                     author: "TestUser",
                                     lindId: "",
                                     created: Date(),
                                     createdUtc: Date(),
                                     replies: .none(""),
-                                    score: 2500)
+                                    score: 2500,
+                                    allAwardings: [],
+                                    authorFlairRichtext: nil,
+                                    authorFlairText: nil,
+                                    authorFlairTextColor: nil,
+                                    authorFlairBackgroundColor: nil)
 public let static_comments = [static_comment, static_comment, static_comment]

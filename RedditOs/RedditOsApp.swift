@@ -49,6 +49,19 @@ struct RedditOsApp: App {
                 }
             }
             
+            CommandMenu("Post") {
+                Button(action: {
+                    
+                }) {
+                    Text("Upvote")
+                }.disabled(uiState.selectedPost != nil)
+                Button(action: {
+                    
+                }) {
+                    Text("Downvote")
+                }.disabled(uiState.selectedPost != nil)
+            }
+            
             #if DEBUG
             CommandMenu("Debug") {
                 Button(action: {
