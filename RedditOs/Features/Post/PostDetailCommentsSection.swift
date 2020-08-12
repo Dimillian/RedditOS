@@ -7,24 +7,28 @@
 
 import SwiftUI
 import Backend
+import UI
 
 struct PostDetailCommentsSection: View {
-    let comments: [Comment]?
+    @ObservedObject var viewModel: PostViewModel
     private let placeholderComments = Array(repeating: static_comment, count: 10)
     
     var body: some View {
-        OutlineGroup(comments ?? placeholderComments,
-                     children: \.repliesComments) { comment in
-            CommentRow(comment: comment)
-                .redacted(reason: comments == nil ? .placeholder : [])
+        Divider()
+        
+        Picker("Sort by", selection: $viewModel.commentsSort) {
+            ForEach(Comment.Sort.allCases, id: \.self) { sort in
+                Text(sort.label()).tag(sort)
+            }
         }
-    }
-}
-
-struct PostCommentsSection_Previews: PreviewProvider {
-    static var previews: some View {
-        List {
-            PostDetailCommentsSection(comments: static_comments)
+        .pickerStyle(MenuPickerStyle())
+        .frame(width: 170)
+        .padding(.bottom, 8)
+        
+        RecursiveView(data: viewModel.comments ?? placeholderComments,
+                      children: \.repliesComments) { comment in
+            CommentRow(comment: comment)
+                .redacted(reason: viewModel.comments == nil ? .placeholder : [])
         }
     }
 }

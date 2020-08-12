@@ -27,7 +27,7 @@ struct PostDetailView: View {
                 PostDetailContent(listing: viewModel.post, redrawLink: $redrawLink)
                 PostDetailActionsView(viewModel: viewModel)
             }.padding(.bottom, 16)
-            PostDetailCommentsSection(comments: viewModel.comments)
+            PostDetailCommentsSection(viewModel: viewModel)
         }
         .onAppear(perform: viewModel.fechComments)
         .onAppear(perform: viewModel.postVisit)
