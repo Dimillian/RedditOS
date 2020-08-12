@@ -8,11 +8,7 @@
 import Foundation
 import Combine
 
-extension SubredditPost {
-    public enum Vote: Int {
-        case upvote = 1, downvote = -1, neutral = 0
-    }
-    
+extension SubredditPost {    
     static public func fetch(subreddit: String,
                              sort: String,
                              after: SubredditPost?) -> AnyPublisher<ListingResponse<SubredditPost>, Never> {

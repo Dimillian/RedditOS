@@ -13,6 +13,12 @@ import Backend
 class PostViewModel: ObservableObject {
     @Published var post: SubredditPost
     @Published var comments: [Comment]?
+    @AppStorage(SettingsKey.comments_default_sort_order) var commentsSort = Comment.Sort.top {
+        didSet {
+            comments = nil
+            fechComments()
+        }
+    }
     
     private var cancellableStore: [AnyCancellable] = []
     
@@ -32,7 +38,7 @@ class PostViewModel: ObservableObject {
         cancellableStore.append(cancellable)
     }
     
-    func postVote(vote: SubredditPost.Vote) {
+    func postVote(vote: Vote) {
         let oldValue = post.likes
         let cancellable = post.vote(vote: vote)
             .receive(on: DispatchQueue.main)
@@ -57,12 +63,23 @@ class PostViewModel: ObservableObject {
     }
     
     func fechComments() {
-        let cancellable = Comment.fetch(subreddit: post.subreddit, id: post.id)
+        let cancellable = Comment.fetch(subreddit: post.subreddit, id: post.id, sort: commentsSort)
             .receive(on: DispatchQueue.main)
             .map{ $0.last?.comments }
             .sink{ [weak self] comments in
                 self?.comments = comments
             }
         cancellableStore.append(cancellable)
+    }
+}
+
+extension Comment.Sort {
+    public func label() -> String {
+        switch self {
+        case .best:
+            return "Best"
+        default:
+            return self.rawValue.capitalized
+        }
     }
 }

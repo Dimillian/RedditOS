@@ -1,15 +1,15 @@
 //
-//  PostDetailActions.swift
+//  CommentActionsView.swift
 //  RedditOs
 //
-//  Created by Thomas Ricouard on 10/07/2020.
+//  Created by Thomas Ricouard on 12/08/2020.
 //
 
 import SwiftUI
 import Backend
 
-struct PostDetailActionsView: View {
-    @ObservedObject var viewModel: PostViewModel
+struct CommentActionsView: View {
+    @ObservedObject var viewModel: CommentViewModel
     @State private var showPicker = false
     
     var body: some View {
@@ -17,41 +17,36 @@ struct PostDetailActionsView: View {
             Button(action: {
                 
             }, label: {
-                Label("\(viewModel.post.numComments) comments", systemImage: "bubble.middle.bottom.fill")
-                    .foregroundColor(.white)
+                Label("Reply", systemImage: "bubble.right")
             }).buttonStyle(BorderlessButtonStyle())
             
             Button(action: {
                 showPicker.toggle()
             }, label: {
                 Label("Share", systemImage: "square.and.arrow.up")
-                    .foregroundColor(.white)
             })
             .buttonStyle(BorderlessButtonStyle())
             .background(SharingsPicker(isPresented: $showPicker,
-                                       sharingItems: [viewModel.post.redditURL ?? ""]))
+                                       sharingItems: [viewModel.comment.permalinkURL ?? ""]))
             
-
             Button(action: {
                 viewModel.toggleSave()
             }, label: {
-                Label(viewModel.post.saved ? "Saved" : "Save",
-                      systemImage: viewModel.post.saved ? "bookmark.fill": "bookmark")
-                    .foregroundColor(viewModel.post.saved ? .accentColor : .white)
+                Label("Save",
+                      systemImage: viewModel.comment.saved == true ? "bookmark.fill" : "bookmark")
             }).buttonStyle(BorderlessButtonStyle())
             
             Button(action: {
                 
             }, label: {
                 Label("Report", systemImage: "flag")
-                    .foregroundColor(.white)
             }).buttonStyle(BorderlessButtonStyle())
         }
     }
 }
 
-struct PostDetailActions_Previews: PreviewProvider {
+struct CommentActionsView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailActionsView(viewModel: PostViewModel(post: static_listing))
+        CommentActionsView(viewModel: CommentViewModel(comment: static_comment))
     }
 }

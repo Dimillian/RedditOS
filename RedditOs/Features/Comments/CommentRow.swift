@@ -9,46 +9,54 @@ import SwiftUI
 import Backend
 
 struct CommentRow: View {
-    let comment: Comment
+    @StateObject private var viewModel: CommentViewModel
+    
+    init(comment: Comment) {
+        _viewModel = StateObject(wrappedValue: CommentViewModel(comment: comment))
+    }
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 0) {
-                HStack(spacing: 6) {
-                    if let richText = comment.authorFlairRichtext, !richText.isEmpty {
-                        FlairView(richText: richText,
-                                  textColorHex: comment.authorFlairTextColor,
-                                  backgroundColorHex: comment.authorFlairBackgroundColor,
-                                  display: .small)
+        HStack(alignment: .top) {
+            CommentVoteView(viewModel: viewModel).padding(.top, 4)
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 0) {
+                    HStack(spacing: 6) {
+                        if let richText = viewModel.comment.authorFlairRichtext, !richText.isEmpty {
+                            FlairView(richText: richText,
+                                      textColorHex: viewModel.comment.authorFlairTextColor,
+                                      backgroundColorHex: viewModel.comment.authorFlairBackgroundColor,
+                                      display: .small)
+                        }
+                        if viewModel.comment.isSubmitter == true {
+                            Image(systemName: "music.mic")
+                                .foregroundColor(.redditBlue)
+                        } else {
+                            Image(systemName: "person")
+                        }
+                        Text(viewModel.comment.author ?? "Unknown")
+                            .font(.callout)
+                            .fontWeight(.bold)
                     }
-                    if comment.isSubmitter == true {
-                        Image(systemName: "music.mic")
-                            .foregroundColor(.redditBlue)
-                    } else {
-                        Image(systemName: "person")
+                    if let score = viewModel.comment.score {
+                        Text(" · \(score.toRoundedSuffixAsString()) points  · ")
+                            .foregroundColor(.gray)
+                            .font(.caption)
                     }
-                    Text(comment.author ?? "Unknown")
-                        .font(.callout)
-                        .fontWeight(.bold)
+                    if let date = viewModel.comment.createdUtc {
+                        Text(date, style: .relative)
+                            .foregroundColor(.gray)
+                            .font(.caption)
+                    }
+                    if let awards = viewModel.comment.allAwardings, !awards.isEmpty {
+                        AwardsView(awards: awards).padding(.leading, 8)
+                    }
                 }
-                if let score = comment.score {
-                    Text(" · \(score.toRoundedSuffixAsString()) points  · ")
-                        .foregroundColor(.gray)
-                        .font(.caption)
-                }
-                if let date = comment.createdUtc {
-                    Text(date, style: .relative)
-                        .foregroundColor(.gray)
-                        .font(.caption)
-                }
-                if let awards = comment.allAwardings, !awards.isEmpty {
-                    AwardsView(awards: awards).padding(.leading, 8)
-                }
-            }
-            Text(comment.body ?? "No comment content")
-                .font(.body)
-                .padding(.bottom, 4)
-            Divider()
-        }.padding(.vertical, 4)
+                Text(viewModel.comment.body ?? "No comment content")
+                    .font(.body)
+                CommentActionsView(viewModel: viewModel)
+                Divider()
+            }.padding(.vertical, 4)
+        }
     }
 }
 

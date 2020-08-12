@@ -23,8 +23,16 @@ public struct Comment: Decodable, Identifiable {
     public let created: Date?
     public let createdUtc: Date?
     public let replies: Replies?
-    public let score: Int?
+    public var score: Int?
+    public var likes: Bool?
     public let allAwardings: [Award]?
+    public var saved: Bool?
+    
+    public let permalink: String?
+    public var permalinkURL: URL? {
+        guard let permalink = permalink else { return nil }
+        return URL(string: "https://reddit.com\(permalink)")
+    }
     
     public let authorFlairRichtext: [FlairRichText]?
     public let authorFlairText: String?
@@ -60,7 +68,7 @@ public enum Replies: Decodable {
 
 public let static_comment = Comment(id: UUID().uuidString,
                                     name: "t1_id",
-                                    body: "Comment text with a long line of text \n and another line.",
+                                    body: "Comment text with a long line of text\nThis is another line.",
                                     isSubmitter: false,
                                     author: "TestUser",
                                     lindId: "",
@@ -69,6 +77,8 @@ public let static_comment = Comment(id: UUID().uuidString,
                                     replies: .none(""),
                                     score: 2500,
                                     allAwardings: [],
+                                    saved: false,
+                                    permalink: "",
                                     authorFlairRichtext: nil,
                                     authorFlairText: nil,
                                     authorFlairTextColor: nil,
