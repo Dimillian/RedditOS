@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Backend
+import SDWebImageSwiftUI
 
 struct SubredditPostsListView: View {
     let posts = Array(repeating: 0, count: 20)
@@ -16,6 +17,7 @@ struct SubredditPostsListView: View {
     @EnvironmentObject private var localData: LocalDataStore
     @StateObject private var viewModel: SubredditViewModel
     @AppStorage(SettingsKey.subreddit_display_mode) private var displayMode = SubredditPostRow.DisplayMode.large
+    @State private var subredditAboutPopoverShown = false
     
     init(name: String) {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
@@ -30,7 +32,7 @@ struct SubredditPostsListView: View {
             return ""
         }
         if let subscribers = viewModel.subreddit?.subscribers, let connected = viewModel.subreddit?.accountsActive {
-            return "\(subscribers.toRoundedSuffixAsString()) subscribers - \(connected.toRoundedSuffixAsString()) active"
+            return "\(subscribers.toRoundedSuffixAsString()) members - \(connected.toRoundedSuffixAsString()) online"
         }
         return ""
     }
@@ -46,6 +48,22 @@ struct SubredditPostsListView: View {
         .navigationTitle(viewModel.name.capitalized)
         .navigationSubtitle(subtitle)
         .toolbar {
+            ToolbarItem(placement: .navigation) {
+                if let icon = viewModel.subreddit?.iconImg, let url = URL(string: icon) {
+                    WebImage(url: url)
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            subredditAboutPopoverShown = true
+                        }
+                        .popover(isPresented: $subredditAboutPopoverShown,
+                                 content: { SubredditAboutPopoverView(subreddit: viewModel.subreddit) })
+                } else {
+                    EmptyView()
+                }
+            }
+            
             ToolbarItem(placement: .primaryAction) {
                 Picker("",
                        selection: $displayMode,
