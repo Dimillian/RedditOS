@@ -32,7 +32,7 @@ struct PostDetailView: View {
         .onAppear(perform: viewModel.fechComments)
         .onAppear(perform: viewModel.postVisit)
         .onAppear(perform: {
-            uiState.selectedPost = viewModel.post
+            uiState.selectedPost = viewModel
         })
         .onDisappear(perform: {
             uiState.selectedPost = nil

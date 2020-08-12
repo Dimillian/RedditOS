@@ -15,7 +15,6 @@ class PostViewModel: ObservableObject {
     @Published var comments: [Comment]?
     @AppStorage(SettingsKey.comments_default_sort_order) var commentsSort = Comment.Sort.top {
         didSet {
-            comments = nil
             fechComments()
         }
     }
@@ -63,6 +62,7 @@ class PostViewModel: ObservableObject {
     }
     
     func fechComments() {
+        comments = nil
         let cancellable = Comment.fetch(subreddit: post.subreddit, id: post.id, sort: commentsSort)
             .receive(on: DispatchQueue.main)
             .map{ $0.last?.comments }
