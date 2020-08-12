@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Backend
+import UI
 import SDWebImageSwiftUI
 
 struct SubredditPostsListView: View {
@@ -14,10 +15,14 @@ struct SubredditPostsListView: View {
     
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     
+    @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var localData: LocalDataStore
+    
     @StateObject private var viewModel: SubredditViewModel
     @AppStorage(SettingsKey.subreddit_display_mode) private var displayMode = SubredditPostRow.DisplayMode.large
+    
     @State private var subredditAboutPopoverShown = false
+    @State private var sharePickerShown = false
     
     init(name: String) {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
@@ -49,19 +54,26 @@ struct SubredditPostsListView: View {
         .navigationSubtitle(subtitle)
         .toolbar {
             ToolbarItem(placement: .navigation) {
-                if let icon = viewModel.subreddit?.iconImg, let url = URL(string: icon) {
-                    WebImage(url: url)
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .cornerRadius(10)
-                        .onTapGesture {
-                            subredditAboutPopoverShown = true
-                        }
-                        .popover(isPresented: $subredditAboutPopoverShown,
-                                 content: { SubredditAboutPopoverView(subreddit: viewModel.subreddit) })
-                } else {
-                    EmptyView()
+                Group {
+                    if isDefaultChannel {
+                        EmptyView()
+                    } else if let icon = viewModel.subreddit?.iconImg, let url = URL(string: icon) {
+                        WebImage(url: url)
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .cornerRadius(10)
+                    } else {
+                        
+                        Image(systemName: "globe")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    }
                 }
+                .onTapGesture {
+                    subredditAboutPopoverShown = true
+                }
+                .popover(isPresented: $subredditAboutPopoverShown,
+                         content: { SubredditAboutPopoverView(subreddit: viewModel.subreddit) })
             }
             
             ToolbarItem(placement: .primaryAction) {
@@ -91,20 +103,14 @@ struct SubredditPostsListView: View {
             
             ToolbarItem(placement: .primaryAction) {
                 Button(action: {
-                    
-                }) {
-                    Image(systemName: "info")
-                }
-                .keyboardShortcut("i", modifiers: .command)
-            }
-            
-            ToolbarItem(placement: .primaryAction) {
-                Button(action: {
-                    
+                    sharePickerShown.toggle()
                 }) {
                     Image(systemName: "square.and.arrow.up")
                 }
-                .keyboardShortcut("s", modifiers: .command)
+                .background(SharingsPicker(isPresented: $sharePickerShown,
+                                           sharingItems: [uiState.selectedPost?.post.redditURL ??
+                                                            viewModel.subreddit?.redditURL ??
+                                                            ""]))
             }
             
             ToolbarItem(placement: .primaryAction) {
@@ -116,6 +122,7 @@ struct SubredditPostsListView: View {
             if !isDefaultChannel {
                 viewModel.fetchAbout()
             }
+            uiState.selectedSubreddit = viewModel
         }
     }
 }

@@ -13,6 +13,7 @@ struct Sidebar: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var localData: LocalDataStore
     @EnvironmentObject private var currentUser: CurrentUserStore
+    
     @State private var isSearchPopoverPresented = false
     @State private var isHovered = false
     @State private var isInEditMode = false

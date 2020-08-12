@@ -633,7 +633,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.16;
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomasricouard.curiosity;
 				PRODUCT_NAME = Curiosity;
 				SWIFT_VERSION = 5.0;
@@ -660,7 +660,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.16;
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomasricouard.curiosity;
 				PRODUCT_NAME = Curiosity;
 				SWIFT_VERSION = 5.0;

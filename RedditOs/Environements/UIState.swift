@@ -44,7 +44,8 @@ class UIState: ObservableObject {
         }
     }
     
-    @Published var selectedPost: SubredditPost?
+    @Published var selectedSubreddit: SubredditViewModel?
+    @Published var selectedPost: PostViewModel?
     @Published var presentedRoute: Route?
     @Published var sidebarSelection: Set<String> = [DefaultChannels.hot.rawValue]
     @Published var searchedSubreddit = ""

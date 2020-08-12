@@ -12,6 +12,7 @@ import Backend
 @main
 struct RedditOsApp: App {
     @StateObject private var uiState = UIState()
+    @StateObject private var localData = LocalDataStore()
     
     @SceneBuilder
     var body: some Scene {
@@ -20,7 +21,7 @@ struct RedditOsApp: App {
                 Sidebar()
             }
             .frame(minHeight: 400, idealHeight: 800)
-            .environmentObject(LocalDataStore())
+            .environmentObject(localData)
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUserStore.shared)
             .environmentObject(uiState)
@@ -29,37 +30,69 @@ struct RedditOsApp: App {
             }
             .sheet(item: $uiState.presentedRoute, content: { $0.makeSheet() })
         }
-        .commands{
+        .commands {
             CommandMenu("Subreddit") {
                 Button(action: {
-                    
+                    uiState.selectedSubreddit?.listings = nil
+                    uiState.selectedSubreddit?.fetchListings()
                 }) {
-                    Text("Search")
+                    Text("Refresh")
                 }
-                Button(action: {
-                    
-                }) {
-                    Text("Navigate to")
-                }
+                .disabled(uiState.selectedSubreddit != nil)
+                .keyboardShortcut("r", modifiers: [.command])
+                
                 Divider()
+                
                 Button(action: {
-                    
+                    if let subreddit = uiState.selectedSubreddit?.subreddit {
+                        let small = SubredditSmall.makeSubredditSmall(with: subreddit)
+                        if localData.favorites.contains(small) {
+                            localData.remove(favorite: small)
+                        } else {
+                            localData.add(favorite: small)
+                        }
+                    }
+
                 }) {
-                    Text("Favorite")
+                    Text("Toggle favorite")
                 }
+                .disabled(uiState.selectedSubreddit != nil)
+                .keyboardShortcut("f", modifiers: [.command, .shift])
             }
             
             CommandMenu("Post") {
                 Button(action: {
-                    
+                    uiState.selectedPost?.fechComments()
+                }) {
+                    Text("Refresh comments")
+                }
+                .disabled(uiState.selectedPost != nil)
+                .keyboardShortcut("r", modifiers: [.command, .shift])
+                
+                Button(action: {
+                    uiState.selectedPost?.toggleSave()
+                }) {
+                    Text(uiState.selectedPost?.post.saved == true ? "Unsave" : "Save")
+                }
+                .disabled(uiState.selectedPost != nil)
+                .keyboardShortcut("s", modifiers: .command)
+                
+                Divider()
+                Button(action: {
+                    uiState.selectedPost?.postVote(vote: .upvote)
                 }) {
                     Text("Upvote")
-                }.disabled(uiState.selectedPost != nil)
+                }
+                .disabled(uiState.selectedPost != nil)
+                .keyboardShortcut(.upArrow, modifiers: .shift)
+                
                 Button(action: {
-                    
+                    uiState.selectedPost?.postVote(vote: .downvote)
                 }) {
                     Text("Downvote")
-                }.disabled(uiState.selectedPost != nil)
+                }
+                .disabled(uiState.selectedPost != nil)
+                .keyboardShortcut(.downArrow, modifiers: .shift)
             }
             
             #if DEBUG
