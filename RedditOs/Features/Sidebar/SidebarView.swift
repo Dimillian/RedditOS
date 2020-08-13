@@ -26,10 +26,14 @@ struct SidebarView: View {
                         Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
                     }.tag(item.rawValue)
                 }.animation(nil)
-                NavigationLink(destination: SubredditPostsListView(name: uiState.searchedSubreddit),
-                               isActive: $uiState.displaySearch) {
-                    EmptyView()
-                }.hidden()
+
+                NavigationLink(
+                    destination: uiState.presentedNavigationRoute?.makeView() ?? Route.none.makeView(),
+                    tag: uiState.presentedNavigationRoute ?? Route.none,
+                    selection: $uiState.presentedNavigationRoute,
+                    label: {
+                        EmptyView()
+                    })
             }
              
             Section(header: Text("Account")) {

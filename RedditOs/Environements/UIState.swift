@@ -11,25 +11,6 @@ import Combine
 import Backend
 
 class UIState: ObservableObject {
-    enum Route: Identifiable {
-        case user(user: User)
-        
-        var id: String {
-            switch self {
-            case .user:
-                return "user"
-            }
-        }
-        
-        @ViewBuilder
-        func makeSheet() -> some View {
-            switch self {
-            case let .user(user):
-                UserSheetView(user: user)
-            }
-        }
-    }
-    
     enum DefaultChannels: String, CaseIterable {
         case hot, best, new, top, rising
         
@@ -43,12 +24,19 @@ class UIState: ObservableObject {
             }
         }
     }
+
     
     @Published var selectedSubreddit: SubredditViewModel?
     @Published var selectedPost: PostViewModel?
-    @Published var presentedRoute: Route?
+    
+    @Published var presentedSheetRoute: Route?
+    @Published var presentedNavigationRoute: Route? {
+        didSet {
+            if let route = presentedNavigationRoute {
+                sidebarSelection = [route.id]
+            }
+        }
+    }
+    
     @Published var sidebarSelection: Set<String> = [DefaultChannels.hot.rawValue]
-    @Published var searchedSubreddit = ""
-    @Published var searchedUser = ""
-    @Published var displaySearch = false
 }

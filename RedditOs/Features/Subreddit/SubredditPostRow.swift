@@ -44,7 +44,7 @@ struct SubredditPostRow: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(viewModel.post.title)
                                 .fontWeight(.bold)
-                                .font(.headline)
+                                .font(.body)
                                 .lineLimit(displayMode == .compact ? 2 : nil)
                                 .foregroundColor(viewModel.post.visited ? .gray : nil)
                             HStack {
@@ -63,7 +63,7 @@ struct SubredditPostRow: View {
                                     }
                                 }
                             }
-                            PostInfoView(post: viewModel.post)
+                            PostInfoView(post: viewModel.post, display: .vertical)
                         }
                     }
                 }
@@ -100,16 +100,18 @@ struct SubredditPostRow: View {
 
 struct SubredditPostRow_Previews: PreviewProvider {
     static var previews: some View {
-        List {
-            SubredditPostRow(post: static_listing, displayMode: .constant(.large))
-            SubredditPostRow(post: static_listing, displayMode: .constant(.large))
-            SubredditPostRow(post: static_listing, displayMode: .constant(.large))
-            
-            Divider()
-            
-            SubredditPostRow(post: static_listing, displayMode: .constant(.compact))
-            SubredditPostRow(post: static_listing, displayMode: .constant(.compact))
-            SubredditPostRow(post: static_listing, displayMode: .constant(.compact))
+        NavigationView {
+            List {
+                SubredditPostRow(post: static_listing, displayMode: .constant(.large))
+                SubredditPostRow(post: static_listing, displayMode: .constant(.large))
+                SubredditPostRow(post: static_listing, displayMode: .constant(.large))
+                
+                Divider()
+                
+                SubredditPostRow(post: static_listing, displayMode: .constant(.compact))
+                SubredditPostRow(post: static_listing, displayMode: .constant(.compact))
+                SubredditPostRow(post: static_listing, displayMode: .constant(.compact))
+            }.frame(width: 500)
         }
     }
 }

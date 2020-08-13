@@ -20,7 +20,7 @@ struct PostsListView: View {
                 SubredditPostRow(post: post,
                                  displayMode: $displayMode)
                     .redacted(reason: posts == nil ? .placeholder : [])
-            }
+            }.animation(nil)
             if posts != nil {
                 LoadingRow(text: "Loading next page")
                     .onAppear {
@@ -28,6 +28,7 @@ struct PostsListView: View {
                     }
             }
         }
+        .animation(nil)
         .listStyle(InsetListStyle())
         .frame(width: 500)
     }

@@ -18,7 +18,7 @@ struct RedditOsApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                Sidebar()
+                SidebarView()
             }
             .frame(minHeight: 400, idealHeight: 800)
             .environmentObject(localData)
@@ -28,7 +28,7 @@ struct RedditOsApp: App {
             .onOpenURL { url in
                 OauthClient.shared.handleNextURL(url: url)
             }
-            .sheet(item: $uiState.presentedRoute, content: { $0.makeSheet() })
+            .sheet(item: $uiState.presentedSheetRoute, content: { $0.makeView() })
         }
         .commands {
             CommandMenu("Subreddit") {
