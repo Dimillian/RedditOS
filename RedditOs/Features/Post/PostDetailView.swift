@@ -20,7 +20,7 @@ struct PostDetailView: View {
                 HStack {
                     PostVoteView(viewModel: viewModel)
                     VStack(alignment: .leading) {
-                        PostInfoView(post: viewModel.post)
+                        PostInfoView(post: viewModel.post, display: .horizontal)
                         PostDetailHeader(listing: viewModel.post)
                     }
                 }
@@ -29,6 +29,7 @@ struct PostDetailView: View {
             }.padding(.bottom, 16)
             PostDetailCommentsSection(viewModel: viewModel)
         }
+        .animation(nil)
         .onAppear(perform: viewModel.fechComments)
         .onAppear(perform: viewModel.postVisit)
         .onAppear(perform: {
