@@ -50,7 +50,7 @@ struct FlairView: View {
                         Text(text.t!)
                             .foregroundColor(textColor)
                             .font(display == .small ? .footnote : .callout)
-                            .fontWeight(.light)
+                            .fontWeight(.semibold)
                     } else {
                         EmptyView()
                     }

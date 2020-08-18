@@ -15,7 +15,9 @@ public class LocalDataStore: ObservableObject, PersistentDataStore {
     }
     
     public init() {
-        self.favorites = restorePersistedData()?.favorites ?? []
+        var favorites = restorePersistedData()?.favorites ?? []
+        favorites.sort{ $0.name.lowercased() < $1.name.lowercased() }
+        self.favorites = favorites
     }
     
     // MARK: - Favorites management

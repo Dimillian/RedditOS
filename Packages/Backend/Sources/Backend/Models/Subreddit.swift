@@ -2,6 +2,7 @@ import Foundation
 
 public struct Subreddit: Codable, Identifiable {
     public let id: String
+    public let name: String
     public let displayName: String
     public let title: String
     public let publicDescription: String?
@@ -17,9 +18,11 @@ public struct Subreddit: Codable, Identifiable {
     public var redditURL: URL {
         URL(string: "https://reddit.com\(url)")!
     }
+    public var userIsSubscriber: Bool?
 }
 
 public let static_subreddit_full = Subreddit(id: "games",
+                                             name: "t3_fjfj",
                                              displayName: "games",
                                              title: "games",
                                              publicDescription: "a description",
@@ -31,4 +34,5 @@ public let static_subreddit_full = Subreddit(id: "games",
                                              subscribers: 1000,
                                              accountsActive: 500,
                                              createdUtc: Date(),
-                                             url: "/r/games")
+                                             url: "/r/games",
+                                             userIsSubscriber: false)

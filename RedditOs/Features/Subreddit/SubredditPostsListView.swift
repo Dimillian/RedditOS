@@ -73,7 +73,7 @@ struct SubredditPostsListView: View {
                     subredditAboutPopoverShown = true
                 }
                 .popover(isPresented: $subredditAboutPopoverShown,
-                         content: { SubredditAboutPopoverView(subreddit: viewModel.subreddit) })
+                         content: { SubredditAboutPopoverView(viewModel: viewModel) })
             }
             
             ToolbarItem(placement: .primaryAction) {

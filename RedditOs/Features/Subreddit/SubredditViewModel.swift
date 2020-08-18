@@ -19,6 +19,7 @@ class SubredditViewModel: ObservableObject {
     
     private var subredditCancellable: AnyCancellable?
     private var listingCancellable: AnyCancellable?
+    private var subscribeCancellable: AnyCancellable?
     
     @Published var subreddit: Subreddit?
     @Published var listings: [SubredditPost]?
@@ -56,5 +57,25 @@ class SubredditViewModel: ObservableObject {
                     self?.listings = listings
                 }
             }
+    }
+    
+    func toggleSubscribe() {
+        if subreddit?.userIsSubscriber == true {
+            subscribeCancellable = subreddit?.unSubscribe()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] response in
+                    if response.error != nil {
+                        self?.subreddit?.userIsSubscriber = true
+                    }
+                }
+        } else {
+            subscribeCancellable = subreddit?.subscribe()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] response in
+                    if response.error != nil {
+                        self?.subreddit?.userIsSubscriber = false
+                    }
+                }
+        }
     }
 }

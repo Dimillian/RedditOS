@@ -9,6 +9,10 @@ public struct SubredditResponse: Decodable {
 }
 
 public struct SubredditSmall: Codable, Identifiable, Equatable, Hashable {
+    public static func == (lhs: SubredditSmall, rhs: SubredditSmall) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     public var id: String { name }
     public let name: String
     public let subscriberCount: Int
