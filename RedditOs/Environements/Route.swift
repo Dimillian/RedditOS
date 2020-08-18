@@ -28,8 +28,8 @@ enum Route: Identifiable, Hashable {
         switch self {
         case .user:
             return "user"
-        case .subreddit:
-            return "subreddit"
+        case let .subreddit(subreddit):
+            return subreddit
         case .none:
             return "none"
         case let .defaultChannel(chanel):

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ToolbarSearchBar: View {
+    @EnvironmentObject private var uiState: UIState
     @State private var isFocused = false
     @StateObject private var searchViewModel = SearchViewModel()
     
@@ -15,7 +16,7 @@ struct ToolbarSearchBar: View {
         TextField("Search anything", text: $searchViewModel.searchText) { editing in
             isFocused = editing
         } onCommit: {
-            
+            uiState.presentedNavigationRoute = .subreddit(subreddit: searchViewModel.searchText)
         }
         .keyboardShortcut("f", modifiers: .command)
         .padding(8)

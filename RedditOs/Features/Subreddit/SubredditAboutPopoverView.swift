@@ -9,16 +9,58 @@ import SwiftUI
 import Backend
 
 struct SubredditAboutPopoverView: View {
-    let subreddit: Subreddit?
+    @EnvironmentObject private var localData: LocalDataStore
+    @ObservedObject var viewModel: SubredditViewModel
+    @State private var isSubscribeHovered = false
+    
+    var isFavorite: Bool {
+        guard let subreddit = viewModel.subreddit else {
+            return false
+        }
+        return localData.favorites.contains(SubredditSmall.makeSubredditSmall(with: subreddit))
+    }
+    
+    var isSubscriber: Bool {
+        viewModel.subreddit?.userIsSubscriber == true
+    }
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
+                HStack(alignment: .center, spacing: 16) {
+                    if let subreddit = viewModel.subreddit {
+                        Button(action: {
+                            viewModel.toggleSubscribe()
+                        }, label: {
+                            if isSubscribeHovered {
+                                Text(isSubscriber ? "Unsubscribe?" : "Subscribe?")
+                            } else {
+                                Text(isSubscriber ? "Subscribed" : "Subscribe")
+                            }
+                        }).onHover(perform: { hovering in
+                            isSubscribeHovered = hovering
+                        })
+                        
+                        Button(action: {
+                            if isFavorite {
+                                localData.remove(favorite: SubredditSmall.makeSubredditSmall(with: subreddit))
+                            } else {
+                                localData.add(favorite: SubredditSmall.makeSubredditSmall(with: subreddit))
+                            }
+                        }, label: {
+                            Image(systemName: isFavorite ? "star.fill" : "star")
+                                .resizable()
+                                .imageScale(.large)
+                                .foregroundColor(isFavorite ? .redditGold : nil)
+                        }).buttonStyle(BorderlessButtonStyle())
+                    }
+                }
                 Text("About Community")
                     .font(.title3)
-                Text(subreddit?.publicDescription ?? "")
+                Text(viewModel.subreddit?.publicDescription ?? "")
                     .font(.body)
-                if let subscribers = subreddit?.subscribers, let connected = subreddit?.accountsActive {
+                if let subscribers = viewModel.subreddit?.subscribers,
+                   let connected = viewModel.subreddit?.accountsActive {
                     HStack(spacing: 16) {
                         VStack(alignment: .leading) {
                             Text("\(subscribers.toRoundedSuffixAsString())")
@@ -41,7 +83,7 @@ struct SubredditAboutPopoverView: View {
                         .font(.title3)
                         .foregroundColor(.white)
                     Text(" Created ") +
-                        Text(subreddit?.createdUtc ?? Date(), style: .date)
+                        Text(viewModel.subreddit?.createdUtc ?? Date(), style: .date)
                 }
                 
             }.padding()
@@ -51,6 +93,6 @@ struct SubredditAboutPopoverView: View {
 
 struct SubredditAboutPopoverView_Previews: PreviewProvider {
     static var previews: some View {
-        SubredditAboutPopoverView(subreddit: static_subreddit_full)
+        SubredditAboutPopoverView(viewModel: SubredditViewModel(name: static_subreddit.name)).environmentObject(LocalDataStore())
     }
 }

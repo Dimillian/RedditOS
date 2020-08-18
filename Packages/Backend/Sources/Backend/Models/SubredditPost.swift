@@ -9,7 +9,9 @@ import Foundation
 
 public struct SubredditPost: Decodable, Identifiable, Hashable {
     public static func == (lhs: SubredditPost, rhs: SubredditPost) -> Bool {
-        lhs.id == rhs.id && lhs.likes == rhs.likes
+        lhs.id == rhs.id &&
+            lhs.likes == rhs.likes &&
+            lhs.saved == rhs.saved
     }
     
     public func hash(into hasher: inout Hasher) {

@@ -21,5 +21,15 @@ extension Subreddit {
             .replaceError(with: nil)
             .eraseToAnyPublisher()
     }
+    
+    public mutating func subscribe() -> AnyPublisher<NetworkResponse, Never> {
+        userIsSubscriber = true
+        return API.shared.POST(endpoint: .subscribe, params: ["action": "sub", "sr": name])
+    }
+    
+    public mutating func unSubscribe() -> AnyPublisher<NetworkResponse, Never> {
+        userIsSubscriber = false
+        return API.shared.POST(endpoint: .subscribe, params: ["action": "unsub", "sr": name])
+    }
 }
 
