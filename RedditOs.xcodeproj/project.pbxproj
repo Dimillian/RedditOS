@@ -46,6 +46,7 @@
 		697E324924E3EDE70006F00F /* CommentVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E324824E3EDE70006F00F /* CommentVoteView.swift */; };
 		697E324B24E3EFCB0006F00F /* CommentActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E324A24E3EFCB0006F00F /* CommentActionsView.swift */; };
 		697E324D24E3F2900006F00F /* SharingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E324C24E3F2900006F00F /* SharingPicker.swift */; };
+		69C1925A24EC0FEB00BA3C09 /* Parma in Frameworks */ = {isa = PBXBuildFile; productRef = 69C1925924EC0FEB00BA3C09 /* Parma */; };
 		69CCB3EA24E2BEAC003FAAD7 /* SubredditAboutPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCB3E924E2BEAC003FAAD7 /* SubredditAboutPopoverView.swift */; };
 		69D076C824B9E871001619AC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D076C724B9E871001619AC /* Color.swift */; };
 		69D8663424E568060052A2B0 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D8663324E568060052A2B0 /* Route.swift */; };
@@ -127,6 +128,7 @@
 			files = (
 				6970A0B124B74B7900B11031 /* SDWebImageSwiftUI in Frameworks */,
 				697E324524E3E7D90006F00F /* UI in Frameworks */,
+				69C1925A24EC0FEB00BA3C09 /* Parma in Frameworks */,
 				69EACF1C24B7272E00303A16 /* Backend in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,6 +393,7 @@
 				69EACF1B24B7272E00303A16 /* Backend */,
 				6970A0B024B74B7900B11031 /* SDWebImageSwiftUI */,
 				697E324424E3E7D90006F00F /* UI */,
+				69C1925924EC0FEB00BA3C09 /* Parma */,
 			);
 			productName = RedditOs;
 			productReference = 69EACEFF24B63D5800303A16 /* Curiosity.app */;
@@ -421,6 +424,7 @@
 			mainGroup = 69EACEF624B63D5800303A16;
 			packageReferences = (
 				6970A0AF24B74B7900B11031 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				69C1925824EC0FEB00BA3C09 /* XCRemoteSwiftPackageReference "Parma" */,
 			);
 			productRefGroup = 69EACF0024B63D5800303A16 /* Products */;
 			projectDirPath = "";
@@ -703,6 +707,14 @@
 				minimumVersion = 1.5.0;
 			};
 		};
+		69C1925824EC0FEB00BA3C09 /* XCRemoteSwiftPackageReference "Parma" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dasautoooo/Parma";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -714,6 +726,11 @@
 		697E324424E3E7D90006F00F /* UI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UI;
+		};
+		69C1925924EC0FEB00BA3C09 /* Parma */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69C1925824EC0FEB00BA3C09 /* XCRemoteSwiftPackageReference "Parma" */;
+			productName = Parma;
 		};
 		69EACF1B24B7272E00303A16 /* Backend */ = {
 			isa = XCSwiftPackageProductDependency;

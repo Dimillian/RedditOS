@@ -2,12 +2,30 @@
   "object": {
     "pins": [
       {
+        "package": "Down",
+        "repositoryURL": "https://github.com/iwasrobbed/Down",
+        "state": {
+          "branch": null,
+          "revision": "427aec0a0ab342246ec02369dea398597b61174a",
+          "version": "0.9.3"
+        }
+      },
+      {
         "package": "KeychainAccess",
         "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess",
         "state": {
           "branch": null,
           "revision": "3d0ea2c0806791abcc5d7f0d9f62f1cfd4a7264d",
           "version": "4.2.0"
+        }
+      },
+      {
+        "package": "Parma",
+        "repositoryURL": "https://github.com/dasautoooo/Parma",
+        "state": {
+          "branch": null,
+          "revision": "d620d6e8fdd59cd0a8110a08f4202b9eed5178aa",
+          "version": "0.1.0"
         }
       },
       {
