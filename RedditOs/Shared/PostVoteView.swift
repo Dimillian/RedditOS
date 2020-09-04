@@ -43,6 +43,6 @@ struct PostVoteView: View {
 
 struct ListingVoteView_Previews: PreviewProvider {
     static var previews: some View {
-        PostVoteView(viewModel: PostViewModel(post: static_listing))
+        PostVoteView(viewModel: PostViewModel())
     }
 }

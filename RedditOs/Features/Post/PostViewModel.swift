@@ -11,7 +11,7 @@ import Combine
 import Backend
 
 class PostViewModel: ObservableObject {
-    @Published var post: SubredditPost
+    @Published var post: SubredditPost = static_listing
     @Published var comments: [Comment]?
     @AppStorage(SettingsKey.comments_default_sort_order) var commentsSort = Comment.Sort.top {
         didSet {
@@ -20,10 +20,6 @@ class PostViewModel: ObservableObject {
     }
     
     private var cancellableStore: [AnyCancellable] = []
-    
-    init(post: SubredditPost) {
-        self.post = post
-    }
     
     func postVisit() {
         let oldValue = post.visited

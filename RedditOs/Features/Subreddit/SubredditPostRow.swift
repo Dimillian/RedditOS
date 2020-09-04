@@ -21,16 +21,12 @@ struct SubredditPostRow: View {
         }
     }
     
-    @StateObject var viewModel: PostViewModel
+    let post: SubredditPost
+    @StateObject var viewModel: PostViewModel = PostViewModel()
     @Binding var displayMode: DisplayMode
     
     @Environment(\.openURL) private var openURL
     
-    init(post: SubredditPost, displayMode: Binding<DisplayMode>) {
-        _viewModel = StateObject(wrappedValue: PostViewModel(post: post))
-        _displayMode = displayMode
-    }
-        
     var body: some View {
         NavigationLink(destination: PostDetailView(viewModel: viewModel)) {
             HStack {
@@ -70,6 +66,9 @@ struct SubredditPostRow: View {
                 Spacer()
             }
         }
+        .onAppear(perform: {
+            viewModel.post = post
+        })
         .frame(width: 470)
         .padding(.vertical, 8)
         .contextMenu {

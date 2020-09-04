@@ -13,6 +13,7 @@ struct PostDetailView: View {
     @EnvironmentObject private var uiState: UIState
     @ObservedObject var viewModel: PostViewModel
     @State private var redrawLink = false
+    @State private var sharePickerShown = false
         
     var body: some View {
         List {
@@ -38,6 +39,16 @@ struct PostDetailView: View {
         .onDisappear(perform: {
             uiState.selectedPost = nil
         })
+        .toolbar {
+            Button(action: {
+                sharePickerShown.toggle()
+            }) {
+                Image(systemName: "square.and.arrow.up")
+            }
+            .background(SharingsPicker(isPresented: $sharePickerShown,
+                                       sharingItems: [viewModel.post.redditURL ?? ""]))
+            ToolbarSearchBar()
+        }
         .frame(minWidth: 500,
                maxWidth: .infinity,
                maxHeight: .infinity)
@@ -46,6 +57,6 @@ struct PostDetailView: View {
 
 struct PostDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(viewModel: PostViewModel(post: static_listing))
+        PostDetailView(viewModel: PostViewModel())
     }
 }
