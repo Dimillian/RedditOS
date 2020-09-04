@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct GlobalSearchSubRow: View {
     let icon: String?
@@ -18,7 +18,7 @@ struct GlobalSearchSubRow: View {
         HStack {
             if let image = icon,
                let url = URL(string: image) {
-                WebImage(url: url)
+                KFImage(url)
                     .resizable()
                     .frame(width: 16, height: 16)
                     .cornerRadius(8)

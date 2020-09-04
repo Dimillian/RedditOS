@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct AwardsView: View {
     let awards: [Award]
@@ -19,7 +19,7 @@ struct AwardsView: View {
         HStack {
             ForEach(awards.prefix(3)) { award in
                 HStack(spacing: 2) {
-                    WebImage(url: award.staticIconUrl, isAnimating: .constant(true))
+                    KFImage(award.staticIconUrl)
                         .resizable()
                         .frame(width: 16, height: 16)
                 }
@@ -36,7 +36,7 @@ struct AwardsView: View {
                 VStack {
                     ForEach(awards) { award in
                         HStack(spacing: 8) {
-                            WebImage(url: award.staticIconUrl)
+                            KFImage(award.staticIconUrl)
                                 .resizable()
                                 .frame(width: 30, height: 30)
                             Text(award.name)

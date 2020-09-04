@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct PostDetailHeader: View {
     let listing: SubredditPost
@@ -20,7 +20,7 @@ struct PostDetailHeader: View {
                 .multilineTextAlignment(.leading)
                 .truncationMode(.tail)
             if let url = listing.thumbnailURL, url.pathExtension != "jpg", url.pathExtension != "png" {
-                WebImage(url: url)
+                KFImage(url)
                     .frame(width: 80, height: 60)
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(8)

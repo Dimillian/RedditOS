@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
 
 struct GlobalSearchPopoverView: View {
     @EnvironmentObject private var uiState: UIState

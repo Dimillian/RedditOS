@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct SubredditPostThumbnailView: View {
     @ObservedObject var viewModel: PostViewModel
@@ -19,7 +19,7 @@ struct SubredditPostThumbnailView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             if let url = post.thumbnailURL ?? post.secureMedia?.oembed?.thumbnailUrlAsURL {
-                WebImage(url: url)
+                KFImage(url)
                     .frame(width: 80, height: 60)
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(8)

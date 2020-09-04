@@ -8,7 +8,7 @@
 import SwiftUI
 import Backend
 import UI
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct SubredditPostsListView: View {
     let posts = Array(repeating: 0, count: 20)
@@ -55,7 +55,7 @@ struct SubredditPostsListView: View {
                         if isDefaultChannel {
                             EmptyView()
                         } else if let icon = viewModel.subreddit?.iconImg, let url = URL(string: icon) {
-                            WebImage(url: url)
+                            KFImage(url)
                                 .resizable()
                                 .frame(width: 20, height: 20)
                                 .cornerRadius(10)

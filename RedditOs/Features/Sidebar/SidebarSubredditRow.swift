@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct SidebarSubredditRow: View {
     let name: String
@@ -18,7 +18,7 @@ struct SidebarSubredditRow: View {
             HStack {
                 if let image = iconURL,
                    let url = URL(string: image) {
-                    WebImage(url: url)
+                    KFImage(url)
                         .resizable()
                         .frame(width: 16, height: 16)
                         .cornerRadius(8)

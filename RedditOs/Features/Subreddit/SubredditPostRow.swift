@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
 
 struct SubredditPostRow: View {
     enum DisplayMode: String, CaseIterable {

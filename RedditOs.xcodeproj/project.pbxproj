@@ -16,6 +16,7 @@
 		69222AA524CD6A89009F31B4 /* UserHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69222AA424CD6A89009F31B4 /* UserHeaderView.swift */; };
 		69222AA724CD6D6C009F31B4 /* SubmittedPostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69222AA624CD6D6C009F31B4 /* SubmittedPostsListView.swift */; };
 		69222AAA24CD7518009F31B4 /* CommentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69222AA924CD7518009F31B4 /* CommentRow.swift */; };
+		6923F8CD250250FC0003870F /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6923F8CC250250FC0003870F /* KingfisherSwiftUI */; };
 		6924D53C24CD949D005487CA /* UserPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53B24CD949D005487CA /* UserPopoverView.swift */; };
 		6924D53E24CD94B0005487CA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53D24CD94B0005487CA /* UserViewModel.swift */; };
 		6924D54024CDCED0005487CA /* UserSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53F24CDCED0005487CA /* UserSheetView.swift */; };
@@ -32,7 +33,6 @@
 		693F85D424D0715000224ADB /* ToolbarSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693F85D324D0715000224ADB /* ToolbarSearchBar.swift */; };
 		694C634F24C0AA6D0017897D /* SidebarSubredditRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694C634E24C0AA6D0017897D /* SidebarSubredditRow.swift */; };
 		6970A0AE24B74A9D00B11031 /* PostInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6970A0AD24B74A9D00B11031 /* PostInfoView.swift */; };
-		6970A0B124B74B7900B11031 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6970A0B024B74B7900B11031 /* SDWebImageSwiftUI */; };
 		6970A0B324B77D1200B11031 /* PostVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6970A0B224B77D1200B11031 /* PostVoteView.swift */; };
 		6970A0B624B783FE00B11031 /* LinkPresentationRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6970A0B524B783FE00B11031 /* LinkPresentationRepresentable.swift */; };
 		6970A0B924B79AFD00B11031 /* PopoverSearchSubredditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6970A0B824B79AFD00B11031 /* PopoverSearchSubredditView.swift */; };
@@ -126,10 +126,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6970A0B124B74B7900B11031 /* SDWebImageSwiftUI in Frameworks */,
 				697E324524E3E7D90006F00F /* UI in Frameworks */,
 				69C1925A24EC0FEB00BA3C09 /* Parma in Frameworks */,
 				69EACF1C24B7272E00303A16 /* Backend in Frameworks */,
+				6923F8CD250250FC0003870F /* KingfisherSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,9 +391,9 @@
 			name = RedditOs;
 			packageProductDependencies = (
 				69EACF1B24B7272E00303A16 /* Backend */,
-				6970A0B024B74B7900B11031 /* SDWebImageSwiftUI */,
 				697E324424E3E7D90006F00F /* UI */,
 				69C1925924EC0FEB00BA3C09 /* Parma */,
+				6923F8CC250250FC0003870F /* KingfisherSwiftUI */,
 			);
 			productName = RedditOs;
 			productReference = 69EACEFF24B63D5800303A16 /* Curiosity.app */;
@@ -423,8 +423,8 @@
 			);
 			mainGroup = 69EACEF624B63D5800303A16;
 			packageReferences = (
-				6970A0AF24B74B7900B11031 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				69C1925824EC0FEB00BA3C09 /* XCRemoteSwiftPackageReference "Parma" */,
+				6923F8CB250250FC0003870F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 69EACF0024B63D5800303A16 /* Products */;
 			projectDirPath = "";
@@ -699,12 +699,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6970A0AF24B74B7900B11031 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+		6923F8CB250250FC0003870F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.0;
+				minimumVersion = 5.15.0;
 			};
 		};
 		69C1925824EC0FEB00BA3C09 /* XCRemoteSwiftPackageReference "Parma" */ = {
@@ -718,10 +718,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6970A0B024B74B7900B11031 /* SDWebImageSwiftUI */ = {
+		6923F8CC250250FC0003870F /* KingfisherSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6970A0AF24B74B7900B11031 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
-			productName = SDWebImageSwiftUI;
+			package = 6923F8CB250250FC0003870F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = KingfisherSwiftUI;
 		};
 		697E324424E3E7D90006F00F /* UI */ = {
 			isa = XCSwiftPackageProductDependency;
