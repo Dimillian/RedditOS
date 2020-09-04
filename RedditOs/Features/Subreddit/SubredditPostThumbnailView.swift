@@ -56,6 +56,6 @@ struct SubredditPostThumbnailView: View {
 
 struct SubredditPostThubnailView_Previews: PreviewProvider {
     static var previews: some View {
-        SubredditPostThumbnailView(viewModel: PostViewModel(post: static_listing))
+        SubredditPostThumbnailView(viewModel: PostViewModel())
     }
 }

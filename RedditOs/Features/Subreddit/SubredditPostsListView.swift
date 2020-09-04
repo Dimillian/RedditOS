@@ -47,76 +47,71 @@ struct SubredditPostsListView: View {
             PostsListView(posts: viewModel.listings,
                           displayMode: .constant(displayMode)) {
                 viewModel.fetchListings()
-            }.onAppear(perform: viewModel.fetchListings)
+            }
+            .onAppear(perform: viewModel.fetchListings)
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Group {
+                        if isDefaultChannel {
+                            EmptyView()
+                        } else if let icon = viewModel.subreddit?.iconImg, let url = URL(string: icon) {
+                            WebImage(url: url)
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .cornerRadius(10)
+                        } else {
+                            
+                            Image(systemName: "globe")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                        }
+                    }
+                    .onTapGesture {
+                        subredditAboutPopoverShown = true
+                    }
+                    .popover(isPresented: $subredditAboutPopoverShown,
+                             content: { SubredditAboutPopoverView(viewModel: viewModel) })
+                }
+                
+                ToolbarItem(placement: .primaryAction) {
+                    Picker("",
+                           selection: $displayMode,
+                           content: {
+                            ForEach(SubredditPostRow.DisplayMode.allCases, id: \.self) { mode in
+                                Image(systemName: mode.iconName())
+                                    .tag(mode)
+                            }
+                           }).pickerStyle(InlinePickerStyle())
+                }
+                
+                ToolbarItem(placement: .primaryAction) {
+                    if isDefaultChannel {
+                        Text("")
+                    } else {
+                        Picker(selection: $viewModel.sortOrder,
+                               label: Text("Sorting"),
+                               content: {
+                                ForEach(SubredditViewModel.SortOrder.allCases, id: \.self) { sort in
+                                    Text(sort.rawValue.capitalized).tag(sort)
+                                }
+                               })
+                    }
+                }
+            }
             PostNoSelectionPlaceholder()
+                .toolbar {
+                    Button(action: {
+                        sharePickerShown.toggle()
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .background(SharingsPicker(isPresented: $sharePickerShown,
+                                               sharingItems: [viewModel.subreddit?.redditURL ?? ""]))
+                    ToolbarSearchBar()
+                }
         }
         .navigationTitle(viewModel.name.capitalized)
         .navigationSubtitle(subtitle)
-        .toolbar {
-            ToolbarItem(placement: .navigation) {
-                Group {
-                    if isDefaultChannel {
-                        EmptyView()
-                    } else if let icon = viewModel.subreddit?.iconImg, let url = URL(string: icon) {
-                        WebImage(url: url)
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .cornerRadius(10)
-                    } else {
-                        
-                        Image(systemName: "globe")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                    }
-                }
-                .onTapGesture {
-                    subredditAboutPopoverShown = true
-                }
-                .popover(isPresented: $subredditAboutPopoverShown,
-                         content: { SubredditAboutPopoverView(viewModel: viewModel) })
-            }
-            
-            ToolbarItem(placement: .primaryAction) {
-                Picker("",
-                       selection: $displayMode,
-                       content: {
-                        ForEach(SubredditPostRow.DisplayMode.allCases, id: \.self) { mode in
-                            Image(systemName: mode.iconName())
-                                .tag(mode)
-                        }
-                       }).pickerStyle(InlinePickerStyle())
-            }
-            
-            ToolbarItem(placement: .primaryAction) {
-                if isDefaultChannel {
-                    Text("")
-                } else {
-                    Picker(selection: $viewModel.sortOrder,
-                           label: Text("Sorting"),
-                           content: {
-                            ForEach(SubredditViewModel.SortOrder.allCases, id: \.self) { sort in
-                                Text(sort.rawValue.capitalized).tag(sort)
-                            }
-                        })
-                }
-            }
-            
-            ToolbarItem(placement: .primaryAction) {
-                Button(action: {
-                    sharePickerShown.toggle()
-                }) {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                .background(SharingsPicker(isPresented: $sharePickerShown,
-                                           sharingItems: [uiState.selectedPost?.post.redditURL ??
-                                                            viewModel.subreddit?.redditURL ??
-                                                            ""]))
-            }
-            
-            ToolbarItem(placement: .primaryAction) {
-                ToolbarSearchBar()
-            }
-        }
         .onAppear(perform: viewModel.fetchListings)
         .onAppear {
             if !isDefaultChannel {
