@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
 
 struct ProfileView: View {
     enum OverviewFilter: String, CaseIterable {

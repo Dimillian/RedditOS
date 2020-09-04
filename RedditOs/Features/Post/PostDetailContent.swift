@@ -8,7 +8,7 @@
 import SwiftUI
 import Backend
 import AVKit
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct PostDetailContent: View {
     let listing: SubredditPost
@@ -31,9 +31,8 @@ struct PostDetailContent: View {
             if realURL.pathExtension == "jpg" || realURL.pathExtension == "png" {
                 HStack {
                     Spacer()
-                    WebImage(url: realURL)
+                    KFImage(realURL)
                         .resizable()
-                        .indicator(.activity)
                         .aspectRatio(contentMode: .fit)
                         .background(Color.gray)
                         .frame(maxHeight: 400)

@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
 
 struct SidebarView: View {
     @EnvironmentObject private var uiState: UIState

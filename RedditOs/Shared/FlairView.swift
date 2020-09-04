@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct FlairView: View {
     enum Display {
@@ -42,7 +42,7 @@ struct FlairView: View {
             HStack(spacing: 4) {
                 ForEach(texts, id: \.self) { text in
                     if text.e == "emoji" {
-                        WebImage(url: text.u!)
+                        KFImage(text.u!)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)

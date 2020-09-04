@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct UserHeaderView: View {
     let user: User
@@ -16,7 +16,7 @@ struct UserHeaderView: View {
         HStack(spacing: 32) {
             Spacer()
             if let avatar = user.avatarURL {
-                WebImage(url: avatar)
+                KFImage(avatar)
                     .resizable()
                     .frame(width: 100, height: 100)
                     .cornerRadius(8)

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import SDWebImageSwiftUI
+import KingfisherSwiftUI
 
 struct PopoverSearchSubredditRow: View {
     let subreddit: SubredditSmall
@@ -17,7 +17,7 @@ struct PopoverSearchSubredditRow: View {
             HStack {
                 if let image = subreddit.iconImg,
                    let url = URL(string: image) {
-                    WebImage(url: url)
+                    KFImage(url)
                         .resizable()
                         .frame(width: 30, height: 30)
                         .cornerRadius(15)
