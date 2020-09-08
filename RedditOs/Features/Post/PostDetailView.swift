@@ -57,6 +57,6 @@ struct PostDetailView: View {
 
 struct PostDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(viewModel: PostViewModel())
+        PostDetailView(viewModel: PostViewModel(post: static_listing))
     }
 }

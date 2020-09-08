@@ -20,11 +20,15 @@ struct SubredditPostRow: View {
         }
     }
     
-    let post: SubredditPost
-    @StateObject var viewModel: PostViewModel = PostViewModel()
+    @StateObject var viewModel: PostViewModel
     @Binding var displayMode: DisplayMode
     
     @Environment(\.openURL) private var openURL
+    
+    init(post: SubredditPost, displayMode: Binding<DisplayMode>) {
+        _viewModel = StateObject(wrappedValue: PostViewModel(post: post))
+        _displayMode = displayMode
+    }
     
     var body: some View {
         NavigationLink(destination: PostDetailView(viewModel: viewModel)) {
@@ -65,9 +69,6 @@ struct SubredditPostRow: View {
                 Spacer()
             }
         }
-        .onAppear(perform: {
-            viewModel.post = post
-        })
         .frame(width: 470)
         .padding(.vertical, 8)
         .contextMenu {
