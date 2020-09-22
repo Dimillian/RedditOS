@@ -22,7 +22,6 @@ struct SubredditPostsListView: View {
     @AppStorage(SettingsKey.subreddit_display_mode) private var displayMode = SubredditPostRow.DisplayMode.large
     
     @State private var subredditAboutPopoverShown = false
-    @State private var sharePickerShown = false
     
     init(name: String) {
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
@@ -47,9 +46,7 @@ struct SubredditPostsListView: View {
             PostsListView(posts: viewModel.listings,
                           displayMode: .constant(displayMode)) {
                 viewModel.fetchListings()
-            }
-            .onAppear(perform: viewModel.fetchListings)
-            .toolbar {
+            }.toolbar {
                 ToolbarItem(placement: .navigation) {
                     Group {
                         if isDefaultChannel {
@@ -73,7 +70,7 @@ struct SubredditPostsListView: View {
                              content: { SubredditAboutPopoverView(viewModel: viewModel) })
                 }
                 
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem {
                     Picker("",
                            selection: $displayMode,
                            content: {
@@ -84,7 +81,7 @@ struct SubredditPostsListView: View {
                            }).pickerStyle(InlinePickerStyle())
                 }
                 
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem {
                     if isDefaultChannel {
                         Text("")
                     } else {
@@ -98,21 +95,15 @@ struct SubredditPostsListView: View {
                     }
                 }
             }
+            .onAppear(perform: viewModel.fetchListings)
+            
             PostNoSelectionPlaceholder()
                 .toolbar {
-                    Button(action: {
-                        sharePickerShown.toggle()
-                    }) {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .background(SharingsPicker(isPresented: $sharePickerShown,
-                                               sharingItems: [viewModel.subreddit?.redditURL ?? ""]))
-                    ToolbarSearchBar()
+                    PostDetailToolbar(shareURL: viewModel.subreddit?.redditURL)
                 }
         }
         .navigationTitle(viewModel.name.capitalized)
         .navigationSubtitle(subtitle)
-        .onAppear(perform: viewModel.fetchListings)
         .onAppear {
             if !isDefaultChannel {
                 viewModel.fetchAbout()

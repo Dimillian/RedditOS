@@ -40,14 +40,7 @@ struct PostDetailView: View {
             uiState.selectedPost = nil
         })
         .toolbar {
-            Button(action: {
-                sharePickerShown.toggle()
-            }) {
-                Image(systemName: "square.and.arrow.up")
-            }
-            .background(SharingsPicker(isPresented: $sharePickerShown,
-                                       sharingItems: [viewModel.post.redditURL ?? ""]))
-            ToolbarSearchBar()
+            PostDetailToolbar(shareURL: viewModel.post.redditURL)
         }
         .frame(minWidth: 500,
                maxWidth: .infinity,
