@@ -54,6 +54,7 @@ struct CommentRow: View {
                 Text(viewModel.comment.body ?? "No comment content")
                     .font(.body)
                 CommentActionsView(viewModel: viewModel)
+                    .foregroundColor(.gray)
                 Divider()
             }.padding(.vertical, 4)
         }
