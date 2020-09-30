@@ -48,9 +48,14 @@ struct CustomDisclosureGroup<Label, Content>: View where Label: View, Content: V
     var label: () -> Label
     
     var body: some View {
-        label()
-            .onTapGesture {
-                isExpanded .toggle()
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: "chevron.right")
+                .rotationEffect(isExpanded ? .degrees(90) : .degrees(0))
+                .padding(.top, 4)
+                .onTapGesture {
+                    isExpanded.toggle()
+                }
+            label()
         }
         if isExpanded {
             content()

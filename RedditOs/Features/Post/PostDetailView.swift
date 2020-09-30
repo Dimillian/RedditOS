@@ -30,7 +30,6 @@ struct PostDetailView: View {
             }.padding(.bottom, 16)
             PostDetailCommentsSection(viewModel: viewModel)
         }
-        .animation(nil)
         .onAppear(perform: viewModel.fechComments)
         .onAppear(perform: viewModel.postVisit)
         .onAppear(perform: {

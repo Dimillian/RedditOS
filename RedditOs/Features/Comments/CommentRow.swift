@@ -33,9 +33,14 @@ struct CommentRow: View {
                         } else {
                             Image(systemName: "person")
                         }
-                        Text(viewModel.comment.author ?? "Unknown")
-                            .font(.callout)
-                            .fontWeight(.bold)
+                        if let author = viewModel.comment.author {
+                            Text(author)
+                                .font(.callout)
+                                .fontWeight(.bold)
+                        } else {
+                            Text("Deleted user")
+                                .font(.footnote)
+                        }
                     }
                     if let score = viewModel.comment.score {
                         Text(" · \(score.toRoundedSuffixAsString()) points  · ")
@@ -51,8 +56,13 @@ struct CommentRow: View {
                         AwardsView(awards: awards).padding(.leading, 8)
                     }
                 }
-                Text(viewModel.comment.body ?? "No comment content")
-                    .font(.body)
+                if let body = viewModel.comment.body {
+                    Text(body).font(.body)
+                } else {
+                    Text("Deleted comment")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                }
                 CommentActionsView(viewModel: viewModel)
                     .foregroundColor(.gray)
                 Divider()
