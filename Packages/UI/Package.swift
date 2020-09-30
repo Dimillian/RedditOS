@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "UI",
     platforms: [
-        .macOS("10.16"), .iOS("14"), .tvOS("14"), .watchOS("7")
+        .macOS("11"), .iOS("14"), .tvOS("14"), .watchOS("7")
     ],
     products: [
         .library(
