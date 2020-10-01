@@ -10,6 +10,7 @@ import Backend
 
 struct CommentRow: View {
     @StateObject private var viewModel: CommentViewModel
+    @State private var showUserPopover = false
     
     init(comment: Comment) {
         _viewModel = StateObject(wrappedValue: CommentViewModel(comment: comment))
@@ -27,16 +28,26 @@ struct CommentRow: View {
                                       backgroundColorHex: viewModel.comment.authorFlairBackgroundColor,
                                       display: .small)
                         }
-                        if viewModel.comment.isSubmitter == true {
-                            Image(systemName: "music.mic")
-                                .foregroundColor(.redditBlue)
-                        } else {
-                            Image(systemName: "person")
-                        }
                         if let author = viewModel.comment.author {
-                            Text(author)
-                                .font(.callout)
-                                .fontWeight(.bold)
+                            Button(action: {
+                                showUserPopover = true
+                            }, label: {
+                                HStack(spacing: 4) {
+                                    if viewModel.comment.isSubmitter == true {
+                                        Image(systemName: "music.mic")
+                                            .foregroundColor(.redditBlue)
+                                    } else {
+                                        Image(systemName: "person")
+                                    }
+                                    Text(author)
+                                        .font(.callout)
+                                        .fontWeight(.bold)
+                                }.foregroundColor(.white)
+                            })
+                            .buttonStyle(BorderlessButtonStyle())
+                            .popover(isPresented: $showUserPopover, content: {
+                                UserPopoverView(username: author)
+                            })
                         } else {
                             Text("Deleted user")
                                 .font(.footnote)

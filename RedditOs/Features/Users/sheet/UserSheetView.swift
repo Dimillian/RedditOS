@@ -24,15 +24,6 @@ struct UserSheetView: View {
     var body: some View {
         NavigationView {
             List(selection: $sidebarSelection) {
-                Button {
-                    presentation.wrappedValue.dismiss()
-                } label: {
-                    Label("Close", systemImage: "xmark.circle")
-                        .foregroundColor(.accentColor)
-                }
-                .buttonStyle(BorderlessButtonStyle())
-                .tag(0)
-                
                 Section(header: Text(viewModel.username)) {
                     Label("Overview", systemImage: "square.and.pencil").tag(1)
                     Label("Posts", systemImage: "square.and.pencil").tag(2)
@@ -40,7 +31,8 @@ struct UserSheetView: View {
                     Label("Awards", systemImage: "rosette").tag(4)
                 }.accentColor(.redditBlue)
                 
-            }.listStyle(SidebarListStyle())
+            }
+            .listStyle(SidebarListStyle())
             
             NavigationView {
                 if sidebarSelection.first == 1 {
@@ -57,7 +49,17 @@ struct UserSheetView: View {
                 
                 PostNoSelectionPlaceholder()
             }
-        }.frame(width: 1500, height: 700)
+        }
+        .frame(width: 1500, height: 700)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    presentation.wrappedValue.dismiss()
+                } label: {
+                    Text("Close")
+                }
+            }
+        }
     }
 }
 
