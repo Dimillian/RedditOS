@@ -28,7 +28,6 @@ struct PostsListView: View {
                     }
             }
         }
-        .animation(nil)
         .listStyle(InsetListStyle())
         .frame(width: 500)
     }

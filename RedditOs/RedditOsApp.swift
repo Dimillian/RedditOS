@@ -20,7 +20,7 @@ struct RedditOsApp: App {
             NavigationView {
                 SidebarView()
             }
-            .frame(minHeight: 400, idealHeight: 800)
+            .frame(minWidth: 1300, minHeight: 800)
             .environmentObject(localData)
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUserStore.shared)

@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess",
         "state": {
           "branch": null,
-          "revision": "3d0ea2c0806791abcc5d7f0d9f62f1cfd4a7264d",
-          "version": "4.2.0"
+          "revision": "654d52d30f3dd4592e944c3e0bccb53178c992f6",
+          "version": "4.2.1"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher",
         "state": {
           "branch": null,
-          "revision": "175eeb4618b0a6ef4d69a7409b6a74ddd235a093",
-          "version": "5.15.0"
+          "revision": "2a6d1135af3915547c4b08c3b154a05e6f1075a3",
+          "version": "5.15.5"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/dasautoooo/Parma",
         "state": {
           "branch": null,
-          "revision": "d620d6e8fdd59cd0a8110a08f4202b9eed5178aa",
-          "version": "0.1.0"
+          "revision": "82f825cead4b408fa3e0059affa3e5d296d3b745",
+          "version": "0.1.1"
         }
       }
     ]
