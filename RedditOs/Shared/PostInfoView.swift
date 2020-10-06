@@ -41,7 +41,6 @@ struct PostInfoView: View {
             }, label: {
                 Text("r/\(post.subreddit)")
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
             })
             .buttonStyle(BorderlessButtonStyle())
             

@@ -57,7 +57,6 @@ struct SubredditPostsListView: View {
                                 .frame(width: 20, height: 20)
                                 .cornerRadius(10)
                         } else {
-                            
                             Image(systemName: "globe")
                                 .resizable()
                                 .frame(width: 20, height: 20)

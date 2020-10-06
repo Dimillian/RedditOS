@@ -42,7 +42,7 @@ struct CommentRow: View {
                                     Text(author)
                                         .font(.callout)
                                         .fontWeight(.bold)
-                                }.foregroundColor(.white)
+                                }
                             })
                             .buttonStyle(BorderlessButtonStyle())
                             .popover(isPresented: $showUserPopover, content: {
