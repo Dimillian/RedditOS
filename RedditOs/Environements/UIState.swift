@@ -33,10 +33,10 @@ class UIState: ObservableObject {
     @Published var presentedNavigationRoute: Route? {
         didSet {
             if let route = presentedNavigationRoute {
-                sidebarSelection = [route.id]
+                sidebarSelection = route.id
             }
         }
     }
     
-    @Published var sidebarSelection: Set<String> = [DefaultChannels.hot.rawValue]
+    @Published var sidebarSelection: String? = DefaultChannels.hot.rawValue
 }
