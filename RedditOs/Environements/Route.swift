@@ -19,8 +19,8 @@ enum Route: Identifiable, Hashable {
         hasher.combine(id)
     }
     
-    case user(user: User)
-    case subreddit(subreddit: String)
+    case user(user: User, isSheet: Bool)
+    case subreddit(subreddit: String, isSheet: Bool)
     case defaultChannel(chanel: UIState.DefaultChannels)
     case none
     
@@ -28,7 +28,7 @@ enum Route: Identifiable, Hashable {
         switch self {
         case .user:
             return "user"
-        case let .subreddit(subreddit):
+        case let .subreddit(subreddit, _):
             return subreddit
         case .none:
             return "none"
@@ -40,10 +40,10 @@ enum Route: Identifiable, Hashable {
     @ViewBuilder
     func makeView() -> some View {
         switch self {
-        case let .user(user):
+        case let .user(user, _):
             UserSheetView(user: user)
-        case let .subreddit(subreddit):
-            SubredditPostsListView(name: subreddit)
+        case let .subreddit(subreddit, isSheet):
+            SubredditPostsListView(name: subreddit, isSheet: isSheet).environmentObject(UIState.shared)
         case let .defaultChannel(chanel):
             SubredditPostsListView(name: chanel.rawValue)
         case .none:

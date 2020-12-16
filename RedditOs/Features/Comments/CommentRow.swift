@@ -68,7 +68,9 @@ struct CommentRow: View {
                     }
                 }
                 if let body = viewModel.comment.body {
-                    Text(body).font(.body)
+                    Text(body)
+                        .font(.body)
+                        .fixedSize(horizontal: false, vertical: true)
                 } else {
                     Text("Deleted comment")
                         .font(.footnote)

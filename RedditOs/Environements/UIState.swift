@@ -11,6 +11,8 @@ import Combine
 import Backend
 
 class UIState: ObservableObject {
+    public static let shared = UIState()
+    
     enum DefaultChannels: String, CaseIterable {
         case hot, best, new, top, rising
         
@@ -24,7 +26,10 @@ class UIState: ObservableObject {
             }
         }
     }
-
+    
+    private init() {
+        
+    }
     
     @Published var selectedSubreddit: SubredditViewModel?
     @Published var selectedPost: PostViewModel?
