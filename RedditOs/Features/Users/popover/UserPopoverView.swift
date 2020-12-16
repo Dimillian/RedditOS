@@ -29,7 +29,7 @@ struct UserPopoverView: View {
                     Button(action: {
                         if let user = viewModel.user {
                             presentation.wrappedValue.dismiss()
-                            uiState.presentedSheetRoute = .user(user: user)
+                            uiState.presentedSheetRoute = .user(user: user, isSheet: true)
                         }
                     }) {
                         Text("View full profile")
@@ -45,6 +45,6 @@ struct UserPopoverView: View {
 
 struct UserPopoverView_Previews: PreviewProvider {
     static var previews: some View {
-        UserPopoverView(username: "").environmentObject(UIState())
+        UserPopoverView(username: "").environmentObject(UIState.shared)
     }
 }

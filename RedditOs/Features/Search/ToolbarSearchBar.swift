@@ -16,7 +16,7 @@ struct ToolbarSearchBar: View {
         TextField("Search anything", text: $searchViewModel.searchText) { editing in
             isFocused = editing
         } onCommit: {
-            uiState.presentedNavigationRoute = .subreddit(subreddit: searchViewModel.searchText)
+            uiState.presentedNavigationRoute = .subreddit(subreddit: searchViewModel.searchText, isSheet: false)
         }
         .keyboardShortcut("f", modifiers: .command)
         .padding(8)

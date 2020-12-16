@@ -11,7 +11,7 @@ import Backend
 
 @main
 struct RedditOsApp: App {
-    @StateObject private var uiState = UIState()
+    @StateObject private var uiState = UIState.shared
     @StateObject private var localData = LocalDataStore()
     
     @SceneBuilder

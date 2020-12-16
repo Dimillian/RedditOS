@@ -22,7 +22,9 @@ struct ProfileView: View {
                 if currentUser.user != nil {
                     userOverview
                 }
-            }.listStyle(InsetListStyle())
+            }
+            .listStyle(InsetListStyle())
+            .frame(width: 500)
             
             PostNoSelectionPlaceholder()
         }

@@ -45,7 +45,7 @@ struct GlobalSearchPopoverView: View {
             GlobalSearchSubRow(icon: nil,
                                name: "Go to r/\(viewModel.searchText)")
                 .onTapGesture {
-                    uiState.presentedNavigationRoute = .subreddit(subreddit: viewModel.searchText)
+                    uiState.presentedNavigationRoute = .subreddit(subreddit: viewModel.searchText, isSheet: false)
                 }
             GlobalSearchSubRow(icon: nil,
                                name: "Go to u/\(viewModel.searchText)")
@@ -85,7 +85,7 @@ struct GlobalSearchPopoverView: View {
     private func makeSubRow(icon: String?, name: String) -> some View {
         GlobalSearchSubRow(icon: icon, name: name)
             .onTapGesture {
-                uiState.presentedNavigationRoute = .subreddit(subreddit: name)
+                uiState.presentedNavigationRoute = .subreddit(subreddit: name, isSheet: false)
         }
     }
 }

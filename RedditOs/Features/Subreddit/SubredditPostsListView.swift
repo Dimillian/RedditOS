@@ -13,6 +13,7 @@ import KingfisherSwiftUI
 struct SubredditPostsListView: View {
     let posts = Array(repeating: 0, count: 20)
     
+    private let isSheet: Bool
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     
     @EnvironmentObject private var uiState: UIState
@@ -23,7 +24,8 @@ struct SubredditPostsListView: View {
     
     @State private var subredditAboutPopoverShown = false
     
-    init(name: String) {
+    init(name: String, isSheet: Bool = false) {
+        self.isSheet = isSheet
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
     }
     
@@ -103,6 +105,7 @@ struct SubredditPostsListView: View {
         }
         .navigationTitle(viewModel.name.capitalized)
         .navigationSubtitle(subtitle)
+        .frame(minHeight: 600)
         .onAppear {
             if !isDefaultChannel {
                 viewModel.fetchAbout()
