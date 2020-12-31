@@ -7,7 +7,7 @@ This is quite bleeding edge, the performances are not quite there yet as SwiftUI
 But I'll continue to work on this application, add features, optimize it and eventually release it on the Mac App Store.
 ![Image](Images/image1.png?)
 
-If you want to login with your Reddit account building the project from the source you'll need to create a file `secrets.plist` in `Packages/Backend/Sources/Backend/Resources` with your Reddit app secret as `client_id` key/value.
+If you want to login with your Reddit account building the project from the source you'll need to create a file `secrets.plist` in `Packages/Backend/Sources/Backend/Resources` with your Reddit app id as `client_id` key/value. Create an reddit app (here)[https://www.reddit.com/prefs/apps] and use `redditos://auth` as redirect url.
 
 I'll periodically release pre built version of the app in the repository. 
 
