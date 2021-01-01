@@ -17,7 +17,7 @@ public struct Award: Decodable, Identifiable {
     
     public static let `default` = Award(id: "award",
                                            name: "Awesome",
-                                           staticIconUrl: URL("https://i.redd.it/award_images/t5_22cerq/5smbysczm1w41_Hugz.png"),
+                                           staticIconUrl: URL(staticString: "https://i.redd.it/award_images/t5_22cerq/5smbysczm1w41_Hugz.png"),
                                            description: "Awesome reward",
                                            count: 5,
                                            coinPrice: 200)
