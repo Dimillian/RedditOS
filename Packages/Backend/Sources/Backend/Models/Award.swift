@@ -14,12 +14,11 @@ public struct Award: Decodable, Identifiable {
     public let description: String
     public let count: Int
     public let coinPrice: Int
+    
+    public static let `default` = Award(id: "award",
+                                           name: "Awesome",
+                                           staticIconUrl: URL(staticString: "https://i.redd.it/award_images/t5_22cerq/5smbysczm1w41_Hugz.png"),
+                                           description: "Awesome reward",
+                                           count: 5,
+                                           coinPrice: 200)
 }
-
-
-public let static_award = Award(id: "award",
-                                name: "Awesome",
-                                staticIconUrl: URL(string: "https://i.redd.it/award_images/t5_22cerq/5smbysczm1w41_Hugz.png")!,
-                                description: "Awesome reward",
-                                count: 5,
-                                coinPrice: 200)
