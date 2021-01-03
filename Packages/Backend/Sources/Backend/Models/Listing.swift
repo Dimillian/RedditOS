@@ -28,14 +28,24 @@ public struct ListingHolder<T: Decodable>: Decodable {
         case kind, data
     }
     
-    public init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws
+    where T == GenericListingContent
+    {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         kind = try container.decode(String.self, forKey: .kind)
-        if T.self == GenericListingContent.self {
-            data = try GenericListingContent(from: decoder) as! T
-        } else {
-            data = try container.decode(T.self, forKey: .data)
-        }
+        data = try T(from: decoder)
+    }
+
+    public init(from decoder: Decoder) throws
+    {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        kind = try container.decode(String.self, forKey: .kind)
+        // This assert can be removed before merging the
+        // patch. It's just here to verify that
+        // the specialized init, above, is used for
+        // when T is a GenericListingContent.
+        assert(T.self != GenericListingContent.self)
+        data = try container.decode(T.self, forKey: .data)
     }
 }
 
