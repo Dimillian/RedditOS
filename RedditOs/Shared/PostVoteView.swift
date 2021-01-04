@@ -37,7 +37,9 @@ struct PostVoteView: View {
                     .frame(width: 16, height: 16)
                     .foregroundColor(viewModel.post.likes == false ? .redditBlue : nil)
             }).buttonStyle(BorderlessButtonStyle())
-        }.frame(width: 40)
+        }
+        .frame(width: 40)
+        .padding(4)
     }
 }
 
