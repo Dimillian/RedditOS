@@ -53,6 +53,7 @@ struct SubredditPostRow: View {
                                 .font(.body)
                                 .lineLimit(displayMode.numberOfLines())
                                 .foregroundColor(viewModel.post.visited ? .gray : nil)
+                                .help(viewModel.post.title)
                             HStack {
                                 if let richText = viewModel.post.linkFlairRichtext, !richText.isEmpty {
                                     FlairView(richText: richText,
