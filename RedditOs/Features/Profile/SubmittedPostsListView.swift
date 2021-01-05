@@ -10,7 +10,7 @@ import Backend
 
 struct SubmittedPostsListView: View {
     @EnvironmentObject private var currentUser: CurrentUserStore
-    @State private var displayMode = SubredditPostRow.DisplayMode.large
+    @State private var displayMode: SubredditPostRow.DisplayMode = .large
     
     var body: some View {
         NavigationView {

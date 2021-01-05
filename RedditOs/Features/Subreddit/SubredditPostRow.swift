@@ -9,10 +9,12 @@ import SwiftUI
 import Backend
 
 struct SubredditPostRow: View {
+    
     enum DisplayMode: String, CaseIterable {
-        case compact, large
+        case compact = "Compact layout"
+        case large = "Full detail layout"
         
-        func iconName() -> String {
+        func symbol() -> String {
             switch self {
             case .compact: return "list.bullet"
             case .large: return "list.bullet.below.rectangle"
