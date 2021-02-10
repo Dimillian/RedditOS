@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage(SettingsKey.subreddit_display_mode) private var displayMode = SubredditPostRow.DisplayMode.large
-    @AppStorage(SettingsKey.subreddit_defaut_sort_order) private var sortOrder = SubredditViewModel.SortOrder.hot
+    @AppStorage(SettingsKey.subreddit_display_mode) private var displayMode: SubredditPostRow.DisplayMode = .large
+    @AppStorage(SettingsKey.subreddit_defaut_sort_order) private var sortOrder: SubredditViewModel.SortOrder = .hot
     
     var body: some View {
         TabView {
@@ -46,25 +46,28 @@ struct SettingsView: View {
     }
     
     private var generalView: some View {
-        Form {
-            Section(header: Text("Subreddit settings")) {
-                Picker("Display mode",
-                       selection: $displayMode,
-                       content: {
+        VStack {
+            Form {
+                Section(header: Text("Default Subreddit settings")) {
+                    
+                    Picker("Display layout style", selection: $displayMode) {
                         ForEach(SubredditPostRow.DisplayMode.allCases, id: \.self) { mode in
-                            Label(mode.rawValue, systemImage: mode.iconName()).tag(mode)
+                            Label(mode.rawValue, systemImage: mode.symbol()).tag(mode)
                         }
-                       })
-                
-                Picker(selection: $sortOrder,
-                       label: Text("Default sort"),
-                       content: {
+                    }
+                    
+                    Picker(selection: $sortOrder, label: Text("Sort order")) {
                         ForEach(SubredditViewModel.SortOrder.allCases, id: \.self) { sort in
                             Text(sort.rawValue.capitalized).tag(sort)
                         }
-                       })
+                    }
+                    
+                }
             }
-        }.frame(width: 500)
+            Spacer()
+        }
+        .frame(width: 500)
+        .padding()
     }
 }
 
