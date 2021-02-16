@@ -9,13 +9,22 @@ import SwiftUI
 import Backend
 
 struct SubredditPostRow: View {
+    
     enum DisplayMode: String, CaseIterable {
-        case compact, large
+        case compact = "Compact layout"
+        case large = "Full detail layout"
         
-        func iconName() -> String {
+        func symbol() -> String {
             switch self {
             case .compact: return "list.bullet"
             case .large: return "list.bullet.below.rectangle"
+            }
+        }
+        
+        func numberOfLines() -> Int?  {
+            switch self {
+            case .compact: return 3
+            default: return nil
             }
         }
     }
@@ -34,7 +43,7 @@ struct SubredditPostRow: View {
         NavigationLink(destination: PostDetailView(viewModel: viewModel)) {
             HStack {
                 VStack(alignment: .leading) {
-                    HStack(alignment: .top, spacing: 8) {
+                    HStack(alignment: .center, spacing: 8) {
                         PostVoteView(viewModel: viewModel)
                         if displayMode == .large {
                             SubredditPostThumbnailView(viewModel: viewModel)
@@ -44,8 +53,9 @@ struct SubredditPostRow: View {
                             Text(viewModel.post.title)
                                 .fontWeight(.bold)
                                 .font(.body)
-                                .lineLimit(displayMode == .compact ? 2 : nil)
+                                .lineLimit(displayMode.numberOfLines())
                                 .foregroundColor(viewModel.post.visited ? .gray : nil)
+                                .help(viewModel.post.title)
                             HStack {
                                 if let richText = viewModel.post.linkFlairRichtext, !richText.isEmpty {
                                     FlairView(richText: richText,
@@ -94,6 +104,7 @@ struct SubredditPostRow: View {
                 
             } label: { Text("Copy URL") }
         }
+        Divider()
     }
 }
 

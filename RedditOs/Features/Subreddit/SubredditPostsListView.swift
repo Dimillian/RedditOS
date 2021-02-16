@@ -71,14 +71,14 @@ struct SubredditPostsListView: View {
       }
       
       ToolbarItem {
-        Picker("",
-               selection: $displayMode,
-               content: {
-                ForEach(SubredditPostRow.DisplayMode.allCases, id: \.self) { mode in
-                  Image(systemName: mode.iconName())
-                    .tag(mode)
-                }
-               }).pickerStyle(InlinePickerStyle())
+        Picker("Display layout", selection: $displayMode) {
+          ForEach(SubredditPostRow.DisplayMode.allCases, id: \.self) { item in
+            Image(systemName: item.symbol())
+              .tag(item)
+          }
+        }
+        .pickerStyle(InlinePickerStyle())
+        .help("Select display layout style")
       }
       
       ToolbarItem {

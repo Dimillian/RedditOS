@@ -50,7 +50,7 @@ struct SubredditPostThumbnailView: View {
                     .transition(.move(edge: .top))
                     .animation(.interactiveSpring())
             }
-        }
+        }.padding(4)
     }
 }
 
