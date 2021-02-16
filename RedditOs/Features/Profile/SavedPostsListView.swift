@@ -13,19 +13,14 @@ struct SavedPostsListView: View {
     @State private var displayMode = SubredditPostRow.DisplayMode.large
     
     var body: some View {
-        NavigationView {
-            PostsListView(posts: currentUser.savedPosts,
-                          displayMode: $displayMode) {
-                currentUser.fetchSaved(after: currentUser.savedPosts?.last)
-            }.onAppear {
-                currentUser.fetchSaved(after: nil)
-            }
-            PostNoSelectionPlaceholder()
-        }
-        .navigationTitle("Saved")
-        .onAppear {
-            currentUser.fetchSaved(after: nil)
-        }
+      PostsListView(posts: currentUser.savedPosts,
+                    displayMode: $displayMode) {
+        currentUser.fetchSaved(after: currentUser.savedPosts?.last)
+      }.onAppear {
+        currentUser.fetchSaved(after: nil)
+      }
+      .navigationTitle("Saved")
+ 
     }
 }
 

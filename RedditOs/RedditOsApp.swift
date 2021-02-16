@@ -19,6 +19,11 @@ struct RedditOsApp: App {
         WindowGroup {
             NavigationView {
                 SidebarView()
+                ProgressView()
+                PostNoSelectionPlaceholder()
+                .toolbar {
+                  PostDetailToolbar(shareURL: nil)
+                }
             }
             .frame(minWidth: 1300, minHeight: 800)
             .environmentObject(localData)

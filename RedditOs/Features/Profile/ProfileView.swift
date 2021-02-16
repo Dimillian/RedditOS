@@ -16,30 +16,26 @@ struct ProfileView: View {
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     
     var body: some View {
-        NavigationView {
-            List {
-                headerView.padding(.vertical, 16)
-                if currentUser.user != nil {
-                    userOverview
-                }
-            }
-            .listStyle(InsetListStyle())
-            .frame(width: 500)
-            
-            PostNoSelectionPlaceholder()
+      List {
+        headerView.padding(.vertical, 16)
+        if currentUser.user != nil {
+          userOverview
         }
-        .navigationTitle("Profile")
-        .navigationSubtitle(currentUser.user?.name ?? "Login")
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    oauthClient.logout()
-                } label: {
-                    Text("Logout")
-                }
-
-            }
+      }
+      .listStyle(InsetListStyle())
+      .frame(width: 500)
+      .navigationTitle("Profile")
+      .navigationSubtitle(currentUser.user?.name ?? "Login")
+      .toolbar {
+        ToolbarItem(placement: .primaryAction) {
+          Button {
+            oauthClient.logout()
+          } label: {
+            Text("Logout")
+          }
+          
         }
+      }
     }
     
     @ViewBuilder

@@ -13,19 +13,13 @@ struct SubmittedPostsListView: View {
     @State private var displayMode = SubredditPostRow.DisplayMode.large
     
     var body: some View {
-        NavigationView {
-            PostsListView(posts: currentUser.submittedPosts,
-                          displayMode: $displayMode) {
-                currentUser.fetchSubmitted(after: currentUser.submittedPosts?.last)
-            }.onAppear {
-                currentUser.fetchSubmitted(after: nil)
-            }
-            PostNoSelectionPlaceholder()
-        }
-        .navigationTitle("Saved")
-        .onAppear {
-            currentUser.fetchSaved(after: nil)
-        }
+      PostsListView(posts: currentUser.submittedPosts,
+                    displayMode: $displayMode) {
+        currentUser.fetchSubmitted(after: currentUser.submittedPosts?.last)
+      }.onAppear {
+        currentUser.fetchSubmitted(after: nil)
+      }
+      .navigationTitle("Submitted")
     }
 }
 
