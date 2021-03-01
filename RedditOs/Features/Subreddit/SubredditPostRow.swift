@@ -10,7 +10,8 @@ import Backend
 
 struct SubredditPostRow: View, Equatable {
     static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.postId == rhs.postId
+        lhs.postId == rhs.postId &&
+            lhs.displayMode == rhs.displayMode
     }
     
     enum DisplayMode: String, CaseIterable {

@@ -12,7 +12,7 @@ import KingfisherSwiftUI
 
 struct SubredditPostsListView: View, Equatable {
     static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.name == rhs.name
+        lhs.name == rhs.name && lhs.displayMode == rhs.displayMode
     }
         
     private let name: String

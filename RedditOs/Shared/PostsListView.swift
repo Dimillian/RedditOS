@@ -10,7 +10,8 @@ import Backend
 
 struct PostsListView: View, Equatable {
     static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.posts?.count == rhs.posts?.count
+        lhs.posts?.count == rhs.posts?.count &&
+            rhs.displayMode == lhs.displayMode
     }
     
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
