@@ -51,7 +51,9 @@ struct SubredditPostsListView: View, Equatable {
         PostsListView(posts: viewModel.listings,
                       displayMode: .constant(displayMode)) {
             viewModel.fetchListings()
-        }.toolbar {
+        }
+        .equatable()
+        .toolbar {
             ToolbarItem(placement: .navigation) {
                 Group {
                     if isDefaultChannel {

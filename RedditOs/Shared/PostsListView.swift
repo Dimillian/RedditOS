@@ -8,7 +8,11 @@
 import SwiftUI
 import Backend
 
-struct PostsListView: View {
+struct PostsListView: View, Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.posts?.count == rhs.posts?.count
+    }
+    
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     let posts: [SubredditPost]?
     @Binding var displayMode: SubredditPostRow.DisplayMode
