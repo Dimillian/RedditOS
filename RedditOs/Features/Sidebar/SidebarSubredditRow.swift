@@ -14,7 +14,8 @@ struct SidebarSubredditRow: View {
     let iconURL: String?
     
     var body: some View {
-        NavigationLink(destination: SubredditPostsListView(name: name)) {
+        NavigationLink(destination: SubredditPostsListView(name: name)
+                        .equatable()) {
             HStack {
                 if let image = iconURL,
                    let url = URL(string: image) {

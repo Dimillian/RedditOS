@@ -43,9 +43,12 @@ enum Route: Identifiable, Hashable {
         case let .user(user, _):
             UserSheetView(user: user)
         case let .subreddit(subreddit, isSheet):
-            SubredditPostsListView(name: subreddit, isSheet: isSheet).environmentObject(UIState.shared)
+            SubredditPostsListView(name: subreddit, isSheet: isSheet)
+                .equatable()
+                .environmentObject(UIState.shared)
         case let .defaultChannel(chanel):
             SubredditPostsListView(name: chanel.rawValue)
+                .equatable()
         case .none:
             EmptyView()
         }

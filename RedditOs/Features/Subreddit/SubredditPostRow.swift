@@ -8,7 +8,10 @@
 import SwiftUI
 import Backend
 
-struct SubredditPostRow: View {
+struct SubredditPostRow: View, Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.postId == rhs.postId
+    }
     
     enum DisplayMode: String, CaseIterable {
         case compact = "Compact layout"
@@ -29,18 +32,21 @@ struct SubredditPostRow: View {
         }
     }
     
+    private let postId: String
+    
     @StateObject var viewModel: PostViewModel
     @Binding var displayMode: DisplayMode
     
     @Environment(\.openURL) private var openURL
     
     init(post: SubredditPost, displayMode: Binding<DisplayMode>) {
+        self.postId = post.id
         _viewModel = StateObject(wrappedValue: PostViewModel(post: post))
         _displayMode = displayMode
     }
     
     var body: some View {
-        NavigationLink(destination: PostDetailView(viewModel: viewModel)) {
+        NavigationLink(destination: PostDetailView(viewModel: viewModel).equatable()) {
             HStack {
                 VStack(alignment: .leading) {
                     HStack(alignment: .center, spacing: 8) {

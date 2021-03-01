@@ -9,12 +9,22 @@ import SwiftUI
 import Backend
 import AVKit
 
-struct PostDetailView: View {
+struct PostDetailView: View, Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.postId == rhs.postId
+    }
+    
+    private let postId: String
     @EnvironmentObject private var uiState: UIState
     @ObservedObject var viewModel: PostViewModel
     @State private var redrawLink = false
     @State private var sharePickerShown = false
-        
+    
+    init(viewModel: PostViewModel) {
+        self.postId = viewModel.post.id
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
         List {
             VStack(alignment: .leading, spacing: 8) {

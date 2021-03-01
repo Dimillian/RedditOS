@@ -19,6 +19,7 @@ struct PostsListView: View {
             ForEach(posts ?? loadingPlaceholders) { post in
                 SubredditPostRow(post: post,
                                  displayMode: $displayMode)
+                    .equatable()
                     .redacted(reason: posts == nil ? .placeholder : [])
             }.animation(nil)
             if posts != nil {

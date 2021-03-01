@@ -43,7 +43,7 @@ struct RedditOsApp: App {
                 }) {
                     Text("Refresh")
                 }
-                .disabled(uiState.selectedSubreddit != nil)
+                .disabled(uiState.selectedSubreddit == nil)
                 .keyboardShortcut("r", modifiers: [.command])
                 
                 Divider()
@@ -61,7 +61,7 @@ struct RedditOsApp: App {
                 }) {
                     Text("Toggle favorite")
                 }
-                .disabled(uiState.selectedSubreddit != nil)
+                .disabled(uiState.selectedSubreddit == nil)
                 .keyboardShortcut("f", modifiers: [.command, .shift])
             }
             
@@ -79,7 +79,7 @@ struct RedditOsApp: App {
                 }) {
                     Text(uiState.selectedPost?.post.saved == true ? "Unsave" : "Save")
                 }
-                .disabled(uiState.selectedPost != nil)
+                .disabled(uiState.selectedPost == nil)
                 .keyboardShortcut("s", modifiers: .command)
                 
                 Divider()
@@ -88,7 +88,7 @@ struct RedditOsApp: App {
                 }) {
                     Text("Upvote")
                 }
-                .disabled(uiState.selectedPost != nil)
+                .disabled(uiState.selectedPost == nil)
                 .keyboardShortcut(.upArrow, modifiers: .shift)
                 
                 Button(action: {
@@ -96,7 +96,7 @@ struct RedditOsApp: App {
                 }) {
                     Text("Downvote")
                 }
-                .disabled(uiState.selectedPost != nil)
+                .disabled(uiState.selectedPost == nil)
                 .keyboardShortcut(.downArrow, modifiers: .shift)
             }
             

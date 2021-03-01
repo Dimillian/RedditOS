@@ -33,7 +33,9 @@ struct SidebarView: View {
             
             Section {
                 ForEach(UIState.DefaultChannels.allCases, id: \.self) { item in
-                    NavigationLink(destination: SubredditPostsListView(name: item.rawValue)) {
+                    NavigationLink(destination:
+                                    SubredditPostsListView(name: item.rawValue)
+                                    .equatable()) {
                         Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
                     }.tag(item.rawValue)
                 }.animation(nil)
