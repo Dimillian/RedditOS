@@ -8,7 +8,7 @@
 import SwiftUI
 import Backend
 import AVKit
-import KingfisherSwiftUI
+import Kingfisher
 
 struct PostDetailContent: View {
     let listing: SubredditPost

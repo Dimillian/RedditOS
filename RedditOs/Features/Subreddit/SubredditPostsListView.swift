@@ -8,7 +8,7 @@
 import SwiftUI
 import Backend
 import UI
-import KingfisherSwiftUI
+import Kingfisher
 
 struct SubredditPostsListView: View, Equatable {
     static func == (lhs: Self, rhs: Self) -> Bool {

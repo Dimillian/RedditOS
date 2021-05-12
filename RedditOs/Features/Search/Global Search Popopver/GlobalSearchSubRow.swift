@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import KingfisherSwiftUI
+import Kingfisher
 
 struct GlobalSearchSubRow: View {
     let icon: String?

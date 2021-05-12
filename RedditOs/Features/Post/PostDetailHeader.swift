@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import KingfisherSwiftUI
+import Kingfisher
 
 struct PostDetailHeader: View {
     let listing: SubredditPost

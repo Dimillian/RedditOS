@@ -16,7 +16,6 @@
 		69222AA524CD6A89009F31B4 /* UserHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69222AA424CD6A89009F31B4 /* UserHeaderView.swift */; };
 		69222AA724CD6D6C009F31B4 /* SubmittedPostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69222AA624CD6D6C009F31B4 /* SubmittedPostsListView.swift */; };
 		69222AAA24CD7518009F31B4 /* CommentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69222AA924CD7518009F31B4 /* CommentRow.swift */; };
-		6923F8CD250250FC0003870F /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6923F8CC250250FC0003870F /* KingfisherSwiftUI */; };
 		6924D53C24CD949D005487CA /* UserPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53B24CD949D005487CA /* UserPopoverView.swift */; };
 		6924D53E24CD94B0005487CA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53D24CD94B0005487CA /* UserViewModel.swift */; };
 		6924D54024CDCED0005487CA /* UserSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6924D53F24CDCED0005487CA /* UserSheetView.swift */; };
@@ -49,6 +48,7 @@
 		697E324D24E3F2900006F00F /* SharingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E324C24E3F2900006F00F /* SharingPicker.swift */; };
 		69CCB3EA24E2BEAC003FAAD7 /* SubredditAboutPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCB3E924E2BEAC003FAAD7 /* SubredditAboutPopoverView.swift */; };
 		69D076C824B9E871001619AC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D076C724B9E871001619AC /* Color.swift */; };
+		69D459FE264BBB0000A98C6F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 69D459FD264BBB0000A98C6F /* Kingfisher */; };
 		69D8663424E568060052A2B0 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D8663324E568060052A2B0 /* Route.swift */; };
 		69DB093824DFCBC60026811F /* SettingsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DB093724DFCBC60026811F /* SettingsKey.swift */; };
 		69EACF0324B63D5800303A16 /* RedditOsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EACF0224B63D5800303A16 /* RedditOsApp.swift */; };
@@ -127,9 +127,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69D459FE264BBB0000A98C6F /* Kingfisher in Frameworks */,
 				697E324524E3E7D90006F00F /* UI in Frameworks */,
 				69EACF1C24B7272E00303A16 /* Backend in Frameworks */,
-				6923F8CD250250FC0003870F /* KingfisherSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +393,7 @@
 			packageProductDependencies = (
 				69EACF1B24B7272E00303A16 /* Backend */,
 				697E324424E3E7D90006F00F /* UI */,
-				6923F8CC250250FC0003870F /* KingfisherSwiftUI */,
+				69D459FD264BBB0000A98C6F /* Kingfisher */,
 			);
 			productName = RedditOs;
 			productReference = 69EACEFF24B63D5800303A16 /* Curiosity.app */;
@@ -630,7 +630,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 28022021;
+				CURRENT_PROJECT_VERSION = 12052021;
 				DEVELOPMENT_ASSET_PATHS = "\"RedditOs/Preview Content\"";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -641,7 +641,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.3.2;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomasricouard.curiosity;
 				PRODUCT_NAME = Curiosity;
 				SWIFT_VERSION = 5.0;
@@ -657,7 +657,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 28022021;
+				CURRENT_PROJECT_VERSION = 12052021;
 				DEVELOPMENT_ASSET_PATHS = "\"RedditOs/Preview Content\"";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -668,7 +668,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.3.2;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomasricouard.curiosity;
 				PRODUCT_NAME = Curiosity;
 				SWIFT_VERSION = 5.0;
@@ -704,20 +704,20 @@
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.15.0;
+				minimumVersion = 6.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6923F8CC250250FC0003870F /* KingfisherSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6923F8CB250250FC0003870F /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = KingfisherSwiftUI;
-		};
 		697E324424E3E7D90006F00F /* UI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UI;
+		};
+		69D459FD264BBB0000A98C6F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6923F8CB250250FC0003870F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		69EACF1B24B7272E00303A16 /* Backend */ = {
 			isa = XCSwiftPackageProductDependency;

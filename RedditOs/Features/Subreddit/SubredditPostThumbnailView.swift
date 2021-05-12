@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Backend
-import KingfisherSwiftUI
+import Kingfisher
 
 struct SubredditPostThumbnailView: View {
     @ObservedObject var viewModel: PostViewModel

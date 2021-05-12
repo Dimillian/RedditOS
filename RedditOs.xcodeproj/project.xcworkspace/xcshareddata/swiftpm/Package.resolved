@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess",
         "state": {
           "branch": null,
-          "revision": "654d52d30f3dd4592e944c3e0bccb53178c992f6",
-          "version": "4.2.1"
+          "revision": "84e546727d66f1adc5439debad16270d0fdd04e7",
+          "version": "4.2.2"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher",
         "state": {
           "branch": null,
-          "revision": "2a6d1135af3915547c4b08c3b154a05e6f1075a3",
-          "version": "5.15.5"
+          "revision": "44450a8f564d7c0165f736ba2250649ff8d3e556",
+          "version": "6.3.0"
         }
       }
     ]
