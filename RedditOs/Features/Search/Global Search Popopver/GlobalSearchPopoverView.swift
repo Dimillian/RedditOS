@@ -44,8 +44,6 @@ struct GlobalSearchPopoverView: View {
                 .onTapGesture {
                     uiState.searchRoute = .subreddit(subreddit: searchState.searchText)
                 }
-            GlobalSearchSubRow(icon: nil,
-                               name: "Go to u/\(searchState.searchText)")
         }.padding(4)
     }
     

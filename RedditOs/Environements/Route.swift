@@ -22,16 +22,13 @@ enum Route: Identifiable, Hashable {
     case user(user: User)
     case subreddit(subreddit: String)
     case defaultChannel(chanel: UIState.DefaultChannels)
-    case none
     
     var id: String {
         switch self {
-        case .user:
-            return "user"
+        case let .user(user):
+            return user.id
         case let .subreddit(subreddit):
             return subreddit
-        case .none:
-            return "none"
         case let .defaultChannel(chanel):
             return chanel.rawValue
         }
@@ -48,8 +45,6 @@ enum Route: Identifiable, Hashable {
         case let .defaultChannel(chanel):
             SubredditPostsListView(name: chanel.rawValue)
                 .equatable()
-        case .none:
-            EmptyView()
         }
     }
 }

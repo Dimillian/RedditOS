@@ -50,7 +50,7 @@ struct UserSheetView: View {
                 PostNoSelectionPlaceholder()
             }
         }
-        .frame(width: 1500, height: 700)
+        .frame(width: 1200, height: 500)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button {
