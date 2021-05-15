@@ -64,4 +64,11 @@ extension User {
             .replaceError(with: ListingResponse(error: "error"))
             .eraseToAnyPublisher()
     }
+    
+    public func fetchMulti() -> AnyPublisher<[ListingHolder<Multi>], Never> {
+        return API.shared.request(endpoint: .mineMulti)
+            .subscribe(on: DispatchQueue.global())
+            .catch { _ in Empty(completeImmediately: false) }
+            .eraseToAnyPublisher()
+    }
 }

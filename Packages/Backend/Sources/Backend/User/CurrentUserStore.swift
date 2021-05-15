@@ -8,15 +8,19 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
     
     @Published public private(set) var user: User? {
         didSet {
-            persistData(data: SaveData(user: user,
-                                subscriptions: subscriptions))
+            saveUser()
         }
     }
     
     @Published public private(set) var subscriptions: [Subreddit] = [] {
         didSet {
-            persistData(data: SaveData(user: user,
-                                subscriptions: subscriptions))
+            saveUser()
+        }
+    }
+    
+    @Published public private(set) var multi: [Multi] = [] {
+        didSet {
+            saveUser()
         }
     }
     
@@ -42,6 +46,7 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
     struct SaveData: Codable {
         let user: User?
         let subscriptions: [Subreddit]
+        let multi: [Multi]
     }
     
     public init() {
@@ -59,12 +64,19 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
                     if !self.subscriptionFetched {
                         self.subscriptionFetched = true
                         self.fetchSubscription(after: nil)
+                        self.fetchMulti()
                     }
                 }
             default:
                 break
             }
         })
+    }
+    
+    private func saveUser() {
+        persistData(data: .init(user: user,
+                                subscriptions: subscriptions,
+                                multi: multi))
     }
     
     private func refreshUser() {
@@ -93,6 +105,15 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
                     self.subscriptions = self.fetchingSubscriptions
                     self.fetchingSubscriptions = []
                 }
+            }
+        disposables.append(cancellable)
+    }
+    
+    private func fetchMulti() {
+        let cancellable = user?.fetchMulti()
+            .receive(on: DispatchQueue.main)
+            .sink{ listings in
+                self.multi = listings.map{ $0.data }
             }
         disposables.append(cancellable)
     }

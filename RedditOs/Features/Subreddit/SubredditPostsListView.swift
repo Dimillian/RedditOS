@@ -16,6 +16,7 @@ struct SubredditPostsListView: View, Equatable {
     }
         
     private let name: String
+    private let title: String?
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     
     @EnvironmentObject private var uiState: UIState
@@ -26,8 +27,9 @@ struct SubredditPostsListView: View, Equatable {
     
     @State private var subredditAboutPopoverShown = false
     
-    init(name: String) {
+    init(name: String, customTitle: String? = nil) {
         self.name = name
+        self.title = customTitle
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
     }
     
@@ -105,7 +107,7 @@ struct SubredditPostsListView: View, Equatable {
                 }
             }
         }
-        .navigationTitle(viewModel.name.capitalized)
+        .navigationTitle(title ?? viewModel.name.capitalized)
         .navigationSubtitle(subtitle)
         .frame(minHeight: 500)
         .onAppear {

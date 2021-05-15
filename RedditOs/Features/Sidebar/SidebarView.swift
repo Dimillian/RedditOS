@@ -19,92 +19,11 @@ struct SidebarView: View {
     
     var body: some View {
         List(selection: $uiState.sidebarSelection) {
-            Section {
-                NavigationLink(destination: SearchMainContentView(),
-                               isActive: uiState.isSearchActive,
-                               label: {
-                                Label("Search", systemImage: "magnifyingglass")
-                               })
-                    .tag(UIState.Constants.searchTag)
-                
-                ForEach(UIState.DefaultChannels.allCases, id: \.self) { item in
-                    NavigationLink(destination:
-                                    SubredditPostsListView(name: item.rawValue)
-                                    .equatable()) {
-                        Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
-                    }.tag(item.rawValue)
-                }.animation(nil)
-            }
-             
-            Section(header: Text("Account")) {
-                NavigationLink(destination: ProfileView()) {
-                    if let user = currentUser.user {
-                        Label(user.name, systemImage: "person.crop.circle")
-                    } else {
-                        Label("Profile", systemImage: "person.crop.circle")
-                    }
-                }.tag("profile")
-                Label("Inbox", systemImage: "envelope")
-                NavigationLink(destination: SubmittedPostsListView()) {
-                    Label("Posts", systemImage: "square.and.pencil")
-                }.tag("Posts")
-                Label("Comments", systemImage: "text.bubble")
-                NavigationLink(destination: SavedPostsListView()) {
-                    Label("Saved", systemImage: "archivebox")
-                }.tag("Saved")
-            }.listItemTint(.redditBlue)
-            
-            Section(header: subredditsHeader) {
-                ForEach(localData.favorites) { reddit in
-                    HStack {
-                        SidebarSubredditRow(name: reddit.name,
-                                            iconURL: reddit.iconImg)
-                            .tag("local\(reddit.name)")
-                        if isInEditMode {
-                            Spacer()
-                            Button {
-                                localData.remove(favorite: reddit)
-                            } label: {
-                                Image(systemName: "minus.circle.fill")
-                                    .imageScale(.large)
-                                    .foregroundColor(.red)
-                            }
-                            .buttonStyle(BorderlessButtonStyle())
-                        }
-                    }
-                }.animation(nil)
-            }
-            .listItemTint(.redditGold)
-            .animation(.easeInOut)
-                        
-            if let subs = currentUser.subscriptions, currentUser.user != nil {
-                Section(header: subscriptionsHeader) {
-                    ForEach(subs) { reddit in
-                        HStack {
-                            SidebarSubredditRow(name: reddit.displayName,
-                                                iconURL: reddit.iconImg)
-                                .tag(reddit.displayName)
-                            Spacer()
-                            if isHovered {
-                                let isfavorite = localData.favorites.first(where: { $0.name == reddit.displayName}) != nil
-                                Button {
-                                    if isfavorite {
-                                        localData.remove(favoriteNamed: reddit.displayName)
-                                    } else {
-                                        localData.add(favorite: SubredditSmall.makeSubredditSmall(with: reddit))
-                                    }
-                                } label: {
-                                    Image(systemName: isfavorite ? "star.fill" : "star")
-                                        .imageScale(.large)
-                                        .foregroundColor(.yellow)
-                                        .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-                                }
-                                .buttonStyle(BorderlessButtonStyle())
-                            }
-                        }
-                    }.animation(nil)
-                }.listItemTint(.redditBlue)
-            }
+            mainSection
+            accountSection
+            favoritesSection
+            subscriptionSection
+            multiSection
         }
         .animation(nil)
         .listStyle(SidebarListStyle())
@@ -152,6 +71,126 @@ struct SidebarView: View {
                 .buttonStyle(BorderlessButtonStyle())
             }
 
+        }
+    }
+    
+    private var mainSection: some View {
+        Section {
+            NavigationLink(destination: SearchMainContentView(),
+                           isActive: uiState.isSearchActive,
+                           label: {
+                            Label("Search", systemImage: "magnifyingglass")
+                           })
+                .tag(UIState.Constants.searchTag)
+            
+            ForEach(UIState.DefaultChannels.allCases, id: \.self) { item in
+                NavigationLink(destination:
+                                SubredditPostsListView(name: item.rawValue)
+                                .equatable()) {
+                    Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
+                }.tag(item.rawValue)
+            }.animation(nil)
+        }
+    }
+    
+    private var accountSection: some View {
+        Section(header: Text("Account")) {
+            NavigationLink(destination: ProfileView()) {
+                if let user = currentUser.user {
+                    Label(user.name, systemImage: "person.crop.circle")
+                } else {
+                    Label("Profile", systemImage: "person.crop.circle")
+                }
+            }.tag("profile")
+            Label("Inbox", systemImage: "envelope")
+            NavigationLink(destination: SubmittedPostsListView()) {
+                Label("Posts", systemImage: "square.and.pencil")
+            }.tag("Posts")
+            Label("Comments", systemImage: "text.bubble")
+            NavigationLink(destination: SavedPostsListView()) {
+                Label("Saved", systemImage: "archivebox")
+            }.tag("Saved")
+        }.listItemTint(.redditBlue)
+    }
+    
+    private var favoritesSection: some View {
+        Section(header: subredditsHeader) {
+            ForEach(localData.favorites) { reddit in
+                HStack {
+                    SidebarSubredditRow(name: reddit.name,
+                                        iconURL: reddit.iconImg)
+                        .tag("local\(reddit.name)")
+                    if isInEditMode {
+                        Spacer()
+                        Button {
+                            localData.remove(favorite: reddit)
+                        } label: {
+                            Image(systemName: "minus.circle.fill")
+                                .imageScale(.large)
+                                .foregroundColor(.red)
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                    }
+                }
+            }.animation(nil)
+        }
+        .listItemTint(.redditGold)
+        .animation(.easeInOut)
+    }
+    
+    @ViewBuilder
+    private var subscriptionSection: some View {
+        if currentUser.user != nil, (!currentUser.subscriptions.isEmpty || currentUser.isRefreshingSubscriptions) {
+            Section(header: subscriptionsHeader) {
+                ForEach(currentUser.subscriptions) { reddit in
+                    HStack {
+                        SidebarSubredditRow(name: reddit.displayName,
+                                            iconURL: reddit.iconImg)
+                            .tag(reddit.displayName)
+                        Spacer()
+                        if isHovered {
+                            let isfavorite = localData.favorites.first(where: { $0.name == reddit.displayName}) != nil
+                            Button {
+                                if isfavorite {
+                                    localData.remove(favoriteNamed: reddit.displayName)
+                                } else {
+                                    localData.add(favorite: SubredditSmall.makeSubredditSmall(with: reddit))
+                                }
+                            } label: {
+                                Image(systemName: isfavorite ? "star.fill" : "star")
+                                    .imageScale(.large)
+                                    .foregroundColor(.yellow)
+                                    .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                        }
+                    }
+                }.animation(nil)
+            }.listItemTint(.redditBlue)
+        }
+    }
+    
+    @ViewBuilder
+    private var multiSection: some View {
+        if currentUser.user != nil && !currentUser.multi.isEmpty {
+            Section(header: Text("Multireddits")) {
+                ForEach(currentUser.multi) { multi in
+                    DisclosureGroup {
+                        ForEach(multi.subreddits) { subreddit in
+                            NavigationLink(destination: SubredditPostsListView(name: subreddit.name)
+                                            .equatable()) {
+                                Text(subreddit.name)
+                            }
+                        }
+                    } label: {
+                        NavigationLink(destination: SubredditPostsListView(name: multi.subredditsAsName,
+                                                                           customTitle: multi.displayName)
+                                        .equatable()) {
+                            Text(multi.displayName)
+                        }
+                    }
+                }
+            }
         }
     }
 }

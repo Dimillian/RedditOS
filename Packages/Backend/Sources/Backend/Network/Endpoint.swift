@@ -7,7 +7,7 @@ public enum Endpoint {
     case searchSubreddit
     case comments(name: String, id: String)
     case accessToken
-    case me, mineSubscriptions
+    case me, mineSubscriptions, mineMulti
     case vote, visits, save, unsave
     case userAbout(username: String)
     case userOverview(usernmame: String)
@@ -37,6 +37,8 @@ public enum Endpoint {
             return "api/v1/me"
         case .mineSubscriptions:
             return "subreddits/mine/subscriber"
+        case .mineMulti:
+            return "api/multi/mine"
         case let .subredditAbout(name):
             return "r/\(name)/about"
         case .vote:
