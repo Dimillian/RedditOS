@@ -31,6 +31,13 @@ struct SidebarView: View {
         .onHover { hovered in
             isHovered = hovered
         }
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button(action: toggleSidebar, label: {
+                    Image(systemName: "sidebar.left")
+                })
+            }
+        }
     }
     
     private var subscriptionsHeader: some View {
@@ -193,6 +200,10 @@ struct SidebarView: View {
             }
         }
     }
+    
+    private func toggleSidebar() {
+        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+        }
 }
 
 struct Sidebar_Previews: PreviewProvider {
