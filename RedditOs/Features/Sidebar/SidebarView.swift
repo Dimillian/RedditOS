@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Backend
+import UI
 
 struct SidebarView: View {
     @EnvironmentObject private var uiState: UIState
@@ -25,12 +26,11 @@ struct SidebarView: View {
             subscriptionSection
             multiSection
         }
-        .animation(nil)
         .listStyle(SidebarListStyle())
         .frame(minWidth: 200, idealWidth: 200, maxWidth: 200, maxHeight: .infinity)
-        .onHover { hovered in
+        .whenHovered({ hovered in
             isHovered = hovered
-        }
+        })
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button(action: toggleSidebar, label: {
@@ -82,7 +82,7 @@ struct SidebarView: View {
     }
     
     private var mainSection: some View {
-        Section {
+        Section(header: Text("Home")) {
             NavigationLink(destination: SearchMainContentView(),
                            isActive: uiState.isSearchActive,
                            label: {
@@ -182,20 +182,7 @@ struct SidebarView: View {
         if currentUser.user != nil && !currentUser.multi.isEmpty {
             Section(header: Text("Multireddits")) {
                 ForEach(currentUser.multi) { multi in
-                    DisclosureGroup {
-                        ForEach(multi.subreddits) { subreddit in
-                            NavigationLink(destination: SubredditPostsListView(name: subreddit.name)
-                                            .equatable()) {
-                                Text(subreddit.name)
-                            }
-                        }
-                    } label: {
-                        NavigationLink(destination: SubredditPostsListView(name: multi.subredditsAsName,
-                                                                           customTitle: multi.displayName)
-                                        .equatable()) {
-                            Text(multi.displayName)
-                        }
-                    }
+                    SidebarMultiView(multi: multi)
                 }
             }
         }
@@ -203,7 +190,7 @@ struct SidebarView: View {
     
     private func toggleSidebar() {
         NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-        }
+    }
 }
 
 struct Sidebar_Previews: PreviewProvider {
