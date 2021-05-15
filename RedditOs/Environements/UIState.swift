@@ -27,23 +27,42 @@ class UIState: ObservableObject {
         }
     }
     
-    private init() {
-        
+    enum Constants {
+        static let searchTag = "search"
     }
+    
+    private init() {
+        isSearchActive = .constant(false)
+        isSearchActive = .init(get: {
+            self.sidebarSelection == Constants.searchTag
+        }, set: { _ in })
+    }
+    
+    @Published var displayToolbarSearchBar = true
     
     @Published var selectedSubreddit: SubredditViewModel?
     @Published var selectedPost: PostViewModel?
     
     @Published var presentedSheetRoute: Route?
-    @Published var presentedNavigationRoute: Route? {
+    @Published var searchRoute: Route? {
         didSet {
-            DispatchQueue.main.async {
-              if let route = self.presentedNavigationRoute {
-                self.sidebarSelection = route.id
-                }
+            if searchRoute != nil {
+                sidebarSelection = Constants.searchTag
+                displayToolbarSearchBar = false
             }
         }
     }
     
-    @Published var sidebarSelection: String? = DefaultChannels.hot.rawValue
+    var isSearchActive: Binding<Bool>
+    
+    @Published var sidebarSelection: String? = DefaultChannels.hot.rawValue {
+        didSet {
+            if sidebarSelection != Constants.searchTag {
+                searchRoute = nil
+                displayToolbarSearchBar = true
+            } else {
+                displayToolbarSearchBar = false
+            }
+        }
+    }
 }

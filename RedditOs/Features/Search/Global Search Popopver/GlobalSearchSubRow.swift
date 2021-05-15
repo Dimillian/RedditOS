@@ -7,32 +7,47 @@
 
 import SwiftUI
 import Kingfisher
+import UI
 
 struct GlobalSearchSubRow: View {
+    struct TextViewContainer: View {
+        @State private var isHovered = false
+        
+        let text: String
+        
+        var body: some View {
+            Text(text)
+                .foregroundColor(isHovered ? .accentColor : nil)
+                .scaleEffect(isHovered ? 1.05 : 1.0)
+                .whenHovered({ hovered  in
+                    isHovered = hovered
+                })
+                .animation(.interactiveSpring())
+        }
+    }
+    
     let icon: String?
     let name: String
-    
-    @State private var isHovered = false
+        
+    var defaultImage: some View {
+        Image(systemName: "globe")
+            .resizable()
+            .frame(width: 16, height: 16)
+    }
     
     var body: some View {
         HStack {
             if let image = icon,
                let url = URL(string: image) {
                 KFImage(url)
+                    .placeholder{ defaultImage }
                     .resizable()
                     .frame(width: 16, height: 16)
                     .cornerRadius(8)
             } else {
-                Image(systemName: "globe")
-                    .resizable()
-                    .frame(width: 16, height: 16)
+                defaultImage
             }
-            Text(name).foregroundColor(isHovered ? .accentColor : nil)
-        }
-        .scaleEffect(isHovered ? 1.05 : 1.0)
-        .animation(.interactiveSpring())
-        .onHover { hovered in
-            isHovered = hovered
+            TextViewContainer(text: name)
         }
     }
 }

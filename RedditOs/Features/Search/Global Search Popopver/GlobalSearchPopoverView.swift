@@ -11,27 +11,24 @@ import Backend
 struct GlobalSearchPopoverView: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var currentUser: CurrentUserStore
-    
-    @ObservedObject var viewModel: SearchViewModel
+    @EnvironmentObject private var searchState: SearchState
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                makeTitle("Quick access")
-                makeQuickAccess()
-                
-                Divider()
-                
-                makeTitle("My subscriptions")
-                makeMySubscriptionsSearch()
-                
-                Divider()
-                
-                makeTitle("Subreddit search")
-                makeSubredditSearch()
-                
-            }.padding()
-        }.frame(width: 300, height: 500)
+        Section(header: makeTitle("Quick access")) {
+            makeQuickAccess()
+        }
+        
+        Divider()
+        
+        Section(header: makeTitle("My subscriptions")) {
+            makeMySubscriptionsSearch()
+        }
+  
+        Divider()
+        
+        Section(header: makeTitle("Subreddit search")) {
+            makeSubredditSearch()
+        }
     }
     
     private func makeTitle(_ title: String) -> some View {
@@ -43,20 +40,20 @@ struct GlobalSearchPopoverView: View {
     private func makeQuickAccess() -> some View {
         Group {
             GlobalSearchSubRow(icon: nil,
-                               name: "Go to r/\(viewModel.searchText)")
+                               name: "Go to r/\(searchState.searchText)")
                 .onTapGesture {
-                    uiState.presentedNavigationRoute = .subreddit(subreddit: viewModel.searchText, isSheet: false)
+                    uiState.searchRoute = .subreddit(subreddit: searchState.searchText)
                 }
             GlobalSearchSubRow(icon: nil,
-                               name: "Go to u/\(viewModel.searchText)")
+                               name: "Go to u/\(searchState.searchText)")
         }.padding(4)
     }
     
     private func makeMySubscriptionsSearch() -> some View {
         Group {
-            if let subs = viewModel.filteredSubscriptions {
+            if let subs = searchState.filteredSubscriptions {
                 if subs.isEmpty {
-                    Label("No matching subscriptions for \(viewModel.searchText)", systemImage: "magnifyingglass")
+                    Label("No matching subscriptions for \(searchState.searchText)", systemImage: "magnifyingglass")
                 } else {
                     ForEach(subs) { sub in
                         makeSubRow(icon: sub.iconImg, name: sub.displayName)
@@ -68,15 +65,15 @@ struct GlobalSearchPopoverView: View {
     
     private func makeSubredditSearch() -> some View {
         Group {
-            if let results = viewModel.results {
+            if let results = searchState.results {
                 if results.isEmpty {
-                    Label("No matching search for \(viewModel.searchText)", systemImage: "magnifyingglass")
+                    Label("No matching search for \(searchState.searchText)", systemImage: "magnifyingglass")
                 } else {
                     ForEach(results) { sub in
                         makeSubRow(icon: sub.iconImg, name: sub.name)
                     }
                 }
-            } else if viewModel.isLoading {
+            } else if searchState.isLoading {
                 LoadingRow(text: nil)
             }
         }.padding(4)
@@ -85,7 +82,7 @@ struct GlobalSearchPopoverView: View {
     private func makeSubRow(icon: String?, name: String) -> some View {
         GlobalSearchSubRow(icon: icon, name: name)
             .onTapGesture {
-                uiState.presentedNavigationRoute = .subreddit(subreddit: name, isSheet: false)
+                uiState.searchRoute = .subreddit(subreddit: name)
         }
     }
 }

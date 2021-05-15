@@ -16,7 +16,6 @@ struct SubredditPostsListView: View, Equatable {
     }
         
     private let name: String
-    private let isSheet: Bool
     private let loadingPlaceholders = Array(repeating: static_listing, count: 10)
     
     @EnvironmentObject private var uiState: UIState
@@ -27,9 +26,8 @@ struct SubredditPostsListView: View, Equatable {
     
     @State private var subredditAboutPopoverShown = false
     
-    init(name: String, isSheet: Bool = false) {
+    init(name: String) {
         self.name = name
-        self.isSheet = isSheet
         _viewModel = StateObject(wrappedValue: SubredditViewModel(name: name))
     }
     
@@ -47,6 +45,12 @@ struct SubredditPostsListView: View, Equatable {
         return ""
     }
     
+    private var placeholderIcon: some View {
+        Image(systemName: "globe")
+            .resizable()
+            .frame(width: 20, height: 20)
+    }
+    
     var body: some View {
         PostsListView(posts: viewModel.listings,
                       displayMode: .constant(displayMode)) {
@@ -57,16 +61,15 @@ struct SubredditPostsListView: View, Equatable {
             ToolbarItem(placement: .navigation) {
                 Group {
                     if isDefaultChannel {
-                        EmptyView()
+                        placeholderIcon
                     } else if let icon = viewModel.subreddit?.iconImg, let url = URL(string: icon) {
                         KFImage(url)
+                            .placeholder{ placeholderIcon }
                             .resizable()
                             .frame(width: 20, height: 20)
                             .cornerRadius(10)
                     } else {
-                        Image(systemName: "globe")
-                            .resizable()
-                            .frame(width: 20, height: 20)
+                        placeholderIcon
                     }
                 }
                 .onTapGesture {

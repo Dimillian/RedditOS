@@ -37,7 +37,7 @@ struct PostInfoView: View {
     var content: some View {
         HStack(spacing: 6) {
             Button(action: {
-                uiState.presentedSheetRoute = .subreddit(subreddit: post.subreddit, isSheet: true)
+                uiState.searchRoute = .subreddit(subreddit: post.subreddit)
             }, label: {
                 Text("r/\(post.subreddit)")
                     .fontWeight(.bold)

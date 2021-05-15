@@ -19,19 +19,14 @@ struct SidebarView: View {
     
     var body: some View {
         List(selection: $uiState.sidebarSelection) {
-            if let route = uiState.presentedNavigationRoute {
-                Section {
-                    NavigationLink(
-                        destination: route.makeView(),
-                        tag: route,
-                        selection: $uiState.presentedNavigationRoute,
-                        label: {
-                            Label("Search", systemImage: "magnifyingglass")
-                        })
-                }
-            }
-            
             Section {
+                NavigationLink(destination: SearchMainContentView(),
+                               isActive: uiState.isSearchActive,
+                               label: {
+                                Label("Search", systemImage: "magnifyingglass")
+                               })
+                    .tag(UIState.Constants.searchTag)
+                
                 ForEach(UIState.DefaultChannels.allCases, id: \.self) { item in
                     NavigationLink(destination:
                                     SubredditPostsListView(name: item.rawValue)

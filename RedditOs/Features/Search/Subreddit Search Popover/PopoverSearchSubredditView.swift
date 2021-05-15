@@ -10,7 +10,7 @@ import Backend
 
 struct PopoverSearchSubredditView: View {
     @EnvironmentObject private var userData: LocalDataStore
-    @StateObject private var viewModel = SearchViewModel()
+    @StateObject private var viewModel = SearchState()
     
     var body: some View {
         List {

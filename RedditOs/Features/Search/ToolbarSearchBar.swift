@@ -9,30 +9,50 @@ import SwiftUI
 
 struct ToolbarSearchBar: View {
     @EnvironmentObject private var uiState: UIState
+    @EnvironmentObject private var searchState: SearchState
     @State private var isFocused = false
-    @StateObject private var searchViewModel = SearchViewModel()
+    @State private var isPopoverPresented = false
+    var isPopoverEnabled: Bool
     
     var body: some View {
-        TextField("Search anything", text: $searchViewModel.searchText) { editing in
-            isFocused = editing
-        } onCommit: {
-            uiState.presentedNavigationRoute = .subreddit(subreddit: searchViewModel.searchText, isSheet: false)
-        }
-        .keyboardShortcut("f", modifiers: .command)
-        .padding(8)
-        .background(RoundedRectangle(cornerRadius: 8)
-                        .stroke(isFocused ? Color.accentColor : Color.clear)
-                        .background(Color.black.opacity(0.2).cornerRadius(8)))
-        .textFieldStyle(PlainTextFieldStyle())
-        .frame(width: 300)
-        .popover(isPresented: $isFocused) {
-            GlobalSearchPopoverView(viewModel: searchViewModel)
+        HStack {
+            TextField("Search anything", text: $searchState.searchText) { editing in
+                isFocused = editing
+                if isPopoverEnabled {
+                    isPopoverPresented = editing
+                }
+            }
+            .keyboardShortcut("f", modifiers: .command)
+            .padding(8)
+            .background(RoundedRectangle(cornerRadius: 8)
+                            .stroke(isFocused ? Color.accentColor : Color.clear)
+                            .background(Color.black.opacity(0.2).cornerRadius(8)))
+            .textFieldStyle(PlainTextFieldStyle())
+            .animation(.easeInOut)
+            .popover(isPresented: $isPopoverPresented) {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        GlobalSearchPopoverView()
+                    }.padding()
+                }.frame(width: 300, height: 500)
+            }
+            if !searchState.searchText.isEmpty {
+                Button {
+                    searchState.searchText = ""
+                } label: {
+                    Image(systemName: "xmark.circle")
+                        .font(.title2)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .animation(.easeInOut)
+                .transition(.move(edge: .trailing))
+            }
         }
     }
 }
 
 struct ToolbarSearchBar_Previews: PreviewProvider {
     static var previews: some View {
-        ToolbarSearchBar()
+        ToolbarSearchBar(isPopoverEnabled: true).environmentObject(SearchState())
     }
 }

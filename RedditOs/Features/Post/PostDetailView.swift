@@ -49,7 +49,7 @@ struct PostDetailView: View, Equatable {
             uiState.selectedPost = nil
         })
         .toolbar {
-            PostDetailToolbar(shareURL: viewModel.post.redditURL)
+            PostDetailToolbar(uiState: uiState, shareURL: viewModel.post.redditURL)
         }
         .frame(minWidth: 500,
                maxWidth: .infinity,
