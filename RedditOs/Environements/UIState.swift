@@ -37,8 +37,10 @@ class UIState: ObservableObject {
     @Published var presentedSheetRoute: Route?
     @Published var presentedNavigationRoute: Route? {
         didSet {
-            if let route = presentedNavigationRoute {
-                sidebarSelection = route.id
+            DispatchQueue.main.async {
+              if let route = self.presentedNavigationRoute {
+                self.sidebarSelection = route.id
+                }
             }
         }
     }

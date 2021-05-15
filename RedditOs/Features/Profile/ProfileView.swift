@@ -89,12 +89,10 @@ struct ProfileView: View {
                 } label: {
                     Text("Sign in")
                 }
-            case .signinInProgress:
+            case .signinInProgress, .refreshing:
                 ProgressView("Auth in progress")
             case .authenthicated:
                 Text("Signed in")
-            case .unknown:
-                Text("Error")
             }
             Spacer()
         }

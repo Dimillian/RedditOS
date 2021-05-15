@@ -5,8 +5,9 @@ import KeychainAccess
 
 
 public class OauthClient: ObservableObject {
-    public enum State {
-        case unknown, signedOut, signinInProgress
+    public enum State: Equatable {
+        case signedOut
+        case refreshing, signinInProgress
         case authenthicated(authToken: String)
     }
     
@@ -18,7 +19,7 @@ public class OauthClient: ObservableObject {
     
     static public let shared = OauthClient()
     
-    @Published public var authState = State.unknown
+    @Published public var authState = State.refreshing
     
     // Oauth URL
     private let baseURL = "https://www.reddit.com/api/v1/authorize"
@@ -52,11 +53,10 @@ public class OauthClient: ObservableObject {
         }
         
         let keychain = Keychain(service: keychainService)
-        if let token = keychain[keychainAuthTokenKey],
-           let refresh = keychain[keychainAuthTokenRefreshToken] {
-            authState = .authenthicated(authToken: token)
+        if let refreshToken = keychain[keychainAuthTokenRefreshToken] {
+            authState = .refreshing
             DispatchQueue.main.async {
-                self.refreshToken(refreshToken: refresh)
+                self.refreshToken(refreshToken: refreshToken)
             }
         } else {
             authState = .signedOut

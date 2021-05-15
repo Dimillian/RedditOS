@@ -7,23 +7,26 @@ public class API {
     static private let HOST = "reddit.com"
     static private let HOST_AUTH_DOMAIN = "oauth"
     
-    private var session: URLSession
+    @Published private var authenticatedSession: URLSession?
+    private var signedOutSession: URLSession
     private let decoder: JSONDecoder
     
     private var oauthStateCancellable: AnyCancellable?
-    
+        
     init() {
         decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .secondsSince1970
         
-        session = URLSession(configuration: Self.makeSessionConfiguration(token: nil))
+        signedOutSession = URLSession(configuration: Self.makeSessionConfiguration(token: nil))
         oauthStateCancellable = OauthClient.shared.$authState.sink { state in
-            switch state {
-            case .authenthicated(let token):
-                self.session = URLSession(configuration: Self.makeSessionConfiguration(token: token))
-            default:
-                self.session = URLSession(configuration: Self.makeSessionConfiguration(token: nil))
+            DispatchQueue.main.async {
+                switch state {
+                case .authenthicated(let token):
+                    self.authenticatedSession = URLSession(configuration: Self.makeSessionConfiguration(token: token))
+                case .refreshing, .signinInProgress, .signedOut:
+                    self.authenticatedSession = nil
+                }
             }
         }
     }
@@ -64,14 +67,12 @@ public class API {
         return component.url!
     }
     
-    public func request<T: Decodable>(endpoint: Endpoint,
-                                      basicAuthUser: String? = nil,
-                                      httpMethod: String = "GET",
-                                      isJSONEndpoint: Bool = true,
-                                      queryParamsAsBody: Bool = false,
-                                      params: [String: String]? = nil) -> AnyPublisher<T ,NetworkError> {
-        var url = Self.makeURL(endpoint: endpoint, basicAuthUser: basicAuthUser, isJSONAPI: isJSONEndpoint)
+    static private func makeRequest(url: URL,
+                             httpMethod: String = "GET",
+                             queryParamsAsBody: Bool,
+                             params: [String: String]? = nil) -> URLRequest {
         var request: URLRequest
+        var url = url
         if let params = params {
             if queryParamsAsBody {
                 var urlComponents = URLComponents()
@@ -92,18 +93,40 @@ public class API {
             request = URLRequest(url: url)
         }
         request.httpMethod = httpMethod
-        return session.dataTaskPublisher(for: request)
-            .tryMap{ data, response in
-                return try NetworkError.processResponse(data: data, response: response)
+        return request
+    }
+    
+    public func request<T: Decodable>(endpoint: Endpoint,
+                                      basicAuthUser: String? = nil,
+                                      httpMethod: String = "GET",
+                                      isJSONEndpoint: Bool = true,
+                                      queryParamsAsBody: Bool = false,
+                                      params: [String: String]? = nil) -> AnyPublisher<T ,NetworkError> {
+    
+        if basicAuthUser != nil || authenticatedSession != nil ||
+            OauthClient.shared.authState == .signedOut || OauthClient.shared.authState == .signinInProgress {
+            let url = Self.makeURL(endpoint: endpoint, basicAuthUser: basicAuthUser, isJSONAPI: isJSONEndpoint)
+            let request = Self.makeRequest(url: url, httpMethod: httpMethod, queryParamsAsBody: queryParamsAsBody, params: params)
+            
+            if let session = authenticatedSession {
+                return executeRequest(publisher: session.dataTaskPublisher(for: request))
+            } else {
+                return executeRequest(publisher: signedOutSession.dataTaskPublisher(for: request))
             }
-            .decode(type: T.self, decoder: decoder)
-            .mapError{ error in
-                print("----- BEGIN PARSING ERROR-----")
-                print(error)
-                print("----- END PARSING ERROR-----")
-                return NetworkError.parseError(reason: error)
-            }
-            .eraseToAnyPublisher()
+        } else {
+            return $authenticatedSession
+                .compactMap{ $0 }
+                .map {
+                    $0.dataTaskPublisher(for: Self.makeRequest(url: Self.makeURL(endpoint: endpoint,
+                                                                                 basicAuthUser: basicAuthUser,
+                                                                                 isJSONAPI: isJSONEndpoint),
+                                                               httpMethod: httpMethod,
+                                                               queryParamsAsBody: queryParamsAsBody,
+                                                               params: params))
+                    }
+                .flatMap { self.executeRequest(publisher: $0) }
+                .eraseToAnyPublisher()
+        }
     }
     
     public func POST(endpoint: Endpoint,
@@ -117,5 +140,20 @@ public class API {
             .subscribe(on: DispatchQueue.global())
             .catch { Just(NetworkResponse(error: RedditError.processNetworkError(error: $0))) }
             .eraseToAnyPublisher()
+    }
+        
+    private func executeRequest<T: Decodable>(publisher: URLSession.DataTaskPublisher) -> AnyPublisher<T ,NetworkError> {
+        publisher
+        .tryMap{ data, response in
+            return try NetworkError.processResponse(data: data, response: response)
+        }
+        .decode(type: T.self, decoder: decoder)
+        .mapError{ error in
+            print("----- BEGIN PARSING ERROR-----")
+            print(error)
+            print("----- END PARSING ERROR-----")
+            return NetworkError.parseError(reason: error)
+        }
+        .eraseToAnyPublisher()
     }
 }
