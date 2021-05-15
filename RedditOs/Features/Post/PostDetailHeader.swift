@@ -16,7 +16,7 @@ struct PostDetailHeader: View {
         HStack {
             Text(listing.title)
                 .font(.title)
-                .lineLimit(5)
+                .lineLimit(10)
                 .multilineTextAlignment(.leading)
                 .truncationMode(.tail)
             if let url = listing.thumbnailURL, url.pathExtension != "jpg", url.pathExtension != "png" {

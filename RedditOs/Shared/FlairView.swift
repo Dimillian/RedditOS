@@ -33,7 +33,7 @@ struct FlairView: View {
         if backgroundColor == .gray {
             return .white
         }
-        return textColorHex == "dark" ? .black : .white
+        return textColorHex == "dark" ? .textColor : .white
     }
 
     @ViewBuilder
@@ -51,6 +51,8 @@ struct FlairView: View {
                             .foregroundColor(textColor)
                             .font(display == .small ? .footnote : .callout)
                             .fontWeight(.semibold)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
                     } else {
                         EmptyView()
                     }

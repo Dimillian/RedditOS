@@ -61,8 +61,9 @@ struct SubredditPostsListView: View, Equatable {
             ToolbarItem(placement: .navigation) {
                 Group {
                     if isDefaultChannel {
-                        placeholderIcon
-                    } else if let icon = viewModel.subreddit?.iconImg, let url = URL(string: icon) {
+                        EmptyView()
+                    } else if let icon = viewModel.subreddit?.iconImg,
+                              let url = URL(string: icon) {
                         KFImage(url)
                             .placeholder{ placeholderIcon }
                             .resizable()
