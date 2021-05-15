@@ -47,16 +47,21 @@ public class API {
     
     static private func makeURL(endpoint: Endpoint,
                                 basicAuthUser: String?,
+                                forceSignedOutURL: Bool,
                                 isJSONAPI: Bool) -> URL {
         var url: URL
         if let user = basicAuthUser {
             url = URL(string: "\(Self.URL_PREFIX)\(user):@www.\(Self.HOST)")!
         } else {
-            switch OauthClient.shared.authState {
-            case .authenthicated:
-                url = URL(string: "\(Self.URL_PREFIX)\(Self.HOST_AUTH_DOMAIN).\(Self.HOST)")!
-            default:
+            if forceSignedOutURL {
                 url = URL(string: "\(Self.URL_PREFIX)www.\(Self.HOST)")!
+            } else {
+                switch OauthClient.shared.authState {
+                case .authenthicated:
+                    url = URL(string: "\(Self.URL_PREFIX)\(Self.HOST_AUTH_DOMAIN).\(Self.HOST)")!
+                default:
+                    url = URL(string: "\(Self.URL_PREFIX)www.\(Self.HOST)")!
+                }
             }
         }
         url = url.appendingPathComponent(endpoint.path())
@@ -98,6 +103,7 @@ public class API {
     
     public func request<T: Decodable>(endpoint: Endpoint,
                                       basicAuthUser: String? = nil,
+                                      forceSignedOutURL: Bool = false,
                                       httpMethod: String = "GET",
                                       isJSONEndpoint: Bool = true,
                                       queryParamsAsBody: Bool = false,
@@ -105,10 +111,16 @@ public class API {
     
         if basicAuthUser != nil || authenticatedSession != nil ||
             OauthClient.shared.authState == .signedOut || OauthClient.shared.authState == .signinInProgress {
-            let url = Self.makeURL(endpoint: endpoint, basicAuthUser: basicAuthUser, isJSONAPI: isJSONEndpoint)
-            let request = Self.makeRequest(url: url, httpMethod: httpMethod, queryParamsAsBody: queryParamsAsBody, params: params)
+            let url = Self.makeURL(endpoint: endpoint,
+                                   basicAuthUser: basicAuthUser,
+                                   forceSignedOutURL: forceSignedOutURL,
+                                   isJSONAPI: isJSONEndpoint)
+            let request = Self.makeRequest(url: url,
+                                           httpMethod: httpMethod,
+                                           queryParamsAsBody: queryParamsAsBody,
+                                           params: params)
             
-            if let session = authenticatedSession {
+            if let session = authenticatedSession, !forceSignedOutURL {
                 return executeRequest(publisher: session.dataTaskPublisher(for: request))
             } else {
                 return executeRequest(publisher: signedOutSession.dataTaskPublisher(for: request))
@@ -119,6 +131,7 @@ public class API {
                 .map {
                     $0.dataTaskPublisher(for: Self.makeRequest(url: Self.makeURL(endpoint: endpoint,
                                                                                  basicAuthUser: basicAuthUser,
+                                                                                 forceSignedOutURL: forceSignedOutURL,
                                                                                  isJSONAPI: isJSONEndpoint),
                                                                httpMethod: httpMethod,
                                                                queryParamsAsBody: queryParamsAsBody,

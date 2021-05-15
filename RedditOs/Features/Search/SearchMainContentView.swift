@@ -29,14 +29,31 @@ struct SearchMainContentView: View {
             } else {
                 ToolbarSearchBar(isPopoverEnabled: false)
                     .padding()
-                if !searchState.searchText.isEmpty {
-                    List {
+                List {
+                    if searchState.searchText.isEmpty {
+                        if let trending = searchState.trending {
+                            Section(header: Label("Trending", systemImage: "chart.bar.fill")) {
+                                ForEach(trending.subredditNames, id: \.self) { subreddit in
+                                    Text(subreddit)
+                                        .padding(.vertical, 4)
+                                        .onTapGesture {
+                                            uiState.searchRoute = .subreddit(subreddit: subreddit)
+                                        }
+                                }
+                            }
+                        }
+                    } else {
                         GlobalSearchPopoverView()
-                    }.listStyle(PlainListStyle())
+                    }
                 }
+                .listStyle(PlainListStyle())
+                .padding(.horizontal)
                 Spacer()
             }
         }.navigationTitle("Search")
+        .onAppear {
+            searchState.fetchTrending()
+        }
     }
 }
 

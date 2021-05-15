@@ -14,6 +14,7 @@ class SearchState: ObservableObject {
     @Published var searchText = ""
     @Published var results: [SubredditSmall]?
     @Published var filteredSubscriptions: [Subreddit]?
+    @Published var trending: TrendingSubreddits?
     @Published var isLoading = false
     
     private var currentUser: CurrentUserStore
@@ -22,6 +23,7 @@ class SearchState: ObservableObject {
     private var instantSearchCancellable: AnyCancellable?
     private var apiPublisher: AnyPublisher<SubredditResponse, Never>?
     private var apiCancellable: AnyCancellable?
+    private var cancellableSet: Set<AnyCancellable> = Set()
     
     init(currentUser: CurrentUserStore = .shared) {
         self.currentUser = currentUser
@@ -68,5 +70,15 @@ class SearchState: ObservableObject {
                 self?.results = results
             }
         
+    }
+    
+    public func fetchTrending() {
+        TrendingSubreddits.fetch()
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] trending in
+                self?.trending = trending
+            }
+            .store(in: &cancellableSet)
     }
 }

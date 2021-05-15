@@ -14,6 +14,7 @@ public enum Endpoint {
     case userSaved(username: String)
     case userSubmitted(username: String)
     case userComments(username: String)
+    case trendingSubreddits
     
     func path() -> String {
         switch self {
@@ -59,6 +60,8 @@ public enum Endpoint {
             return "user/\(username)/submitted"
         case let .userComments(username):
             return "user/\(username)/comments"
+        case .trendingSubreddits:
+            return "api/trending_subreddits"
         }
     }
 }
