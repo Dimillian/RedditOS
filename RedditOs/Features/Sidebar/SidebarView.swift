@@ -83,7 +83,7 @@ struct SidebarView: View {
             .animation(.easeInOut)
                         
             if let subs = currentUser.subscriptions, currentUser.user != nil {
-                Section(header: Text("Subscriptions")) {
+                Section(header: subscriptionsHeader) {
                     ForEach(subs) { reddit in
                         HStack {
                             SidebarSubredditRow(name: reddit.displayName,
@@ -116,6 +116,18 @@ struct SidebarView: View {
         .frame(minWidth: 200, idealWidth: 200, maxWidth: 200, maxHeight: .infinity)
         .onHover { hovered in
             isHovered = hovered
+        }
+    }
+    
+    private var subscriptionsHeader: some View {
+        HStack(spacing: 8) {
+            Text("Subscriptions")
+            if currentUser.isRefreshingSubscriptions {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .frame(width: 15, height: 15)
+                    .scaleEffect(0.5)
+            }
         }
     }
     

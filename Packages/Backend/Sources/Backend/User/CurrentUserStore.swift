@@ -20,12 +20,19 @@ public class CurrentUserStore: ObservableObject, PersistentDataStore {
         }
     }
     
+    @Published public private(set) var isRefreshingSubscriptions = false
+    
     @Published public private(set) var overview: [GenericListingContent]?
     @Published public private(set) var savedPosts: [SubredditPost]?
     @Published public private(set) var submittedPosts: [SubredditPost]?
     
     private var subscriptionFetched = false
-    private var fetchingSubscriptions: [Subreddit] = []
+    private var fetchingSubscriptions: [Subreddit] = [] {
+        didSet {
+            isRefreshingSubscriptions = !fetchingSubscriptions.isEmpty
+        }
+    }
+    
     private var disposables: [AnyCancellable?] = []
     private var authStateCancellable: AnyCancellable?
     private var afterOverview: String?
