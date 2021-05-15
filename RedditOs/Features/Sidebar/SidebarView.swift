@@ -32,7 +32,7 @@ struct SidebarView: View {
             isHovered = hovered
         })
         .toolbar {
-            ToolbarItem(placement: .navigation) {
+            ToolbarItemGroup {
                 Button(action: toggleSidebar, label: {
                     Image(systemName: "sidebar.left")
                 })
