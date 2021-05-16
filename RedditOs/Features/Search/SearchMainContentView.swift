@@ -11,12 +11,19 @@ struct SearchMainContentView: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var searchState: SearchState
     
+    enum ResultsMode {
+        case autocomplete, posts
+    }
+    
+    @State private var resultsDisplayMode = ResultsMode.autocomplete
+    
     var body: some View {
         VStack(alignment: .leading) {
             if let route = uiState.searchRoute {
                 HStack {
                     Button {
                         uiState.searchRoute = nil
+                        resultsDisplayMode = .autocomplete
                     } label: {
                         Text("Back")
                     }
@@ -27,24 +34,14 @@ struct SearchMainContentView: View {
                 .frame(height: 50)
                 route.makeView()
             } else {
-                ToolbarSearchBar(isPopoverEnabled: false)
-                    .padding()
+                ToolbarSearchBar(isPopoverEnabled: false, onCommit: {
+                    resultsDisplayMode = .posts
+                }, onCancel: {
+                    resultsDisplayMode = .autocomplete
+                })
+                .padding()
                 List {
-                    if searchState.searchText.isEmpty {
-                        if let trending = searchState.trending {
-                            Section(header: Label("Trending", systemImage: "chart.bar.fill")) {
-                                ForEach(trending.subredditNames, id: \.self) { subreddit in
-                                    Text(subreddit)
-                                        .padding(.vertical, 4)
-                                        .onTapGesture {
-                                            uiState.searchRoute = .subreddit(subreddit: subreddit)
-                                        }
-                                }
-                            }
-                        }
-                    } else {
-                        GlobalSearchPopoverView()
-                    }
+                   resultsView
                 }
                 .listStyle(PlainListStyle())
                 .padding(.horizontal)
@@ -53,6 +50,34 @@ struct SearchMainContentView: View {
         }.navigationTitle("Search")
         .onAppear {
             searchState.fetchTrending()
+        }
+    }
+    
+    @ViewBuilder
+    private var resultsView: some View {
+        switch resultsDisplayMode {
+        case .autocomplete:
+            if searchState.searchText.isEmpty {
+                if let trending = searchState.trending {
+                    Section(header: Label("Trending", systemImage: "chart.bar.fill")) {
+                        ForEach(trending.subredditNames, id: \.self) { subreddit in
+                            Text(subreddit)
+                                .padding(.vertical, 4)
+                                .onTapGesture {
+                                    uiState.searchRoute = .subreddit(subreddit: subreddit)
+                                }
+                        }
+                    }
+                }
+            } else {
+                GlobalSearchPopoverView()
+            }
+        case .posts:
+            if let results = searchState.postResults {
+                ForEach(results) { result in
+                    SubredditPostRow(post: result, displayMode: .constant(.large))
+                }
+            }
         }
     }
 }

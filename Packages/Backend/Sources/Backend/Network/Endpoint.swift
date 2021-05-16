@@ -5,6 +5,7 @@ public enum Endpoint {
     case subredditAbout(name: String)
     case subscribe
     case searchSubreddit
+    case search
     case comments(name: String, id: String)
     case accessToken
     case me, mineSubscriptions, mineMulti
@@ -62,6 +63,8 @@ public enum Endpoint {
             return "user/\(username)/comments"
         case .trendingSubreddits:
             return "api/trending_subreddits"
+        case .search:
+            return "search"
         }
     }
 }

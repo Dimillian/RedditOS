@@ -17,8 +17,9 @@ struct PostDetailToolbar: ToolbarContent {
             SharingView(url: shareURL)
             Spacer()
             if uiState.displayToolbarSearchBar {
-                ToolbarSearchBar(isPopoverEnabled: true)
-                    .frame(width: 300)
+                ToolbarSearchBar(isPopoverEnabled: true,
+                                 onCommit: {}, onCancel: {})
+                .frame(width: 300)
             }
         }
     }

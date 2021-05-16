@@ -12,7 +12,10 @@ struct ToolbarSearchBar: View {
     @EnvironmentObject private var searchState: SearchState
     @State private var isFocused = false
     @State private var isPopoverPresented = false
-    var isPopoverEnabled: Bool
+    
+    let isPopoverEnabled: Bool
+    let onCommit: () -> Void
+    let onCancel: () -> Void
     
     var body: some View {
         HStack {
@@ -21,7 +24,10 @@ struct ToolbarSearchBar: View {
                 if isPopoverEnabled {
                     isPopoverPresented = editing
                 }
+            } onCommit: {
+                onCommit()
             }
+            
             .keyboardShortcut("f", modifiers: .command)
             .padding(8)
             .background(RoundedRectangle(cornerRadius: 8)
@@ -39,6 +45,7 @@ struct ToolbarSearchBar: View {
             if !searchState.searchText.isEmpty {
                 Button {
                     searchState.searchText = ""
+                    onCancel()
                 } label: {
                     Image(systemName: "xmark.circle")
                         .font(.title2)
@@ -53,6 +60,6 @@ struct ToolbarSearchBar: View {
 
 struct ToolbarSearchBar_Previews: PreviewProvider {
     static var previews: some View {
-        ToolbarSearchBar(isPopoverEnabled: true).environmentObject(SearchState())
+        ToolbarSearchBar(isPopoverEnabled: true, onCommit: { }, onCancel: { }).environmentObject(SearchState())
     }
 }
