@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct PostDetailToolbar: ToolbarContent {
-    @ObservedObject var uiState: UIState
+    @Binding var displaySearchBar: Bool
     let shareURL: URL?
-    @State var searchViewModel = SearchState()
         
     var body: some ToolbarContent {
         ToolbarItemGroup {
             SharingView(url: shareURL)
             Spacer()
-            if uiState.displayToolbarSearchBar {
+            if displaySearchBar {
                 ToolbarSearchBar(isPopoverEnabled: true,
                                  onCommit: {}, onCancel: {})
                 .frame(width: 300)

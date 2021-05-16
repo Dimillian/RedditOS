@@ -11,9 +11,8 @@ import Backend
 
 @main
 struct RedditOsApp: App {
-    @StateObject private var uiState = UIState.shared
+    @StateObject private var uiState = UIState()
     @StateObject private var localData = LocalDataStore()
-    @StateObject private var searchState = SearchState()
     
     @SceneBuilder
     var body: some Scene {
@@ -23,7 +22,8 @@ struct RedditOsApp: App {
                 ProgressView()
                 PostNoSelectionPlaceholder()
                 .toolbar {
-                  PostDetailToolbar(uiState: uiState, shareURL: nil)
+                    PostDetailToolbar(displaySearchBar: $uiState.displayToolbarSearchBar,
+                                      shareURL: nil)
                 }
             }
             .frame(minWidth: 1300, minHeight: 600)
@@ -31,7 +31,7 @@ struct RedditOsApp: App {
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUserStore.shared)
             .environmentObject(uiState)
-            .environmentObject(searchState)
+            .environmentObject(SearchState())
             .onOpenURL { url in
                 OauthClient.shared.handleNextURL(url: url)
             }

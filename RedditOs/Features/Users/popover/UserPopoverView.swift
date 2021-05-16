@@ -45,6 +45,6 @@ struct UserPopoverView: View {
 
 struct UserPopoverView_Previews: PreviewProvider {
     static var previews: some View {
-        UserPopoverView(username: "").environmentObject(UIState.shared)
+        UserPopoverView(username: "").environmentObject(UIState())
     }
 }

@@ -84,6 +84,6 @@ struct SearchMainContentView: View {
 
 struct SearchMainContentView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchMainContentView().environmentObject(UIState.shared)
+        SearchMainContentView().environmentObject(UIState())
     }
 }

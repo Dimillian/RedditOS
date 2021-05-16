@@ -11,8 +11,6 @@ import Combine
 import Backend
 
 class UIState: ObservableObject {
-    public static let shared = UIState()
-    
     enum DefaultChannels: String, CaseIterable {
         case hot, best, new, top, rising
         
@@ -31,7 +29,7 @@ class UIState: ObservableObject {
         static let searchTag = "search"
     }
     
-    private init() {
+    init() {
         isSearchActive = .constant(false)
         isSearchActive = .init(get: {
             self.sidebarSelection == Constants.searchTag
