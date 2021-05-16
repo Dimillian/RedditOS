@@ -19,6 +19,7 @@ struct PostDetailHeader: View {
                 .lineLimit(10)
                 .multilineTextAlignment(.leading)
                 .truncationMode(.tail)
+                .fixedSize(horizontal: false, vertical: true)        
             if let url = listing.thumbnailURL, url.pathExtension != "jpg", url.pathExtension != "png" {
                 KFImage(url)
                     .frame(width: 80, height: 60)

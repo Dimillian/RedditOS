@@ -63,6 +63,7 @@
 		69F74E9624DB0B7300E58BD8 /* GlobalSearchPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F74E9524DB0B7300E58BD8 /* GlobalSearchPopoverView.swift */; };
 		9F19B57A26505DCF00FBEEDA /* SidebarMultiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F19B57926505DCF00FBEEDA /* SidebarMultiView.swift */; };
 		9F4812CC264FC8DB007A719D /* SearchMainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4812CB264FC8DB007A719D /* SearchMainContentView.swift */; };
+		9F8EE49126510BCF00BDE4AC /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9F8EE49026510BCF00BDE4AC /* MarkdownUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -134,6 +135,7 @@
 				69D459FE264BBB0000A98C6F /* Kingfisher in Frameworks */,
 				697E324524E3E7D90006F00F /* UI in Frameworks */,
 				69EACF1C24B7272E00303A16 /* Backend in Frameworks */,
+				9F8EE49126510BCF00BDE4AC /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +402,7 @@
 				69EACF1B24B7272E00303A16 /* Backend */,
 				697E324424E3E7D90006F00F /* UI */,
 				69D459FD264BBB0000A98C6F /* Kingfisher */,
+				9F8EE49026510BCF00BDE4AC /* MarkdownUI */,
 			);
 			productName = RedditOs;
 			productReference = 69EACEFF24B63D5800303A16 /* Curiosity.app */;
@@ -430,6 +433,7 @@
 			mainGroup = 69EACEF624B63D5800303A16;
 			packageReferences = (
 				6923F8CB250250FC0003870F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				9F8EE48F26510BCF00BDE4AC /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 			);
 			productRefGroup = 69EACF0024B63D5800303A16 /* Products */;
 			projectDirPath = "";
@@ -715,6 +719,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		9F8EE48F26510BCF00BDE4AC /* XCRemoteSwiftPackageReference "MarkdownUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/MarkdownUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -730,6 +742,11 @@
 		69EACF1B24B7272E00303A16 /* Backend */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Backend;
+		};
+		9F8EE49026510BCF00BDE4AC /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F8EE48F26510BCF00BDE4AC /* XCRemoteSwiftPackageReference "MarkdownUI" */;
+			productName = MarkdownUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -9,6 +9,7 @@ import SwiftUI
 import Backend
 import AVKit
 import Kingfisher
+import MarkdownUI
 
 struct PostDetailContent: View {
     let listing: SubredditPost
@@ -17,7 +18,7 @@ struct PostDetailContent: View {
     @ViewBuilder
     var body: some View {
         if let text = listing.selftext ?? listing.description {
-            Text(text)
+            Markdown(Document(text))
                 .font(.body)
                 .fixedSize(horizontal: false, vertical: true)
         }

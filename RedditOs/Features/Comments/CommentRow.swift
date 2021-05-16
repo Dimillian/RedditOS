@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Backend
+import MarkdownUI
 
 struct CommentRow: View {
     @StateObject private var viewModel: CommentViewModel
@@ -68,9 +69,9 @@ struct CommentRow: View {
                     }
                 }
                 if let body = viewModel.comment.body {
-                    Text(body)
+                    Markdown(Document(body))
                         .font(.body)
-                        .fixedSize(horizontal: false, vertical: true)
+                        .fixedSize(horizontal: false, vertical: true)                     
                 } else {
                     Text("Deleted comment")
                         .font(.footnote)

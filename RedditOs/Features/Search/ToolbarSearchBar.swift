@@ -27,7 +27,6 @@ struct ToolbarSearchBar: View {
             } onCommit: {
                 onCommit()
             }
-            
             .keyboardShortcut("f", modifiers: .command)
             .padding(8)
             .background(RoundedRectangle(cornerRadius: 8)
