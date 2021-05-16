@@ -13,6 +13,10 @@ struct CommentRow: View {
     @StateObject private var viewModel: CommentViewModel
     @State private var showUserPopover = false
     
+    var isFake: Bool {
+        viewModel.comment.name == "t1_id"
+    }
+    
     init(comment: Comment) {
         _viewModel = StateObject(wrappedValue: CommentViewModel(comment: comment))
     }
@@ -69,9 +73,16 @@ struct CommentRow: View {
                     }
                 }
                 if let body = viewModel.comment.body {
-                    Markdown(Document(body))
-                        .font(.body)
-                        .fixedSize(horizontal: false, vertical: true)                     
+                    if isFake {
+                        Text(body)
+                            .font(.body)
+                            .fixedSize(horizontal: false, vertical: true)
+                    } else {
+                        Markdown(Document(body))
+                            .font(.body)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    
                 } else {
                     Text("Deleted comment")
                         .font(.footnote)
