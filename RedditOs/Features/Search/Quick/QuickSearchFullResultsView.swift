@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct SearchMainContentView: View {
+struct QuickSearchFullResultsView: View {
     @EnvironmentObject private var uiState: UIState
-    @EnvironmentObject private var searchState: SearchState
+    @EnvironmentObject private var searchState: QuickSearchState
     
     enum ResultsMode {
         case autocomplete, posts
@@ -34,7 +34,8 @@ struct SearchMainContentView: View {
                 .frame(height: 50)
                 route.makeView()
             } else {
-                SearchBar(showSuggestionPopover: false, onCommit: {
+                QuickSearchBar(showSuggestionPopover: false,
+                          onCommit: {
                     resultsDisplayMode = .posts
                 }, onCancel: {
                     resultsDisplayMode = .autocomplete
@@ -70,7 +71,7 @@ struct SearchMainContentView: View {
                     }
                 }
             } else {
-                SearchSuggestionsView()
+                QuickSearchResultsView()
             }
         case .posts:
             if let results = searchState.postResults {
@@ -82,8 +83,8 @@ struct SearchMainContentView: View {
     }
 }
 
-struct SearchMainContentView_Previews: PreviewProvider {
+struct QuickSearchFullResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchMainContentView().environmentObject(UIState())
+        QuickSearchFullResultsView().environmentObject(UIState())
     }
 }

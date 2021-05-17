@@ -20,11 +20,16 @@ struct SidebarView: View {
     @State private var isHovered = false
     @State private var isInEditMode = false
     
+    init() {
+        
+    }
     var body: some View {
         List(selection: $uiState.sidebarSelection) {
-            ForEach(enabledSections.map{ SidebarItem(rawValue: $0)! }) { section in
-                makeSection(item: section)
-            }
+            mainSection
+            accountSection
+            favoritesSection
+            subscriptionSection
+            multiSection
         }
         .listStyle(SidebarListStyle())
         .frame(minWidth: 200, idealWidth: 200, maxWidth: 200, maxHeight: .infinity)
@@ -40,21 +45,6 @@ struct SidebarView: View {
         }
     }
     
-    @ViewBuilder
-    private func makeSection(item: SidebarItem) -> some View {
-        switch item {
-        case .home:
-            mainSection
-        case .account:
-            accountSection
-        case .favorites:
-            favoritesSection
-        case .subscription:
-            subscriptionSection
-        case .multi:
-            multiSection
-        }
-    }
     
     private var subscriptionsHeader: some View {
         HStack(spacing: 8) {
@@ -99,13 +89,12 @@ struct SidebarView: View {
     
     private var mainSection: some View {
         Section(header: Text(SidebarItem.home.title())) {
-            NavigationLink(destination: SearchMainContentView(),
+            NavigationLink(destination: QuickSearchFullResultsView(),
                            isActive: uiState.isSearchActive,
                            label: {
                             Label("Search", systemImage: "magnifyingglass")
                            })
                 .tag(UIState.Constants.searchTag)
-            
             ForEach(UIState.DefaultChannels.allCases, id: \.self) { item in
                 NavigationLink(destination:
                                 SubredditPostsListView(name: item.rawValue)

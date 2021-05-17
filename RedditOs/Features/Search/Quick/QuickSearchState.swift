@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import Backend
 
-class SearchState: ObservableObject {
+class QuickSearchState: ObservableObject {
     @Published var searchText = ""
     @Published var results: [SubredditSmall]?
     @Published var postResults: [SubredditPost]?

@@ -22,8 +22,7 @@ struct RedditOsApp: App {
                 ProgressView()
                 PostNoSelectionPlaceholder()
                 .toolbar {
-                    PostDetailToolbar(displaySearchBar: $uiState.displayToolbarSearchBar,
-                                      shareURL: nil)
+                    PostDetailToolbar(shareURL: nil)
                 }
             }
             .frame(minWidth: 1300, minHeight: 600)
@@ -31,7 +30,7 @@ struct RedditOsApp: App {
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUserStore.shared)
             .environmentObject(uiState)
-            .environmentObject(SearchState())
+            .environmentObject(QuickSearchState())
             .onOpenURL { url in
                 OauthClient.shared.handleNextURL(url: url)
             }

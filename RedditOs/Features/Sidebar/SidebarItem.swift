@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum SidebarItem: String, CaseIterable, Identifiable {
+enum SidebarItem: String, CaseIterable, Identifiable, Equatable {
     case home, account, favorites, subscription, multi
     
     var id: String {

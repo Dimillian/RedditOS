@@ -8,10 +8,10 @@
 import SwiftUI
 import Backend
 
-struct SearchSuggestionsView: View {
+struct QuickSearchResultsView: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var currentUser: CurrentUserStore
-    @EnvironmentObject private var searchState: SearchState
+    @EnvironmentObject private var searchState: QuickSearchState
     
     struct ResultContainerView<Content: View>: View {
         private let content: Content
@@ -53,7 +53,7 @@ struct SearchSuggestionsView: View {
     
     private func makeQuickAccess() -> some View {
         ResultContainerView {
-            SearchSuggestionsResultRow(icon: nil,
+            QuickSearchResultRow(icon: nil,
                                        name: "Go to r/\(searchState.searchText)")
                 .onTapGesture {
                     uiState.searchRoute = .subreddit(subreddit: searchState.searchText)
@@ -92,7 +92,7 @@ struct SearchSuggestionsView: View {
     }
     
     private func makeSubRow(icon: String?, name: String) -> some View {
-        SearchSuggestionsResultRow(icon: icon, name: name)
+        QuickSearchResultRow(icon: icon, name: name)
             .onTapGesture {
                 uiState.searchRoute = .subreddit(subreddit: name)
         }
