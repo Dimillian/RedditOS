@@ -76,6 +76,9 @@ struct SubredditPostRow: View, Equatable {
                                    let url = URL(string: urlString) {
                                     Link(destination: url) {
                                         Text(url.host ?? url.absoluteString)
+                                            .lineLimit(1)
+                                            .truncationMode(.tail)
+                                            .frame(maxWidth: 250)
                                     }
                                 }
                             }

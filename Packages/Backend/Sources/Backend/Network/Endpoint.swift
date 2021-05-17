@@ -6,6 +6,7 @@ public enum Endpoint {
     case subscribe
     case searchSubreddit
     case search
+    case searchPosts(name: String)
     case comments(name: String, id: String)
     case accessToken
     case me, mineSubscriptions, mineMulti
@@ -65,6 +66,8 @@ public enum Endpoint {
             return "api/trending_subreddits"
         case .search:
             return "search"
+        case let .searchPosts(name):
+            return "r/\(name)/search"
         }
     }
 }

@@ -23,7 +23,6 @@ struct SubredditPostsListView: View, Equatable {
     @EnvironmentObject private var localData: LocalDataStore
     
     @StateObject private var viewModel: SubredditViewModel
-    @StateObject private var searchState = SubredditSearchState()
     @AppStorage(SettingsKey.subreddit_display_mode) private var displayMode = SubredditPostRow.DisplayMode.large
     
     @State private var subredditAboutPopoverShown = false
@@ -48,6 +47,15 @@ struct SubredditPostsListView: View, Equatable {
         return ""
     }
     
+    var posts: [SubredditPost]? {
+        if viewModel.isSearchLoading {
+            return nil
+        } else if !viewModel.searchText.isEmpty && viewModel.searchResults != nil {
+            return viewModel.searchResults
+        }
+        return viewModel.listings
+    }
+    
     private var placeholderIcon: some View {
         Image(systemName: "globe")
             .resizable()
@@ -56,19 +64,26 @@ struct SubredditPostsListView: View, Equatable {
     
     var body: some View {
         PostsListView(header: {
-            SearchBarView(placeholder: "Search",
-                          searchText: $searchState.searchText) { editing in
-                
-            } onCommit: {
-                
-            } onCancel: {
-                
+            if !isDefaultChannel {
+                SearchBarView(placeholder: "Search",
+                              searchText: $viewModel.searchText) { editing in
+                    
+                } onCommit: {
+                    
+                } onCancel: {
+                    
+                }
+                .keyboardShortcut("f", modifiers: .command)
+                .padding(.bottom, 8)
             }
-            .keyboardShortcut("f", modifiers: .command)
         },
-        posts: viewModel.listings,
+        posts: posts,
         displayMode: .constant(displayMode)) {
-            viewModel.fetchListings()
+            if !viewModel.searchText.isEmpty && viewModel.searchResults != nil {
+                viewModel.fetchSearch(text: viewModel.searchText, after: viewModel.searchResults?.last?.id)
+            } else {
+                viewModel.fetchListings()
+            }
         }
         .equatable()
         .toolbar {
