@@ -54,6 +54,12 @@ struct QuickSearchResultsView: View {
     private func makeQuickAccess() -> some View {
         ResultContainerView {
             QuickSearchResultRow(icon: nil,
+                                       name: "Posts with '\(searchState.searchText)'")
+                .onTapGesture {
+                    uiState.searchRoute = .searchPostsResult
+                }
+            
+            QuickSearchResultRow(icon: nil,
                                        name: "Go to r/\(searchState.searchText)")
                 .onTapGesture {
                     uiState.searchRoute = .subreddit(subreddit: searchState.searchText)
@@ -65,7 +71,9 @@ struct QuickSearchResultsView: View {
         ResultContainerView {
             if let subs = searchState.filteredSubscriptions {
                 if subs.isEmpty {
-                    Label("No matching subscriptions for \(searchState.searchText)", systemImage: "magnifyingglass")
+                    Label("No matching subscriptions for \(searchState.searchText)",
+                          systemImage: "exclamationmark.triangle")
+                        .foregroundColor(.textColor)
                 } else {
                     ForEach(subs) { sub in
                         makeSubRow(icon: sub.iconImg, name: sub.displayName)
@@ -77,16 +85,18 @@ struct QuickSearchResultsView: View {
     
     private func makeSubredditSearch() -> some View {
         ResultContainerView {
-            if let results = searchState.results {
+            if searchState.isLoading {
+                LoadingRow(text: nil)
+            } else if let results = searchState.results {
                 if results.isEmpty {
-                    Label("No matching search for \(searchState.searchText)", systemImage: "magnifyingglass")
+                    Label("No matching search for \(searchState.searchText)",
+                          systemImage: "exclamationmark.triangle")
+                        .foregroundColor(.textColor)
                 } else {
                     ForEach(results) { sub in
                         makeSubRow(icon: sub.iconImg, name: sub.name)
                     }
                 }
-            } else if searchState.isLoading {
-                LoadingRow(text: nil)
             }
         }
     }

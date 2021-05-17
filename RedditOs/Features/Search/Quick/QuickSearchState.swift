@@ -23,7 +23,7 @@ class QuickSearchState: ObservableObject {
     private var subredditSearchPublisher: AnyPublisher<SubredditResponse, Never>?
     private var postSearchPublisher: AnyPublisher<ListingResponse<SubredditPost>, Never>?
     private var cancellableSet: Set<AnyCancellable> = Set()
-    private var searchCancellableSet: Set<AnyCancellable> = Set()
+    private var searchCancellable: AnyCancellable?
     
     init(currentUser: CurrentUserStore = .shared) {
         self.currentUser = currentUser
@@ -58,8 +58,8 @@ class QuickSearchState: ObservableObject {
     }
     
     private func search(with text: String) {
-        searchCancellableSet.forEach{ $0.cancel() }
-        
+        searchCancellable?.cancel()
+                
         subredditSearchPublisher = API.shared.request(endpoint: .searchSubreddit, httpMethod: "POST", params: ["query": text])
             .subscribe(on: DispatchQueue.global())
             .replaceError(with: SubredditResponse())
@@ -70,23 +70,14 @@ class QuickSearchState: ObservableObject {
             .replaceError(with: ListingResponse(error: "error"))
             .eraseToAnyPublisher()
         
-        subredditSearchPublisher?
+        searchCancellable = Publishers.Zip(subredditSearchPublisher!,
+                                           postSearchPublisher!)
             .receive(on: DispatchQueue.main)
-            .map{ $0.subreddits }
-            .sink{ [weak self] results in
+            .sink(receiveValue: { [weak self] subreddits, posts in
+                self?.results = subreddits.subreddits.map{ $0 }
+                self?.postResults = posts.data?.children.map{ $0.data }
                 self?.isLoading = false
-                self?.results = results
-            }
-            .store(in: &searchCancellableSet)
-        
-        
-        postSearchPublisher?
-            .receive(on: DispatchQueue.main)
-            .map{ $0.data?.children.map{ $0.data }}
-            .sink{ [weak self] results in
-                self?.postResults = results
-            }
-            .store(in: &searchCancellableSet)
+            })
         
     }
     

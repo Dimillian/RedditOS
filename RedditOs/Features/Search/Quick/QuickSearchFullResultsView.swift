@@ -20,19 +20,17 @@ struct QuickSearchFullResultsView: View {
     var body: some View {
         VStack(alignment: .leading) {
             if let route = uiState.searchRoute {
-                HStack {
-                    Button {
-                        uiState.searchRoute = nil
-                        resultsDisplayMode = .autocomplete
-                    } label: {
-                        Text("Back")
-                    }
-                    .padding(8)
-                    Spacer()
-                }
-                .background(Color.redditGray)
-                .frame(height: 50)
                 route.makeView()
+                    .toolbar {
+                        ToolbarItemGroup(placement: .navigation) {
+                            Button {
+                                uiState.searchRoute = nil
+                                resultsDisplayMode = .autocomplete
+                            } label: {
+                                Text("Back")
+                            }
+                        }
+                    }
             } else {
                 QuickSearchBar(showSuggestionPopover: false,
                           onCommit: {
@@ -41,44 +39,42 @@ struct QuickSearchFullResultsView: View {
                     resultsDisplayMode = .autocomplete
                 })
                 .padding()
-                List {
-                   resultsView
-                }
+                resultsView
                 .listStyle(PlainListStyle())
                 .padding(.horizontal)
                 Spacer()
             }
-        }.navigationTitle("Search")
+        }
+        .navigationTitle("Search")
         .onAppear {
             searchState.fetchTrending()
         }
+        .frame(minWidth: 300)
     }
     
     @ViewBuilder
     private var resultsView: some View {
         switch resultsDisplayMode {
         case .autocomplete:
-            if searchState.searchText.isEmpty {
-                if let trending = searchState.trending {
-                    Section(header: Label("Trending", systemImage: "chart.bar.fill")) {
-                        ForEach(trending.subredditNames, id: \.self) { subreddit in
-                            Text(subreddit)
-                                .padding(.vertical, 4)
-                                .onTapGesture {
-                                    uiState.searchRoute = .subreddit(subreddit: subreddit)
-                                }
+            List {
+                if searchState.searchText.isEmpty {
+                    if let trending = searchState.trending {
+                        Section(header: Label("Trending", systemImage: "chart.bar.fill")) {
+                            ForEach(trending.subredditNames, id: \.self) { subreddit in
+                                Text(subreddit)
+                                    .padding(.vertical, 4)
+                                    .onTapGesture {
+                                        uiState.searchRoute = .subreddit(subreddit: subreddit)
+                                    }
+                            }
                         }
                     }
+                } else {
+                    QuickSearchResultsView()
                 }
-            } else {
-                QuickSearchResultsView()
             }
         case .posts:
-            if let results = searchState.postResults {
-                ForEach(results) { result in
-                    SubredditPostRow(post: result, displayMode: .constant(.large))
-                }
-            }
+            QuickSearchPostsResultView()
         }
     }
 }

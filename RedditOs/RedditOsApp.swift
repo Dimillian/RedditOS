@@ -13,6 +13,7 @@ import Backend
 struct RedditOsApp: App {
     @StateObject private var uiState = UIState()
     @StateObject private var localData = LocalDataStore()
+    private let searchText = QuickSearchState()
     
     @SceneBuilder
     var body: some Scene {
@@ -30,7 +31,7 @@ struct RedditOsApp: App {
             .environmentObject(OauthClient.shared)
             .environmentObject(CurrentUserStore.shared)
             .environmentObject(uiState)
-            .environmentObject(QuickSearchState())
+            .environmentObject(searchText)
             .onOpenURL { url in
                 OauthClient.shared.handleNextURL(url: url)
             }

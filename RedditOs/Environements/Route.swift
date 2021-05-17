@@ -22,6 +22,7 @@ enum Route: Identifiable, Hashable {
     case user(user: User)
     case subreddit(subreddit: String)
     case defaultChannel(chanel: UIState.DefaultChannels)
+    case searchPostsResult
     
     var id: String {
         switch self {
@@ -31,6 +32,8 @@ enum Route: Identifiable, Hashable {
             return subreddit
         case let .defaultChannel(chanel):
             return chanel.rawValue
+        case .searchPostsResult:
+            return "searchPostsResult"
         }
     }
     
@@ -45,6 +48,8 @@ enum Route: Identifiable, Hashable {
         case let .defaultChannel(chanel):
             SubredditPostsListView(name: chanel.rawValue)
                 .equatable()
+        case .searchPostsResult:
+            QuickSearchPostsResultView()
         }
     }
 }
