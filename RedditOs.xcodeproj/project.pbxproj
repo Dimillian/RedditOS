@@ -46,6 +46,10 @@
 		697E324924E3EDE70006F00F /* CommentVoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E324824E3EDE70006F00F /* CommentVoteView.swift */; };
 		697E324B24E3EFCB0006F00F /* CommentActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E324A24E3EFCB0006F00F /* CommentActionsView.swift */; };
 		697E324D24E3F2900006F00F /* SharingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E324C24E3F2900006F00F /* SharingPicker.swift */; };
+		69ACD1E126529C05008CC42C /* GeneralTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69ACD1E026529C05008CC42C /* GeneralTabView.swift */; };
+		69ACD1E326529C0D008CC42C /* SidebarTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69ACD1E226529C0D008CC42C /* SidebarTabView.swift */; };
+		69ACD1E52652A025008CC42C /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69ACD1E42652A025008CC42C /* SidebarItem.swift */; };
+		69ACD1E72652A390008CC42C /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69ACD1E62652A390008CC42C /* Array.swift */; };
 		69CCB3EA24E2BEAC003FAAD7 /* SubredditAboutPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCB3E924E2BEAC003FAAD7 /* SubredditAboutPopoverView.swift */; };
 		69D076C824B9E871001619AC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D076C724B9E871001619AC /* Color.swift */; };
 		69D459FE264BBB0000A98C6F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 69D459FD264BBB0000A98C6F /* Kingfisher */; };
@@ -106,6 +110,10 @@
 		697E324824E3EDE70006F00F /* CommentVoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentVoteView.swift; sourceTree = "<group>"; };
 		697E324A24E3EFCB0006F00F /* CommentActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentActionsView.swift; sourceTree = "<group>"; };
 		697E324C24E3F2900006F00F /* SharingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPicker.swift; sourceTree = "<group>"; };
+		69ACD1E026529C05008CC42C /* GeneralTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTabView.swift; sourceTree = "<group>"; };
+		69ACD1E226529C0D008CC42C /* SidebarTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTabView.swift; sourceTree = "<group>"; };
+		69ACD1E42652A025008CC42C /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
+		69ACD1E62652A390008CC42C /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		69CCB3E924E2BEAC003FAAD7 /* SubredditAboutPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubredditAboutPopoverView.swift; sourceTree = "<group>"; };
 		69D076C724B9E871001619AC /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		69D8663324E568060052A2B0 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -204,6 +212,8 @@
 			isa = PBXGroup;
 			children = (
 				6924D54C24CDF92A005487CA /* SettingsView.swift */,
+				69ACD1E026529C05008CC42C /* GeneralTabView.swift */,
+				69ACD1E226529C0D008CC42C /* SidebarTabView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -267,6 +277,7 @@
 			children = (
 				69D076C724B9E871001619AC /* Color.swift */,
 				693F85D024D0690500224ADB /* NSTextField.swift */,
+				69ACD1E62652A390008CC42C /* Array.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -343,6 +354,7 @@
 				69EACF1224B668F200303A16 /* SidebarView.swift */,
 				694C634E24C0AA6D0017897D /* SidebarSubredditRow.swift */,
 				9F19B57926505DCF00FBEEDA /* SidebarMultiView.swift */,
+				69ACD1E42652A025008CC42C /* SidebarItem.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -467,8 +479,11 @@
 				6918A8CB24C1FEDC008A74E1 /* FlairView.swift in Sources */,
 				69D076C824B9E871001619AC /* Color.swift in Sources */,
 				697E324924E3EDE70006F00F /* CommentVoteView.swift in Sources */,
+				69ACD1E72652A390008CC42C /* Array.swift in Sources */,
 				6970A0AE24B74A9D00B11031 /* PostInfoView.swift in Sources */,
+				69ACD1E126529C05008CC42C /* GeneralTabView.swift in Sources */,
 				6924D54D24CDF92A005487CA /* SettingsView.swift in Sources */,
+				69ACD1E326529C0D008CC42C /* SidebarTabView.swift in Sources */,
 				693BD7732518C4FB00CA5214 /* PostDetailToolbar.swift in Sources */,
 				6970A0B624B783FE00B11031 /* LinkPresentationRepresentable.swift in Sources */,
 				6924D54324CDD049005487CA /* UIState.swift in Sources */,
@@ -510,6 +525,7 @@
 				6970A0BD24B82E1C00B11031 /* LoadingRow.swift in Sources */,
 				69222AAA24CD7518009F31B4 /* CommentRow.swift in Sources */,
 				6970A0B324B77D1200B11031 /* PostVoteView.swift in Sources */,
+				69ACD1E52652A025008CC42C /* SidebarItem.swift in Sources */,
 				6970A0C124B88BA200B11031 /* PostViewModel.swift in Sources */,
 				69222AA524CD6A89009F31B4 /* UserHeaderView.swift in Sources */,
 			);

@@ -14,17 +14,17 @@ struct SidebarView: View {
     @EnvironmentObject private var localData: LocalDataStore
     @EnvironmentObject private var currentUser: CurrentUserStore
     
+    @AppStorage(SettingsKey.sidebar_enabled_section) var enabledSections = SidebarItem.allCases.map{ $0.rawValue }
+    
     @State private var isSearchPopoverPresented = false
     @State private var isHovered = false
     @State private var isInEditMode = false
     
     var body: some View {
         List(selection: $uiState.sidebarSelection) {
-            mainSection
-            accountSection
-            favoritesSection
-            subscriptionSection
-            multiSection
+            ForEach(enabledSections.map{ SidebarItem(rawValue: $0)! }) { section in
+                makeSection(item: section)
+            }
         }
         .listStyle(SidebarListStyle())
         .frame(minWidth: 200, idealWidth: 200, maxWidth: 200, maxHeight: .infinity)
@@ -40,9 +40,25 @@ struct SidebarView: View {
         }
     }
     
+    @ViewBuilder
+    private func makeSection(item: SidebarItem) -> some View {
+        switch item {
+        case .home:
+            mainSection
+        case .account:
+            accountSection
+        case .favorites:
+            favoritesSection
+        case .subscription:
+            subscriptionSection
+        case .multi:
+            multiSection
+        }
+    }
+    
     private var subscriptionsHeader: some View {
         HStack(spacing: 8) {
-            Text("Subscriptions")
+            Text(SidebarItem.subscription.title())
             if currentUser.isRefreshingSubscriptions {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
@@ -52,9 +68,9 @@ struct SidebarView: View {
         }
     }
     
-    private var subredditsHeader: some View {
+    private var favoritesHeader: some View {
         HStack(spacing: 8) {
-            Text("Favorites")
+            Text(SidebarItem.favorites.title())
             if isHovered {
                 Button {
                     isSearchPopoverPresented = true
@@ -82,7 +98,7 @@ struct SidebarView: View {
     }
     
     private var mainSection: some View {
-        Section(header: Text("Home")) {
+        Section(header: Text(SidebarItem.home.title())) {
             NavigationLink(destination: SearchMainContentView(),
                            isActive: uiState.isSearchActive,
                            label: {
@@ -101,7 +117,7 @@ struct SidebarView: View {
     }
     
     private var accountSection: some View {
-        Section(header: Text("Account")) {
+        Section(header: Text(SidebarItem.account.title())) {
             NavigationLink(destination: ProfileView()) {
                 if let user = currentUser.user {
                     Label(user.name, systemImage: "person.crop.circle")
@@ -121,7 +137,7 @@ struct SidebarView: View {
     }
     
     private var favoritesSection: some View {
-        Section(header: subredditsHeader) {
+        Section(header: favoritesHeader) {
             ForEach(localData.favorites) { reddit in
                 HStack {
                     SidebarSubredditRow(name: reddit.name,
@@ -180,7 +196,7 @@ struct SidebarView: View {
     @ViewBuilder
     private var multiSection: some View {
         if currentUser.user != nil && !currentUser.multi.isEmpty {
-            Section(header: Text("Multireddits")) {
+            Section(header: Text(SidebarItem.multi.title())) {
                 ForEach(currentUser.multi) { multi in
                     SidebarMultiView(multi: multi)
                 }
