@@ -17,7 +17,8 @@ struct QuickSearchBar: View {
     let onCancel: () -> Void
     
     var body: some View {
-        SearchBarView(searchText: $searchState.searchText) { editing in
+        SearchBarView(placeholder: "Search anything",
+                      searchText: $searchState.searchText) { editing in
             if showSuggestionPopover {
                 isPopoverPresented = editing
             }
@@ -27,6 +28,7 @@ struct QuickSearchBar: View {
             onCancel()
         }
         .keyboardShortcut("f", modifiers: .command)
+        .animation(.easeInOut)
         .popover(isPresented: $isPopoverPresented) {
             ScrollView {
                 VStack(alignment: .leading) {

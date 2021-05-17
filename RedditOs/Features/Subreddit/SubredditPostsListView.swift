@@ -23,6 +23,7 @@ struct SubredditPostsListView: View, Equatable {
     @EnvironmentObject private var localData: LocalDataStore
     
     @StateObject private var viewModel: SubredditViewModel
+    @StateObject private var searchState = SubredditSearchState()
     @AppStorage(SettingsKey.subreddit_display_mode) private var displayMode = SubredditPostRow.DisplayMode.large
     
     @State private var subredditAboutPopoverShown = false
@@ -54,8 +55,19 @@ struct SubredditPostsListView: View, Equatable {
     }
     
     var body: some View {
-        PostsListView(posts: viewModel.listings,
-                      displayMode: .constant(displayMode)) {
+        PostsListView(header: {
+            SearchBarView(placeholder: "Search",
+                          searchText: $searchState.searchText) { editing in
+                
+            } onCommit: {
+                
+            } onCancel: {
+                
+            }
+            .keyboardShortcut("f", modifiers: .command)
+        },
+        posts: viewModel.listings,
+        displayMode: .constant(displayMode)) {
             viewModel.fetchListings()
         }
         .equatable()

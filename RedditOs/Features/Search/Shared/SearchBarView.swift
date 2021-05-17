@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct SearchBarView: View {
+    let placeholder: String
     @Binding var searchText: String
-    @State private var isFocused = false
-    
     let onEditingChange: (Bool) -> Void
     let onCommit: () -> Void
     let onCancel: () -> Void
     
+    @State private var isFocused = false
+    
     var body: some View {
         HStack {
-            TextField("Search anything", text: $searchText) { editing in
+            TextField(placeholder, text: $searchText) { editing in
                 isFocused = editing
                 onEditingChange(editing)
             } onCommit: {
@@ -28,7 +29,6 @@ struct SearchBarView: View {
                             .stroke(isFocused ? Color.accentColor : Color.clear)
                             .background(Color.black.opacity(0.2).cornerRadius(8)))
             .textFieldStyle(PlainTextFieldStyle())
-            .animation(.easeInOut)
             
             if !searchText.isEmpty {
                 Button {

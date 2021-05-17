@@ -13,8 +13,9 @@ struct SubmittedPostsListView: View {
     @State private var displayMode: SubredditPostRow.DisplayMode = .large
     
     var body: some View {
-      PostsListView(posts: currentUser.submittedPosts,
-                    displayMode: $displayMode) {
+        PostsListView(header: { EmptyView() },
+                      posts: currentUser.submittedPosts,
+                      displayMode: $displayMode) {
         currentUser.fetchSubmitted(after: currentUser.submittedPosts?.last)
       }.onAppear {
         currentUser.fetchSubmitted(after: nil)

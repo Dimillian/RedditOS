@@ -13,8 +13,9 @@ struct SavedPostsListView: View {
     @State private var displayMode = SubredditPostRow.DisplayMode.large
     
     var body: some View {
-      PostsListView(posts: currentUser.savedPosts,
-                    displayMode: $displayMode) {
+        PostsListView(header: { EmptyView() },
+                      posts: currentUser.savedPosts,
+                      displayMode: $displayMode) {
         currentUser.fetchSaved(after: currentUser.savedPosts?.last)
       }.onAppear {
         currentUser.fetchSaved(after: nil)

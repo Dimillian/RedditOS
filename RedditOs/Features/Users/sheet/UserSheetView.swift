@@ -39,7 +39,8 @@ struct UserSheetView: View {
                     UserSheetOverviewView(viewModel: viewModel)
                 } else if sidebarSelection.first == 2 {
                     if let posts = viewModel.submittedPosts {
-                        PostsListView(posts: posts, displayMode: .constant(.large)) {
+                        PostsListView(header: { EmptyView() },
+                                      posts: posts, displayMode: .constant(.large)) {
                             viewModel.fetchSubmitted(after: posts.last)
                         }
                     }

@@ -20,13 +20,27 @@ struct PostDetailToolbar: ToolbarContent {
 }
 
 struct SearchView: View {
+    @State private var isExpanded = false
     @EnvironmentObject private var uiState: UIState
     
     var body: some View {
         if uiState.displayToolbarSearchBar {
-            QuickSearchBar(showSuggestionPopover: true,
-                      onCommit: {}, onCancel: {})
-            .frame(width: 300)
+            if !isExpanded {
+                Button {
+                    isExpanded.toggle()
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                }
+            } else {
+                QuickSearchBar(showSuggestionPopover: true,
+                               onCommit: {},
+                               onCancel: {
+                                self.isExpanded = false
+                               })
+                    .frame(width: 300)
+                    .transition(.slide)
+                    .animation(.easeInOut)
+            }
         }
     }
 }
