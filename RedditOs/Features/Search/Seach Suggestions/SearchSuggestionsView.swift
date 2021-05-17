@@ -8,11 +8,25 @@
 import SwiftUI
 import Backend
 
-struct GlobalSearchPopoverView: View {
+struct SearchSuggestionsView: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var currentUser: CurrentUserStore
     @EnvironmentObject private var searchState: SearchState
     
+    struct ResultContainerView<Content: View>: View {
+        private let content: Content
+        
+        init(@ViewBuilder content: @escaping () -> Content) {
+            self.content = content()
+        }
+        
+        var body: some View {
+            Group {
+                content
+            }.padding(4)
+        }
+    }
+  
     var body: some View {
         Section(header: makeTitle("Quick access")) {
             makeQuickAccess()
@@ -38,17 +52,17 @@ struct GlobalSearchPopoverView: View {
     }
     
     private func makeQuickAccess() -> some View {
-        Group {
-            GlobalSearchSubRow(icon: nil,
-                               name: "Go to r/\(searchState.searchText)")
+        ResultContainerView {
+            SearchSuggestionsResultRow(icon: nil,
+                                       name: "Go to r/\(searchState.searchText)")
                 .onTapGesture {
                     uiState.searchRoute = .subreddit(subreddit: searchState.searchText)
                 }
-        }.padding(4)
+        }
     }
     
     private func makeMySubscriptionsSearch() -> some View {
-        Group {
+        ResultContainerView {
             if let subs = searchState.filteredSubscriptions {
                 if subs.isEmpty {
                     Label("No matching subscriptions for \(searchState.searchText)", systemImage: "magnifyingglass")
@@ -58,11 +72,11 @@ struct GlobalSearchPopoverView: View {
                     }
                 }
             }
-        }.padding(4)
+        }
     }
     
     private func makeSubredditSearch() -> some View {
-        Group {
+        ResultContainerView {
             if let results = searchState.results {
                 if results.isEmpty {
                     Label("No matching search for \(searchState.searchText)", systemImage: "magnifyingglass")
@@ -74,11 +88,11 @@ struct GlobalSearchPopoverView: View {
             } else if searchState.isLoading {
                 LoadingRow(text: nil)
             }
-        }.padding(4)
+        }
     }
     
     private func makeSubRow(icon: String?, name: String) -> some View {
-        GlobalSearchSubRow(icon: icon, name: name)
+        SearchSuggestionsResultRow(icon: icon, name: name)
             .onTapGesture {
                 uiState.searchRoute = .subreddit(subreddit: name)
         }

@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 import UI
 
-struct GlobalSearchSubRow: View {
+struct SearchSuggestionsResultRow: View {
     struct TextViewContainer: View {
         @State private var isHovered = false
         

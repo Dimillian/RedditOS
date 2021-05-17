@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct ToolbarSearchBar: View {
+struct SearchBar: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var searchState: SearchState
     @State private var isFocused = false
     @State private var isPopoverPresented = false
     
-    let isPopoverEnabled: Bool
+    let showSuggestionPopover: Bool
     let onCommit: () -> Void
     let onCancel: () -> Void
     
@@ -21,7 +21,7 @@ struct ToolbarSearchBar: View {
         HStack {
             TextField("Search anything", text: $searchState.searchText) { editing in
                 isFocused = editing
-                if isPopoverEnabled {
+                if showSuggestionPopover {
                     isPopoverPresented = editing
                 }
             } onCommit: {
@@ -37,7 +37,7 @@ struct ToolbarSearchBar: View {
             .popover(isPresented: $isPopoverPresented) {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        GlobalSearchPopoverView()
+                        SearchSuggestionsView()
                     }.padding()
                 }.frame(width: 300, height: 500)
             }
@@ -59,6 +59,6 @@ struct ToolbarSearchBar: View {
 
 struct ToolbarSearchBar_Previews: PreviewProvider {
     static var previews: some View {
-        ToolbarSearchBar(isPopoverEnabled: true, onCommit: { }, onCancel: { }).environmentObject(SearchState())
+        SearchBar(showSuggestionPopover: true, onCommit: { }, onCancel: { }).environmentObject(SearchState())
     }
 }

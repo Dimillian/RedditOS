@@ -34,7 +34,7 @@ struct SearchMainContentView: View {
                 .frame(height: 50)
                 route.makeView()
             } else {
-                ToolbarSearchBar(isPopoverEnabled: false, onCommit: {
+                SearchBar(showSuggestionPopover: false, onCommit: {
                     resultsDisplayMode = .posts
                 }, onCancel: {
                     resultsDisplayMode = .autocomplete
@@ -70,7 +70,7 @@ struct SearchMainContentView: View {
                     }
                 }
             } else {
-                GlobalSearchPopoverView()
+                SearchSuggestionsView()
             }
         case .posts:
             if let results = searchState.postResults {
