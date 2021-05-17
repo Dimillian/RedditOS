@@ -95,7 +95,7 @@ class SubredditViewModel: ObservableObject {
             .map{ $0.data?.children.map{ $0.data }}
             .sink(receiveValue: { [weak self] results in
                 self?.isSearchLoading = false
-                if self?.searchResults?.last != nil, let results = results {
+                if after != nil, let results = results {
                     self?.searchResults?.append(contentsOf: results)
                 } else {
                     self?.searchResults = results
