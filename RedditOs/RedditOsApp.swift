@@ -41,7 +41,7 @@ struct RedditOsApp: App {
             CommandMenu("Subreddit") {
                 Button(action: {
                     uiState.selectedSubreddit?.listings = nil
-                    uiState.selectedSubreddit?.fetchListings()
+                    uiState.selectedSubreddit?.fetchListings(after: nil)
                 }) {
                     Text("Refresh")
                 }

@@ -27,7 +27,7 @@ class SubredditViewModel: ObservableObject {
     @AppStorage(SettingsKey.subreddit_defaut_sort_order) var sortOrder = SortOrder.hot {
         didSet {
             listings = nil
-            fetchListings()
+            fetchListings(after: nil)
         }
     }
     @Published var errorLoadingAbout = false
@@ -65,14 +65,14 @@ class SubredditViewModel: ObservableObject {
            .store(in: &cancellableSet)
     }
     
-    func fetchListings() {
+    func fetchListings(after: String?) {
         SubredditPost.fetch(subreddit: name,
                             sort: sortOrder.rawValue,
-                            after: listings?.last)
+                            after: after)
             .receive(on: DispatchQueue.main)
             .map{ $0.data?.children.map{ $0.data }}
             .sink{ [weak self] listings in
-                if self?.listings?.last != nil, let listings = listings {
+                if after != nil, let listings = listings {
                     self?.listings?.append(contentsOf: listings)
                 } else if self?.listings == nil {
                     self?.listings = listings

@@ -11,10 +11,10 @@ import Combine
 extension SubredditPost {    
     static public func fetch(subreddit: String,
                              sort: String,
-                             after: SubredditPost?) -> AnyPublisher<ListingResponse<SubredditPost>, Never> {
+                             after: String?) -> AnyPublisher<ListingResponse<SubredditPost>, Never> {
         var params: [String: String] = [:]
         if let listing = after {
-            params["after"] = "t3_\(listing.id)"
+            params["after"] = "t3_\(listing)"
         }
         return API.shared.request(endpoint: .subreddit(name: subreddit, sort: sort),
                                   params: params)

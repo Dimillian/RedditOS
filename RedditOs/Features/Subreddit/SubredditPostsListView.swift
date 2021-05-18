@@ -82,7 +82,7 @@ struct SubredditPostsListView: View, Equatable {
             if !viewModel.searchText.isEmpty && viewModel.searchResults != nil {
                 viewModel.fetchSearch(text: viewModel.searchText, after: viewModel.searchResults?.last?.id)
             } else {
-                viewModel.fetchListings()
+                viewModel.fetchListings(after: viewModel.listings?.last?.id)
             }
         }
         .equatable()
@@ -142,8 +142,8 @@ struct SubredditPostsListView: View, Equatable {
                 viewModel.fetchAbout()
             }
             uiState.selectedSubreddit = viewModel
+            viewModel.fetchListings(after: nil)
         }
-        .onAppear(perform: viewModel.fetchListings)
     }
 }
 
