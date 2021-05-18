@@ -69,6 +69,7 @@
 		9F4537862652DF960026C19B /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4537852652DF960026C19B /* SearchBarView.swift */; };
 		9F4537882652ED550026C19B /* QuickSearchPostsResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4537872652ED550026C19B /* QuickSearchPostsResultView.swift */; };
 		9F4812CC264FC8DB007A719D /* QuickSearchFullResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4812CB264FC8DB007A719D /* QuickSearchFullResultsView.swift */; };
+		9F7E75E42654102700390010 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7E75E32654102700390010 /* AVKit.framework */; };
 		9F8EE49126510BCF00BDE4AC /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9F8EE49026510BCF00BDE4AC /* MarkdownUI */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +138,7 @@
 		9F4537852652DF960026C19B /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		9F4537872652ED550026C19B /* QuickSearchPostsResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchPostsResultView.swift; sourceTree = "<group>"; };
 		9F4812CB264FC8DB007A719D /* QuickSearchFullResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchFullResultsView.swift; sourceTree = "<group>"; };
+		9F7E75E32654102700390010 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F7E75E42654102700390010 /* AVKit.framework in Frameworks */,
 				69D459FE264BBB0000A98C6F /* Kingfisher in Frameworks */,
 				697E324524E3E7D90006F00F /* UI in Frameworks */,
 				69EACF1C24B7272E00303A16 /* Backend in Frameworks */,
@@ -331,6 +334,7 @@
 		69EACF1A24B7272E00303A16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9F7E75E32654102700390010 /* AVKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -674,7 +678,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 17052021;
+				CURRENT_PROJECT_VERSION = 18052021;
 				DEVELOPMENT_ASSET_PATHS = "\"RedditOs/Preview Content\"";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -685,7 +689,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.5.2;
+				MARKETING_VERSION = 0.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomasricouard.curiosity;
 				PRODUCT_NAME = Curiosity;
 				SWIFT_VERSION = 5.0;
@@ -701,7 +705,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 17052021;
+				CURRENT_PROJECT_VERSION = 18052021;
 				DEVELOPMENT_ASSET_PATHS = "\"RedditOs/Preview Content\"";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -712,7 +716,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.5.2;
+				MARKETING_VERSION = 0.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomasricouard.curiosity;
 				PRODUCT_NAME = Curiosity;
 				SWIFT_VERSION = 5.0;
