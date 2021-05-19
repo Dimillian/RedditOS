@@ -16,7 +16,7 @@ struct UserSheetCommentsView: View {
     var body: some View {
         List {
             ForEach(viewModel.comments ?? loadingPlaceholders) { comment in
-                CommentRow(comment: comment).redacted(reason: viewModel.comments != nil ? [] : .placeholder)
+                CommentRow(comment: comment, isRoot: true).redacted(reason: viewModel.comments != nil ? [] : .placeholder)
             }
             if viewModel.comments != nil {
                 LoadingRow(text: "Loading next page")

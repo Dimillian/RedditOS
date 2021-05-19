@@ -12,16 +12,22 @@ struct CommentVoteView: View {
     @ObservedObject var viewModel: CommentViewModel
     
     var body: some View {
-        VStack(spacing: 6) {
+        HStack(spacing: 6) {
             Button(action: {
                 viewModel.postVote(vote: viewModel.comment.likes == true ? .neutral : .upvote)
             },
             label: {
                 Image(systemName: "arrowtriangle.up.circle")
                     .resizable()
-                    .frame(width: 16, height: 16)
+                    .frame(width: 12, height: 12)
                     .foregroundColor(viewModel.comment.likes == true ? .accentColor : nil)
             }).buttonStyle(BorderlessButtonStyle())
+            
+            Text(viewModel.comment.score?.toRoundedSuffixAsString() ?? "Vote")
+                .font(.callout)
+                .fontWeight(.bold)
+                .minimumScaleFactor(0.1)
+                .lineLimit(1)
             
             Button(action: {
                 viewModel.postVote(vote: viewModel.comment.likes == false ? .neutral : .downvote)
@@ -29,10 +35,10 @@ struct CommentVoteView: View {
             label: {
                 Image(systemName: "arrowtriangle.down.circle")
                     .resizable()
-                    .frame(width: 16, height: 16)
+                    .frame(width: 12, height: 12)
                     .foregroundColor(viewModel.comment.likes == false ? .redditBlue : nil)
             }).buttonStyle(BorderlessButtonStyle())
-        }.frame(width: 20)
+        }
     }
 }
 

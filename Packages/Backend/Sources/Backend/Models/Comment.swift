@@ -20,6 +20,7 @@ public struct Comment: Decodable, Identifiable {
     public let isSubmitter: Bool?
     public let author: String?
     public let lindId: String?
+    public let parentId: String?
     public let created: Date?
     public let createdUtc: Date?
     public let replies: Replies?
@@ -72,6 +73,7 @@ public let static_comment = Comment(id: UUID().uuidString,
                                     isSubmitter: false,
                                     author: "TestUser",
                                     lindId: "",
+                                    parentId: "",
                                     created: Date(),
                                     createdUtc: Date(),
                                     replies: .none(""),

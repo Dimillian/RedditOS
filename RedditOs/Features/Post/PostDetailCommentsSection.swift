@@ -27,7 +27,8 @@ struct PostDetailCommentsSection: View {
         
         RecursiveView(data: viewModel.comments ?? placeholderComments,
                       children: \.repliesComments) { comment in
-            CommentRow(comment: comment)
+            CommentRow(comment: comment,
+                       isRoot: comment.parentId == "t3_" + viewModel.post.id || viewModel.comments == nil)
                 .redacted(reason: viewModel.comments == nil ? .placeholder : [])
         }
     }

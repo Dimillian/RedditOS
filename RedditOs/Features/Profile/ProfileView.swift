@@ -58,7 +58,7 @@ struct ProfileView: View {
                 case let .post(post):
                     SubredditPostRow(post: post, displayMode: .constant(.large))
                 case let .comment(comment):
-                    CommentRow(comment: comment)
+                    CommentRow(comment: comment, isRoot: true)
                 default:
                     Text("Unsupported view")
                 }

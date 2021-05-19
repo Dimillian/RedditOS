@@ -17,13 +17,21 @@ struct CommentRow: View {
         viewModel.comment.name == "t1_id"
     }
     
-    init(comment: Comment) {
+    let isRoot: Bool
+    
+    init(comment: Comment, isRoot: Bool) {
+        self.isRoot = isRoot
         _viewModel = StateObject(wrappedValue: CommentViewModel(comment: comment))
     }
     
     var body: some View {
         HStack(alignment: .top) {
-            CommentVoteView(viewModel: viewModel).padding(.top, 4)
+            if !isRoot {
+                Rectangle()
+                    .frame(width: 1)
+                    .background(Color.white)
+                    .padding(.bottom, 8)
+            }
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 0) {
                     HStack(spacing: 6) {
@@ -88,8 +96,11 @@ struct CommentRow: View {
                         .font(.footnote)
                         .foregroundColor(.gray)
                 }
-                CommentActionsView(viewModel: viewModel)
-                    .foregroundColor(.gray)
+                HStack(spacing: 16) {
+                    CommentVoteView(viewModel: viewModel)
+                    CommentActionsView(viewModel: viewModel)
+                        .foregroundColor(.gray)
+                }
                 Divider()
             }.padding(.vertical, 4)
         }
@@ -99,10 +110,13 @@ struct CommentRow: View {
 struct CommentRow_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            CommentRow(comment: static_comment)
-            CommentRow(comment: static_comment)
-            CommentRow(comment: static_comment)
-            CommentRow(comment: static_comment)
+            CommentRow(comment: static_comment, isRoot: true)
+            CommentRow(comment: static_comment, isRoot: false)
+            CommentRow(comment: static_comment, isRoot: true)
+            CommentRow(comment: static_comment, isRoot: false)
+            CommentRow(comment: static_comment, isRoot: false)
+            CommentRow(comment: static_comment, isRoot: false)
         }
+        .frame(height: 800)
     }
 }
