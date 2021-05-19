@@ -30,13 +30,15 @@ class SubredditViewModel: ObservableObject {
             fetchListings(after: nil)
         }
     }
-    @Published var errorLoadingAbout = false
     
     private var postsSearchPublisher: AnyPublisher<ListingResponse<SubredditPost>, Never>?
     private var cancellableSet: Set<AnyCancellable> = Set()
     
-    init(name: String) {
+    private let localData: LocalDataStore
+    
+    init(name: String, localData: LocalDataStore = .shared) {
         self.name = name
+        self.localData = localData
         
         $searchText
             .subscribe(on: DispatchQueue.global())
@@ -58,9 +60,10 @@ class SubredditViewModel: ObservableObject {
     func fetchAbout() {
         Subreddit.fetchAbout(name: name)
            .receive(on: DispatchQueue.main)
-           .sink { [weak self] holder in
-               self?.errorLoadingAbout = holder == nil
-               self?.subreddit = holder?.data
+            .compactMap{ $0?.data }
+           .sink { [weak self] subreddit in
+                self?.subreddit = subreddit
+                self?.localData.add(recent: SubredditSmall.makeSubredditSmall(with: subreddit))
            }
            .store(in: &cancellableSet)
     }

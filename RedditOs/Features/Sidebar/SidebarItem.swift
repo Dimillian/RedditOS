@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum SidebarItem: String, CaseIterable, Identifiable, Equatable {
-    case home, account, favorites, subscription, multi
+    case home, account, recentlyVisited, favorites, subscription, multi
     
     var id: String {
         rawValue
@@ -23,6 +23,8 @@ enum SidebarItem: String, CaseIterable, Identifiable, Equatable {
             return "Account"
         case .favorites:
             return "Favorites"
+        case .recentlyVisited:
+            return "Recently Visited"
         case .subscription:
             return "Subscriptions"
         case .multi:

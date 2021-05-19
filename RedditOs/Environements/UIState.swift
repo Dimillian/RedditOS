@@ -28,14 +28,7 @@ class UIState: ObservableObject {
     enum Constants {
         static let searchTag = "search"
     }
-    
-    init() {
-        isSearchActive = .constant(false)
-        isSearchActive = .init(get: {
-            self.sidebarSelection == Constants.searchTag
-        }, set: { _ in })
-    }
-    
+        
     @Published var displayToolbarSearchBar = true
     
     @Published var selectedSubreddit: SubredditViewModel?
@@ -51,7 +44,9 @@ class UIState: ObservableObject {
         }
     }
     
-    var isSearchActive: Binding<Bool>
+    lazy var isSearchActive: Binding<Bool> = .init(get: {
+        self.sidebarSelection == Constants.searchTag
+    }, set: { _ in })
     
     @Published var sidebarSelection: String? = DefaultChannels.hot.rawValue {
         didSet {

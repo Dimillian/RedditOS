@@ -12,7 +12,7 @@ import Backend
 @main
 struct RedditOsApp: App {
     @StateObject private var uiState = UIState()
-    @StateObject private var localData = LocalDataStore()
+    @StateObject private var localData = LocalDataStore.shared
     private let searchText = QuickSearchState()
     
     @SceneBuilder

@@ -13,9 +13,7 @@ struct SidebarView: View {
     @EnvironmentObject private var uiState: UIState
     @EnvironmentObject private var localData: LocalDataStore
     @EnvironmentObject private var currentUser: CurrentUserStore
-    
-    @AppStorage(SettingsKey.sidebar_enabled_section) var enabledSections = SidebarItem.allCases.map{ $0.rawValue }
-    
+        
     @State private var isSearchPopoverPresented = false
     @State private var isHovered = false
     @State private var isInEditMode = false
@@ -27,6 +25,7 @@ struct SidebarView: View {
         List(selection: $uiState.sidebarSelection) {
             mainSection
             accountSection
+            recentlyVisitedSection
             favoritesSection
             subscriptionSection
             multiSection
@@ -148,6 +147,14 @@ struct SidebarView: View {
         }
         .listItemTint(.redditGold)
         .animation(.easeInOut)
+    }
+    
+    private var recentlyVisitedSection: some View {
+        Section(header: Text(SidebarItem.recentlyVisited.title())) {
+            ForEach(localData.recentlyVisited) { reddit in
+                SidebarSubredditRow(name: reddit.name, iconURL: reddit.iconImg)
+            }
+        }
     }
     
     @ViewBuilder
