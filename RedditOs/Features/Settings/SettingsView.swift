@@ -24,18 +24,21 @@ struct SettingsView: View {
                 }
             
             Text("Filters")
+                .frame(width: 400, height: 150)
                 .tabItem {
                     Image(systemName: "stop.circle").imageScale(.large)
                     Text("Filters")
                 }
             
             Text("Search")
+                .frame(width: 400, height: 150)
                 .tabItem {
                     Image(systemName: "magnifyingglass").imageScale(.large)
                     Text("Search")
                 }
             
             Text("Accounts")
+                .frame(width: 400, height: 150)
                 .tabItem {
                     Image(systemName: "person").imageScale(.large)
                     Text("Accounts")
