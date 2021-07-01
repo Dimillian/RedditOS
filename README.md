@@ -15,7 +15,7 @@ You can also download a pre built version in the release section if you don't wa
 I'm planning to drop Big Sur in the near future to focus execlusively on SwiftUI 3 + macOS Monterey. 
 SwiftUI 3 add a ton of features, polish and performance improvements that this application can't live without.
 
-## Dev environement
+## Dev environment
 
 If you want to login with your Reddit account building the project from the source you'll need to create a file `secrets.plist` in `Packages/Backend/Sources/Backend/Resources` with your Reddit app id as `client_id` key/value. Create an reddit app [here](https://www.reddit.com/prefs/apps) and use `redditos://auth` as redirect url.
 
