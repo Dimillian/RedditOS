@@ -1,1 +1,0 @@
-This is compiled as part of the Backend package. In order to make the Oauth work from the open source clone of this project you would need to create a secrets.plist with a client_id key and your Reddit app client id as value in this folder.
