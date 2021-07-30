@@ -50,7 +50,7 @@ struct SubredditAboutPopoverView: View {
                         }, label: {
                             Image(systemName: isFavorite ? "star.fill" : "star")
                                 .resizable()
-                                .imageScale(.large)
+                                .frame(width: 16, height: 16)
                                 .foregroundColor(isFavorite ? .redditGold : nil)
                         }).buttonStyle(BorderlessButtonStyle())
                     }

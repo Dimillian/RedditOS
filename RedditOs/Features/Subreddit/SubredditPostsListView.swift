@@ -73,7 +73,6 @@ struct SubredditPostsListView: View, Equatable {
                 } onCancel: {
                     
                 }
-                .keyboardShortcut("f", modifiers: .command)
                 .padding(.bottom, 8)
             }
         },
@@ -85,7 +84,6 @@ struct SubredditPostsListView: View, Equatable {
                 viewModel.fetchListings(after: viewModel.listings?.last?.id)
             }
         }
-        .equatable()
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Group {

@@ -22,7 +22,7 @@ struct QuickSearchResultRow: View {
                 .whenHovered({ hovered  in
                     isHovered = hovered
                 })
-                .animation(.interactiveSpring())
+                .animation(.interactiveSpring(), value: isHovered)
         }
     }
     

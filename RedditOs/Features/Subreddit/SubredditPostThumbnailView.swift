@@ -48,7 +48,7 @@ struct SubredditPostThumbnailView: View {
                     .padding(.leading, 6)
                     .padding(.top, -2)
                     .transition(.move(edge: .top))
-                    .animation(.interactiveSpring())
+                    .animation(.interactiveSpring(), value: post.saved)
             }
         }.padding(4)
     }

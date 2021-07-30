@@ -37,8 +37,8 @@ struct PostsListView<Header: View>: View, Equatable {
                     }
             }
         }
-        .listStyle(InsetListStyle())
-        .frame(width: 500)
+        .listStyle(.inset)
+        .frame(minWidth: 400, idealWidth: 500, maxWidth: 700)
     }
 }
 

@@ -27,8 +27,6 @@ struct QuickSearchBar: View {
         } onCancel: {
             onCancel()
         }
-        .keyboardShortcut("f", modifiers: .command)
-        .animation(.easeInOut)
         .popover(isPresented: $isPopoverPresented) {
             ScrollView {
                 VStack(alignment: .leading) {

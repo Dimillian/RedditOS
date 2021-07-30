@@ -41,10 +41,9 @@ class SubredditViewModel: ObservableObject {
         self.localData = localData
         
         $searchText
-            .subscribe(on: DispatchQueue.global())
-            .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .removeDuplicates()
-            .receive(on: DispatchQueue.main)
+            .compactMap{ $0 }
             .sink(receiveValue: { [weak self] text in
                 if text.isEmpty {
                     self?.isSearchLoading = false

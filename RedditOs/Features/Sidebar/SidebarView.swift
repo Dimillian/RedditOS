@@ -30,8 +30,7 @@ struct SidebarView: View {
             subscriptionSection
             multiSection
         }
-        .listStyle(SidebarListStyle())
-        .frame(minWidth: 200, idealWidth: 200, maxWidth: 200, maxHeight: .infinity)
+        .listStyle(.sidebar)
         .whenHovered({ hovered in
             isHovered = hovered
         })
@@ -100,7 +99,7 @@ struct SidebarView: View {
                                 .equatable()) {
                     Label(LocalizedStringKey(item.rawValue.capitalized), systemImage: item.icon())
                 }.tag(item.rawValue)
-            }.animation(nil)
+            }.animation(nil, value: isHovered)
         }
     }
     
@@ -143,10 +142,10 @@ struct SidebarView: View {
                         .buttonStyle(BorderlessButtonStyle())
                     }
                 }
-            }.animation(nil)
+            }.animation(nil, value: isHovered)
         }
         .listItemTint(.redditGold)
-        .animation(.easeInOut)
+        .animation(.easeInOut, value: isHovered)
     }
     
     private var recentlyVisitedSection: some View {
@@ -184,7 +183,7 @@ struct SidebarView: View {
                             .buttonStyle(BorderlessButtonStyle())
                         }
                     }
-                }.animation(nil)
+                }.animation(nil, value: isHovered)
             }.listItemTint(.redditBlue)
         }
     }

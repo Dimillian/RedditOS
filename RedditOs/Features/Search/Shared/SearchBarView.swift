@@ -24,6 +24,7 @@ struct SearchBarView: View {
             } onCommit: {
                 onCommit()
             }
+            .keyboardShortcut("f", modifiers: .command)
             .padding(8)
             .background(RoundedRectangle(cornerRadius: 8)
                             .stroke(isFocused ? Color.accentColor : Color.clear)
@@ -39,7 +40,6 @@ struct SearchBarView: View {
                         .font(.title2)
                 }
                 .buttonStyle(BorderlessButtonStyle())
-                .animation(.easeInOut)
                 .transition(.move(edge: .trailing))
             }
         }

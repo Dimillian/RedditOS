@@ -78,7 +78,6 @@ struct SubredditPostRow: View, Equatable {
                                         Text(url.host ?? url.absoluteString)
                                             .lineLimit(1)
                                             .truncationMode(.tail)
-                                            .frame(maxWidth: 250)
                                     }
                                 }
                             }
@@ -89,7 +88,6 @@ struct SubredditPostRow: View, Equatable {
                 Spacer()
             }
         }
-        .frame(width: 470)
         .padding(.vertical, 8)
         .contextMenu {
             Button {
