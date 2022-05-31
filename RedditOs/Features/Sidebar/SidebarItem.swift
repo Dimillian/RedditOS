@@ -18,17 +18,22 @@ enum SidebarItem: String, CaseIterable, Identifiable, Equatable {
     func title() -> String {
         switch self {
         case .home:
-            return "Home"
+            return NSLocalizedString("Home",
+                                     comment: "Sidebar item - navigates back to the Home screen")
         case .account:
-            return "Account"
+            return NSLocalizedString("Account",
+                                     comment: "Sidebar item - navigates to the Account screen")
         case .favorites:
-            return "Favorites"
+            return NSLocalizedString("Favorites",
+                                     comment: "Sidebar item - navigates to the Favorites screen")
         case .recentlyVisited:
-            return "Recently Visited"
+            return NSLocalizedString("Recently Visited",
+                                     comment: "Sidebar item - navigates to Recently Visited screen")
         case .subscription:
-            return "Subscriptions"
+            return NSLocalizedString("Subscriptions",
+                                     comment: "Sidebar item - navigates to the Subscriptions screen")
         case .multi:
-            return "Multireddits"
+            return "Multireddits" // VERBATIM, no localization
         }
     }
 }

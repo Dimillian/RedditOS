@@ -1,0 +1,53 @@
+/* No comment provided by engineer. */
+"Reply" = "Reply";
+
+/* No comment provided by engineer. */
+"Share" = "Share";
+
+/* No comment provided by engineer. */
+"Save" = "Save";
+
+/* No comment provided by engineer. */
+"Report" = "Report";
+
+/* No comment provided by engineer. */
+"Saved" = "Saved";
+
+/* No comment provided by engineer. */
+"Overview" = "Overview";
+
+/* No comment provided by engineer. */
+"Awards" = "Awards";
+
+/* No comment provided by engineer. */
+"Profile" = "Profile";
+
+/* No comment provided by engineer. */
+"Inbox" = "Inbox";
+
+/* No comment provided by engineer. */
+"Posts" = "Posts";
+
+/* No comment provided by engineer. */
+"Comments" = "Comments";
+
+/* When search fails for a given search string */
+"No matching subscriptions for %@" = "No matching subscriptions for %@";
+
+/* A count of the number of comments */
+"%d comments" = "%d comments";
+
+/* Home Sidebar: navigates to posts that are 'hot' or popular */
+"Hot" = "Hot";
+
+/* Home Sidebar: navigates to newest posts */
+"New" = "New";
+
+/* Home Sidebar: navigates to best posts */
+"Best" = "Best";
+
+/* Home Sidebar: navigates to top posts */
+"Top" = "Top";
+
+/* Home Sidebar: navigates to rising posts */
+"Rising" = "Rising";

@@ -71,6 +71,8 @@
 		9F4812CC264FC8DB007A719D /* QuickSearchFullResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4812CB264FC8DB007A719D /* QuickSearchFullResultsView.swift */; };
 		9F7E75E42654102700390010 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7E75E32654102700390010 /* AVKit.framework */; };
 		9F8EE49126510BCF00BDE4AC /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9F8EE49026510BCF00BDE4AC /* MarkdownUI */; };
+		DBF4737628418A0A0067D8CC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DBF4737428418A0A0067D8CC /* InfoPlist.strings */; };
+		DBF4737928418A0A0067D8CC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DBF4737728418A0A0067D8CC /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +141,9 @@
 		9F4537872652ED550026C19B /* QuickSearchPostsResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchPostsResultView.swift; sourceTree = "<group>"; };
 		9F4812CB264FC8DB007A719D /* QuickSearchFullResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickSearchFullResultsView.swift; sourceTree = "<group>"; };
 		9F7E75E32654102700390010 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		DBBA8E9228419264007202FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DBF4737528418A0A0067D8CC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DBF4737828418A0A0067D8CC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,6 +321,8 @@
 				6970A0AC24B7494C00B11031 /* Shared */,
 				69EACF2024B7298C00303A16 /* Features */,
 				69EACF0B24B63D5900303A16 /* Info.plist */,
+				DBF4737728418A0A0067D8CC /* Localizable.strings */,
+				DBF4737428418A0A0067D8CC /* InfoPlist.strings */,
 				69EACF0624B63D5900303A16 /* Assets.xcassets */,
 				69EACF0C24B63D5900303A16 /* RedditOs.entitlements */,
 				69EACF0824B63D5900303A16 /* Preview Content */,
@@ -459,6 +466,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 69EACEF624B63D5800303A16;
 			packageReferences = (
@@ -480,6 +488,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				69EACF0A24B63D5900303A16 /* Preview Assets.xcassets in Resources */,
+				DBF4737928418A0A0067D8CC /* Localizable.strings in Resources */,
+				DBF4737628418A0A0067D8CC /* InfoPlist.strings in Resources */,
 				69EACF0724B63D5900303A16 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,6 +563,26 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		DBF4737428418A0A0067D8CC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DBF4737528418A0A0067D8CC /* fr */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DBF4737728418A0A0067D8CC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DBF4737828418A0A0067D8CC /* fr */,
+				DBBA8E9228419264007202FF /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		69EACF0D24B63D5900303A16 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -611,6 +641,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -665,6 +696,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
