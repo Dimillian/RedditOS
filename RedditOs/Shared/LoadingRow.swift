@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoadingRow: View {
-    let text: String?
+    let text: LocalizedStringKey?
     
     var body: some View {
         HStack {

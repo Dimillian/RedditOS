@@ -17,7 +17,8 @@ struct QuickSearchBar: View {
     let onCancel: () -> Void
     
     var body: some View {
-        SearchBarView(placeholder: "Search anything",
+        SearchBarView(placeholder: NSLocalizedString("Search anything",
+                                                     comment: "placeholder for search"),
                       searchText: $searchState.searchText) { editing in
             if showSuggestionPopover {
                 isPopoverPresented = editing

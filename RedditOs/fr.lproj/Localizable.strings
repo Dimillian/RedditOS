@@ -1,0 +1,261 @@
+/* No comment provided by engineer. */
+" · %@ points  · " = " · %@ points  ·";
+
+/* No comment provided by engineer. */
+" Created " = " Établi";
+
+/* No comment provided by engineer. */
+"%@" = "%@";
+
+/* A count of the number of comments */
+"%d comments" = "%d commentaires";
+
+/* No comment provided by engineer. */
+"%lld" = "%lld";
+
+/* No comment provided by engineer. */
+"%lld comments" = "%lld commentaires";
+
+/* No comment provided by engineer. */
+"About Community" = "À propos de la communauté";
+
+/* Sidebar item - navigates to the Account screen */
+"Account" = "Compte";
+
+/* No comment provided by engineer. */
+"Accounts" = "Comptes";
+
+/* No comment provided by engineer. */
+"Auth in progress" = "Authentification en cours";
+
+/* No comment provided by engineer. */
+"Awards" = "Prix";
+
+/* No comment provided by engineer. */
+"Back" = "Retour";
+
+/* Home Sidebar: navigates to best posts */
+"Best" = "Meilleur";
+
+/* No comment provided by engineer. */
+"Close" = "Ferme";
+
+/* No comment provided by engineer. */
+"Comments" = "Commentaires";
+
+/* No comment provided by engineer. */
+"Copy oauth token to pasteboard" = "Copier le jeton oauth dans le presse-papiers";
+
+/* No comment provided by engineer. */
+"Copy URL" = "Copier le lien";
+
+/* No comment provided by engineer. */
+"Debug" = "Déboguer";
+
+/* No comment provided by engineer. */
+"Default Subreddit settings" = "Paramètres de sous-reddit par défaut";
+
+/* No comment provided by engineer. */
+"Deleted comment" = "Commentaire supprimé";
+
+/* No comment provided by engineer. */
+"Deleted user" = "Utilisateur supprimé";
+
+/* No comment provided by engineer. */
+"Display layout" = "Disposition de l'affichage";
+
+/* No comment provided by engineer. */
+"Display layout style" = "Style de mise en page de l'affichage";
+
+/* No comment provided by engineer. */
+"Downvote" = "Voter contre";
+
+/* Sidebar item - navigates to the Favorites screen */
+"Favorites" = "Favoris";
+
+/* No comment provided by engineer. */
+"Filters" = "Filtres";
+
+/* No comment provided by engineer. */
+"General" = "Général";
+
+/* Navigates to a given subreddit */
+"Go to r/%@" = "Allez à r/%@";
+
+/* Sidebar item - navigates back to the Home screen */
+"Home" = "Maison";
+
+/* Home Sidebar: navigates to posts that are 'hot' or popular */
+"Hot" = "Chaud";
+
+/* No comment provided by engineer. */
+"Inbox" = "Boîte de réception";
+
+/* No comment provided by engineer. */
+"Loading next page" = "Chargement de la page suivante";
+
+/* No comment provided by engineer. */
+"Loading user" = "Chargement de l'utilisateur";
+
+/* No comment provided by engineer. */
+"Logout" = "Se déconnecter";
+
+/* No comment provided by engineer. */
+"Members" = "Membres";
+
+/* No comment provided by engineer. */
+"My subscriptions" = "Mes abonnements";
+
+/* Home Sidebar: navigates to newest posts */
+"New" = "Nouveau";
+
+/* No comment provided by engineer. */
+"No matching search for %@" = "Aucune recherche correspondante pour %@";
+
+/* When search fails for a given search string */
+"No matching subscriptions for %@" = "Aucun abonnement correspondant pour %@";
+
+/* No comment provided by engineer. */
+"No post selected" = "Aucune publication sélectionnée";
+
+/* No comment provided by engineer. */
+"Online" = "En ligne";
+
+/* No comment provided by engineer. */
+"Open in browser" = "Ouvrir dans le navigateur";
+
+/* No comment provided by engineer. */
+"Overview" = "Aperçu";
+
+/* No comment provided by engineer. */
+"Post" = "Poste";
+
+/* No comment provided by engineer. */
+"Posts" = "Des postes";
+
+/* label showing search text */
+"Posts with %@" = "Messages avec %@";
+
+/* No comment provided by engineer. */
+"Profile" = "Profil";
+
+/* No comment provided by engineer. */
+"Quick access" = "Accès rapide";
+
+/* No comment provided by engineer. */
+"r/%@" = "r/%@";
+
+/* Sidebar item - navigates to Recently Visited screen */
+"Recently Visited" = "Récemment visité";
+
+/* No comment provided by engineer. */
+"Refresh" = "Rafraîchir";
+
+/* No comment provided by engineer. */
+"Refresh comments" = "Actualiser les commentaires";
+
+/* No comment provided by engineer. */
+"Reply" = "Réponse";
+
+/* No comment provided by engineer. */
+"Report" = "Signaler";
+
+/* Home Sidebar: navigates to rising posts */
+"Rising" = "En hausse";
+
+/* No comment provided by engineer. */
+"Save" = "Sauvegarder";
+
+/* No comment provided by engineer. */
+"Saved" = "Enregistré";
+
+/* No comment provided by engineer. */
+"Search" = "Chercher";
+
+/* placeholder for search */
+"Search anything" = "Rechercher n'importe quoi";
+
+/* No comment provided by engineer. */
+"Searching..." = "Recherche...";
+
+/* No comment provided by engineer. */
+"Select display layout style" = "Sélectionnez le style de mise en page de l'affichage";
+
+/* No comment provided by engineer. */
+"Share" = "Partager";
+
+/* No comment provided by engineer. */
+"Sidebar" = "Barre latérale";
+
+/* No comment provided by engineer. */
+"Sidebar items" = "Éléments de la barre latérale";
+
+/* No comment provided by engineer. */
+"Sign in" = "S'identifier";
+
+/* No comment provided by engineer. */
+"Signed in" = "Connecté";
+
+/* No comment provided by engineer. */
+"Sort by" = "Trier par";
+
+/* No comment provided by engineer. */
+"Sort order" = "Ordre de tri";
+
+/* No comment provided by engineer. */
+"Sorting" = "Tri";
+
+/* No comment provided by engineer. */
+"Submitted" = "Soumis";
+
+/* No comment provided by engineer. */
+"Subreddit" = "Sous-reddit";
+
+/* No comment provided by engineer. */
+"Subreddit search" = "Recherche de sous-reddit";
+
+/* No comment provided by engineer. */
+"Subscribe" = "S'abonner";
+
+/* No comment provided by engineer. */
+"Subscribe?" = "S'abonner?";
+
+/* No comment provided by engineer. */
+"Subscribed" = "Abonné";
+
+/* No comment provided by engineer. */
+"Subscribers: %lld" = "Abonnés : %lld";
+
+/* Sidebar item - navigates to the Subscriptions screen */
+"Subscriptions" = "Abonnements";
+
+/* No comment provided by engineer. */
+"Toggle favorite" = "Basculer en favori";
+
+/* Home Sidebar: navigates to top posts */
+"Top" = "Haut";
+
+/* No comment provided by engineer. */
+"Trending" = "Tendance";
+
+/* No comment provided by engineer. */
+"u/%@" = "u/%@";
+
+/* No comment provided by engineer. */
+"Unsave" = "Annuler l'enregistrement";
+
+/* No comment provided by engineer. */
+"Unsubscribe?" = "Se désabonner?";
+
+/* No comment provided by engineer. */
+"Unsupported view" = "Vue non prise en charge";
+
+/* No comment provided by engineer. */
+"Upvote" = "Vote positif";
+
+/* No comment provided by engineer. */
+"User since" = "Utilisateur depuis";
+
+/* No comment provided by engineer. */
+"View full profile" = "Voir le profil complet";
+

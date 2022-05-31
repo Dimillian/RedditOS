@@ -45,7 +45,7 @@ struct QuickSearchResultsView: View {
         }
     }
     
-    private func makeTitle(_ title: String) -> some View {
+    private func makeTitle(_ title: LocalizedStringKey) -> some View {
         Text(title)
             .font(.headline)
             .fontWeight(.bold)
@@ -54,13 +54,17 @@ struct QuickSearchResultsView: View {
     private func makeQuickAccess() -> some View {
         ResultContainerView {
             QuickSearchResultRow(icon: nil,
-                                       name: "Posts with '\(searchState.searchText)'")
+                                 name: String.localizedStringWithFormat(NSLocalizedString("Posts with %@",
+                                                                                          comment: "label showing search text"),
+                                                                        searchState.searchText))
                 .onTapGesture {
                     uiState.searchRoute = .searchPostsResult
                 }
             
             QuickSearchResultRow(icon: nil,
-                                       name: "Go to r/\(searchState.searchText)")
+                                 name: String.localizedStringWithFormat(NSLocalizedString("Go to r/%@",
+                                                                                          comment: "Navigates to a given subreddit"),
+                                                                        searchState.searchText))
                 .onTapGesture {
                     uiState.searchRoute = .subreddit(subreddit: searchState.searchText)
                 }
