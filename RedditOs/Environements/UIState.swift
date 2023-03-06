@@ -44,10 +44,6 @@ class UIState: ObservableObject {
         }
     }
     
-    lazy var isSearchActive: Binding<Bool> = .init(get: {
-        self.sidebarSelection == Constants.searchTag
-    }, set: { _ in })
-    
     @Published var sidebarSelection: String? = DefaultChannels.hot.rawValue {
         didSet {
             if sidebarSelection != Constants.searchTag {
