@@ -88,7 +88,6 @@ struct SidebarView: View {
     private var mainSection: some View {
         Section(header: Text(SidebarItem.home.title())) {
             NavigationLink(destination: QuickSearchFullResultsView(),
-                           isActive: uiState.isSearchActive,
                            label: {
                             Label("Search", systemImage: "magnifyingglass")
                            })
