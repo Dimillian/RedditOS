@@ -9,11 +9,11 @@ This project is about two things:
 1. Building a good Reddit client. 
 2. Building a good macOS application using mostly SwiftUI.
 
-You'll need the latest version of Xcode 12 and macOS Big Sur to build it and enjoyt it. 
+You'll need the latest version of Xcode 12 and macOS Big Sur to build it and enjoy it. 
 You can also download a pre built version in the release section if you don't want to build it youself. 
 
-I'm planning to drop Big Sur in the near future to focus execlusively on SwiftUI 3 + macOS Monterey. 
-SwiftUI 3 add a ton of features, polish and performance improvements that this application can't live without.
+I'm planning to drop Big Sur in the near future to focus exclusively on SwiftUI 3 + macOS Monterey. 
+SwiftUI 3 adds a ton of features, polish and performance improvements that this application can't live without.
 
 ## Dev environment
 
